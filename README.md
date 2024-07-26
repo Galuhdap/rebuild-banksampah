@@ -27,7 +27,7 @@ Bank Sampah
 **Installation :**
 
 1. Clone the repository
-`git clone `https://github.com/Galuhdap/rebuild-banksampah`
+`git clone` https://github.com/Galuhdap/rebuild-banksampah
 2. Navigate to project directory
 `cd rebuild-banksampah`
 3. Install Dependencies
