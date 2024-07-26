@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 class ThemeConfig {
   // light mode
-  static Color baseBlue = Color(0xFF01458F);
+  static Color baseGreen = Color(0xFFF4CAF50);
   static Color red80 = Color(0xFFFFDEDF);
   static Color neutral0 = Color(0xFF2B2D2F);
   static Color neutral30 = Color(0xFF727983);

@@ -1,46 +1,65 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const colorPrimary = Color(0xFFF01458F);
-  static const colorLightGreen = Color(0xFFF4CA6A8);
 
-  static const colorBlue = Color.fromARGB(255, 79, 115, 198);
-  static const colorLightBlue = Color(0xFFF108DEA);
-  static const colorSkyBlue = Color(0xFFF00B1DB);
-  static const colorBgBlue = Color.fromARGB(99, 79, 129, 198);
+  //Base
+  static const colorBaseWhite = Color(0xFFF1e4620);
+  static const colorBaseBlack = Color(0xFFF1e4620);
+  static const colorBasePrimary = Color(0xFFF1e4620);
+  static const colorBaseSecondary = Color(0xFFF1e4620);
+  static const colorBaseSuccess = Color(0xFFF1e4620);
+  static const colorBaseWarning = Color(0xFFF1e4620);
+  static const colorBaseError = Color(0xFFF1e4620);
 
-  static const colorRed = Color.fromARGB(255, 198, 79, 79);
-  static const colorLightRed = Color(0xfffF44336);
-  static const colorDarkRed = Color(0xfffE82529);
-  static const colorBgRed = Color.fromARGB(97, 198, 79, 79);
+  //Primary
+  static const colorPrimary1000 = Color(0xFFF1e4620);
+  static const colorPrimary900 = Color(0xFFF2a602c);
+  static const colorPrimary800 = Color(0xFFF357b38);
+  static const colorPrimary700 = Color(0xFFF419544);
+  static const colorPrimary600 = Color(0xFFF64bc68);
+  static const colorPrimary500 = Color(0xFFF7ec781);
+  static const colorPrimary400 = Color(0xFFF98d29a);
+  static const colorPrimary300 = Color(0xFFFb2ddb3);
+  static const colorPrimary200 = Color(0xFFFcbe9cd);
+  static const colorPrimary100 = Color(0xFFFe5f4e6);
 
-  static const colorStatusOrange = Color(0xfffFF832B);
-  static const colorStatusGreen = Color(0xfff1ED760);
+  //Secondary
+  static const colorSecondary1000 = Color(0xFFF323F49);
+  static const colorSecondary900 = Color(0xFFF4A5E6D);
+  static const colorSecondary800 = Color(0xFFF637D92);
+  static const colorSecondary700 = Color(0xFFF7991A4);
+  static const colorSecondary600 = Color(0xFFF92A5B5);
+  static const colorSecondary500 = Color(0xFFFB6C3CD);
+  static const colorSecondary400 = Color(0xFFFC2CDD6);
+  static const colorSecondary300 = Color(0xFFFCED7DE);
+  static const colorSecondary200 = Color(0xFFFDAE1E7);
+  static const colorSecondary100 = Color(0xFFFE7EBEF);
 
-  static const colorGrayBorder = Color(0xFFBDBDBD);
-  static const colorGrayText = Color(0xFFFB4B4B4);
+  //Neuturals
+  static const colorNeutrals1000 = Color(0xFFF151413);
+  static const colorNeutrals900 = Color(0xFFF2b2928);
+  static const colorNeutrals800 = Color(0xFFF433f3e);
+  static const colorNeutrals700 = Color(0xFFF5a5555);
+  static const colorNeutrals600 = Color(0xFFF726c6c);
+  static const colorNeutrals500 = Color(0xFFF898483);
+  static const colorNeutrals400 = Color(0xFFF9f9c9c);
+  static const colorNeutrals300 = Color(0xFFFb5b3b3);
+  static const colorNeutrals200 = Color(0xFFFcccbcb);
+  static const colorNeutrals100 = Color(0xFFFe3e3e3);
 
-  static const colorBlack = Color(0xFF000000);
+  //Success
+  static const colorSuccess300 = Color(0xFFF3a863a);
+  static const colorSuccess200 = Color(0xFFF92d092);
+  static const colorSuccess100 = Color(0xFFFc9e7c9);
 
-  static const colorGreen = Color(0xFF06A986);
+  //Warning
+  static const colorWarning300 = Color(0xFFFb78900);
+  static const colorWarning200 = Color(0xFFFffd65a);
+  static const colorWarning100 = Color(0xFFFffeaac);
 
-  static const colorWhite = Color(0xFFFFFFFF);
-  static const black100 = Color(0xFF212121);
+  //Error
+  static const colorError300 = Color(0xFFFa21c29);
+  static const colorError200 = Color(0xFFFe87883);
+  static const colorError100 = Color(0xFFFf3bcc1);
 
-  static const colorLightGray = Color(0xFF8E8E8E);
-  static const colorLightGray30 = Color(0x4D8E8E8E);
-  static const colorBgGray = Color(0xFFF5F5F5);
-  static const colorGray = Color(0xFFA6A6A6);
-  static const colorDarkGray = Color(0xFF858585);
-  static const colorSilverGray = Color(0xFF5B5B5D);
-  static const colorSilverLightGray = Color(0xFFFF4F4F4);
-  static const colorGrayWhite = Color(0xFFFC4C4C4);
-
-  static const colorBgLightGray = Color.fromARGB(121, 232, 232, 232);
-  static const colorBgVeryLightGray = Color.fromARGB(255, 238, 238, 238);
-
-  static const colorDarkBlue = Color(0xFF1565C0);
-  static const colorLightJade = Color(0xFF009688);
-
-  static const colorYellow = Color(0xFFE8A720);
 }
