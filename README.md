@@ -1,4 +1,4 @@
-# Diamond Store Project Flutter
+# Bank Sampah Rebuild Project Flutter
 
 ## Author
 TechLineSolutions.id Mobile Team
