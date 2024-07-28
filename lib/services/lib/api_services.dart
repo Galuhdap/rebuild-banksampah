@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:rebuild_bank_sampah/core/utils/extensions/datasources/datasources_ext.dart';
+import 'package:rebuild_bank_sampah/core/utils/extensions/datasources/failure.dart';
 
 final dio = new Dio(BaseOptions(
   contentType: 'application/json',
@@ -26,12 +29,12 @@ abstract class ApiService {
     }
   }
 
-  Future<dynamic> post(
-      String endpoint, {
-        Map<String, String>? queryParameter,
-        Map<String, String>? header,
-        Map<String, String>? body,
-      }) async {
+   Future<Either<Failure, dynamic>> post(
+    String endpoint, {
+    Map<String, String>? queryParameter,
+    Map<String, String>? header,
+    Map<String, String>? body,
+  }) async {
     try {
       Response response = await dio.post(
         endpoint,
@@ -40,12 +43,35 @@ abstract class ApiService {
         options: Options(headers: header),
       );
 
-      inspect(response);
-
       final rawResponse = jsonDecode(response.toString());
-      return rawResponse;
-    } on Exception {
-      throw (Exception("Connection Failed !"));
+
+      return Right(rawResponse);
+    } catch (error) {
+      return Left(ErrorHandler.handle(error).failure);
     }
   }
+
+
+  // Future<dynamic> post(
+  //     String endpoint, {
+  //       Map<String, String>? queryParameter,
+  //       Map<String, String>? header,
+  //       Map<String, String>? body,
+  //     }) async {
+  //   try {
+  //     Response response = await dio.post(
+  //       endpoint,
+  //       queryParameters: queryParameter,
+  //       data: body,
+  //       options: Options(headers: header),
+  //     );
+
+  //     inspect(response);
+
+  //     final rawResponse = jsonDecode(response.toString());
+  //     return rawResponse;
+  //   } on Exception {
+  //     throw (Exception("Connection Failed !"));
+  //   }
+  // }
 }

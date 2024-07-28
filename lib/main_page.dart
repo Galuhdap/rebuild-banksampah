@@ -11,7 +11,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       title: 'Bank Sampah Rebuild',
-      initialRoute: AppRoutes.login,
+      initialRoute: AppRoutes.splash,
       theme: ThemeConfig.lightMode,
       debugShowCheckedModeBanner: false,
       getPages: AppRoutes.routes,
