@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 class AppColors {
 
   //Base
-  static const colorBaseWhite = Color(0xFFF1e4620);
-  static const colorBaseBlack = Color(0xFFF1e4620);
-  static const colorBasePrimary = Color(0xFFF1e4620);
-  static const colorBaseSecondary = Color(0xFFF1e4620);
-  static const colorBaseSuccess = Color(0xFFF1e4620);
-  static const colorBaseWarning = Color(0xFFF1e4620);
-  static const colorBaseError = Color(0xFFF1e4620);
+  static const colorBaseWhite = Color(0xFFFfafafa);
+  static const colorBaseBlack = Color(0xFFF0a0b0a);
+  static const colorBasePrimary = Color(0xFFF4CAF50);
+  static const colorBaseSecondary = Color(0xFFFAAB9C5);
+  static const colorBaseSuccess = Color(0xFFF5cb85c);
+  static const colorBaseWarning = Color(0xFFFffc107);
+  static const colorBaseError = Color(0xFFFdc3545);
 
   //Primary
   static const colorPrimary1000 = Color(0xFFF1e4620);
