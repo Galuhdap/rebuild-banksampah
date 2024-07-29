@@ -120,6 +120,8 @@ class AppSizes {
   static double s170 = 170.0;
   static double s174 = 174.0;
   static double s180 = 180.0;
+  static double s190 = 190.0;
+  static double s195 = 195.0;
   static double s200 = 200.0;
   static double s210 = 210.0;
   static double s220 = 220.0;
@@ -346,6 +348,8 @@ class AppSizes {
     s165 = ScreenUtil().setWidth(165.0);
     s170 = ScreenUtil().setWidth(170.0);
     s180 = ScreenUtil().setWidth(180.0);
+    s190 = ScreenUtil().setWidth(190.0);
+    s195 = ScreenUtil().setWidth(195.0);
     s200 = ScreenUtil().setWidth(200.0);
     s210 = ScreenUtil().setWidth(210.0);
     s220 = ScreenUtil().setWidth(220.0);
