@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_utils.dart';
+import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
 class SplashController extends GetxController {
+ // RxString role = ''.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -12,9 +15,11 @@ class SplashController extends GetxController {
     await Future.delayed(Duration(seconds: 2));
     final prefs = await SharedPreferencesUtils.getAuthToken();
     if (prefs != null) {
-      Get.toNamed('/home');
+      // Get.put(HomeController());
+      Get.offAllNamed(AppRoutes.bottomNavigation);
     } else {
-      Get.toNamed('/login');
+      Get.offAllNamed(AppRoutes.login);
     }
   }
+
 }

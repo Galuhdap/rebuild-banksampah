@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -37,8 +35,7 @@ class LoginController extends GetxController {
       (response) async {
         await SharedPreferencesUtils.addUser(jsonEncode(response.toJson()));
         await SharedPreferencesUtils.addAuthToken(response.data.token);
-
-        Get.offAllNamed(AppRoutes.home);
+        Get.offAllNamed(AppRoutes.bottomNavigation);
       },
     );
 

@@ -4,19 +4,24 @@ import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_ut
 
 class HomeController extends GetxController {
   RxString role = ''.obs;
+  RxBool isLoading = false.obs;
 
   @override
   void onInit() {
-    // TODO: implement onInit
     checkUserData();
     super.onInit();
   }
 
   void checkUserData() async {
-    final prefs = await SharedPreferencesUtils.getAuthToken();
-
-    var userData = JwtDecoder.decode(prefs!);
-    print( userData['role']);
-    role.value = userData['role'];
+    isLoading.value = true;
+    try {
+      final prefs = await SharedPreferencesUtils.getAuthToken();
+      var userData = JwtDecoder.decode(prefs!);
+      role.value = userData['role'];
+      isLoading.value = false;
+    } catch (e) {
+      print('e:$e');
+      isLoading.value = false;
+    }
   }
 }
