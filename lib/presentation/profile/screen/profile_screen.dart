@@ -1,4 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:rebuild_bank_sampah/core/component/button_component.dart';
+import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
+import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
+import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
+import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
+import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
+import 'package:rebuild_bank_sampah/presentation/profile/widget/no_profile_widget.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -6,9 +14,166 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text('Profile'),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          NoProfileWidget(
+            onTap: () {},
+          ),
+          Column(
+            children: [
+              InputWidget(
+                label: AppConstants.LABEL_NAME,
+                controller: TextEditingController(text: 'Muti'),
+                readOnly: true,
+              ),
+              AppSizes.s20.height,
+              InputWidget(
+                label: AppConstants.LABEL_NOKTP,
+                controller: TextEditingController(text: '12345678090'),
+                readOnly: true,
+              ),
+              AppSizes.s20.height,
+              InputWidget(
+                label: AppConstants.LABEL_ADDRESS,
+                controller: TextEditingController(text: 'Jl indonesia'),
+                readOnly: true,
+              ),
+              AppSizes.s44.height,
+              Button.outlined(
+                onPressed: () {},
+                label: AppConstants.LABEL_LOGOUT,
+                color: AppColors.colorBaseError,
+                textColor: AppColors.colorBaseError,
+              ),
+              AppSizes.s20.height,
+            
+            ],
+          ).paddingSymmetric(horizontal: AppSizes.s24)
+        ],
       ),
+    );
+  }
+
+  void modalPicture(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: AppColors.colorBaseWhite,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(16.0), topRight: Radius.circular(16.0)),
+      ),
+      isScrollControlled: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setStateBottomSheet) {
+            return FractionallySizedBox(
+              heightFactor: 0.35,
+              child: Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: AppSizes.s24, vertical: AppSizes.s16),
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      width: MediaQuery.of(context).size.width / 8,
+                      height: AppSizes.s8,
+                      decoration: const BoxDecoration(
+                          color: AppColors.colorNeutrals300,
+                          borderRadius:
+                              BorderRadius.all(Radius.circular(16.0))),
+                    ),
+                    SizedBox(
+                      height: AppSizes.s30,
+                    ),
+                    Text(
+                      'edit_photo',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: FontSize.s18,
+                      ),
+                    ),
+                    SizedBox(
+                      height: AppSizes.s35,
+                    ),
+                    Expanded(
+                      child: Column(
+                        children: [
+                          InkWell(
+                            onTap: () async {
+                              Navigator.pop(context);
+                              // final ImagePicker _picker = ImagePicker();
+
+                              // // Capture a photo
+                              // final XFile? photo = await _picker.pickImage(
+                              //     source: ImageSource.camera);
+                              // if (photo != null) {
+                              //   setState(() {
+                              //     File retImage = File(photo.path);
+                              //     _tempPhoto = retImage;
+                              //   });
+                              // }
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: AppSizes.s10,
+                                ),
+                                Text(
+                                  'take_photo',
+                                ),
+                                SizedBox(
+                                  height: AppSizes.s10,
+                                ),
+                                const Divider(
+                                  color: AppColors.colorNeutrals300,
+                                ),
+                              ],
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () async {
+                              Navigator.pop(context);
+
+                              // Pick an image
+                              // FilePickerResult? result =
+                              //     await FilePicker.platform.pickFiles(
+                              //   type: FileType.image,
+                              // );
+                              // if (result != null) {
+                              //   setState(() {
+                              //     _tempPhoto = File(result.files.single.path!);
+                              //   });
+                              // }
+                            },
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: AppSizes.s10,
+                                ),
+                                Text(
+                                  'choose_gallery',
+                                ),
+                                SizedBox(
+                                  height: AppSizes.s10,
+                                ),
+                                const Divider(
+                                  color: AppColors.colorNeutrals300,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

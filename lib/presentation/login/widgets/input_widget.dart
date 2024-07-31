@@ -7,21 +7,23 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 class InputWidget extends StatelessWidget {
   final TextEditingController controller;
   final String label;
-  final String hintText;
-  final TextInputType textInputType;
+  final String? hintText;
+  final TextInputType? textInputType;
   final String? Function(String?)? validator;
   final bool isObscure;
   final bool suffixIcon;
-  const InputWidget(
-      {super.key,
-      required this.controller,
-      required this.label,
-      required this.hintText,
-      required this.textInputType,
-      required this.validator,
-       this.isObscure = false,
-      this.suffixIcon = false,
-      });
+  final bool? readOnly;
+  const InputWidget({
+    super.key,
+    required this.controller,
+    required this.label,
+    this.hintText,
+    this.textInputType,
+    this.validator,
+    this.isObscure = false,
+    this.suffixIcon = false,
+    this.readOnly = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,7 @@ class InputWidget extends StatelessWidget {
           validator: validator,
           isObscure: isObscure,
           suffixIcon: suffixIcon,
+          readOnly: readOnly!,
         ),
       ],
     );
