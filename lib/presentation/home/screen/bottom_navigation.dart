@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
+import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/presentation/history/screen/history_screen.dart';
@@ -52,19 +53,19 @@ class _BottomNavigationState extends State<BottomNavigation> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             NavItems(
-              label: 'Home',
+              label: AppConstants.LABEL_HOME,
               iconPath: Assets.icons.home.path,
               isActive: _selectedIndex == 0,
               onTap: () => _onItemTapped(0),
             ),
             NavItems(
-              label: 'History',
+              label: AppConstants.LABEL_HISTORY,
               iconPath: Assets.icons.history.path,
               isActive: _selectedIndex == 1,
               onTap: () => _onItemTapped(1),
             ),
             NavItems(
-              label: 'Profil',
+              label: AppConstants.LABEL_PROFILE,
               iconPath: Assets.icons.profile.path,
               isActive: _selectedIndex == 2,
               onTap: () => _onItemTapped(2),

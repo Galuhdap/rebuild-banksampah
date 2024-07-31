@@ -13,7 +13,7 @@ class HistoryScreen extends StatelessWidget {
         body: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(AppConstants.LABEL_HISTORY, style: Get.textTheme.titleLarge),
+        Text(AppConstants.LABEL_RIWAYAT, style: Get.textTheme.titleLarge),
         Expanded(
           child: ListView.builder(
             padding: AppSizes.onlyPadding(top: AppSizes.s32),

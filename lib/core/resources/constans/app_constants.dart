@@ -2,7 +2,9 @@ class AppConstants {
   // Text Label
   static const String LABEL_EMAIL = "Email";
   static const String LABEL_PASSWORD = "Password";
-  static const String LABEL_USERNAME = "Username";
+  static const String LABEL_NAME = "Nama";
+  static const String LABEL_NOKTP = "No KTP";
+  static const String LABEL_ADDRESS = "ALAMAT";
   static const String LABEL_PHONE_NUMBER = "Phone Number";
 
   // Input Hint
@@ -17,13 +19,12 @@ class AppConstants {
   static const String ACTION_TRACK_ORDER = "Lacak Pesanan";
 
   // History
-  static const String LABEL_HISTORY = "Riwayat";
+  static const String LABEL_RIWAYAT = "Riwayat";
   static const String LABEL_TRACK_YOUR_ORDER = "Track Your Order :";
 
-  //Game
-  static const String LABEL_MOBILE_LEGEND = "Mobile Legends";
-  static const String LABEL_FREE_FIRE = "Free Fire";
-  static const String LABEL_VALORANT = "Valorant";
+  //Buttom Navigation
+  static const String LABEL_HOME = "Home";
+  static const String LABEL_HISTORY = "History";
 
   //Status
   static const String LABEL_PENDING = "Pending";
@@ -36,7 +37,7 @@ class AppConstants {
   static const String LABEL_UPLOAD_PHOTO = "Upload Photo";
   static const String LABEL_GENERAL_INFORMATION = "General Information";
   static const String LABEL_EDIT_PROFILE = "Edit Profile";
-  static const String LABEL_DELETE_AKUN = "Delete Akun";
+  static const String LABEL_DELETE_ACCOUNT = "Hapus Akun";
   static const String LABEL_LOGOUT = "Logout";
 
   // Regular date format
