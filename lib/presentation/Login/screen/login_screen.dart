@@ -21,7 +21,7 @@ class LoginScreen extends StatelessWidget {
           return Scaffold(
             body: ListView(
               padding: AppSizes.symmetricPadding(
-                  horizontal: AppSizes.s23, vertical: AppSizes.s125),
+                  horizontal: AppSizes.s24, vertical: AppSizes.s125),
               children: [
                 Assets.images.logobs.image(scale: 3),
                 Form(

@@ -4,6 +4,7 @@ import 'package:rebuild_bank_sampah/core/component/input_component.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 
+
 class InputWidget extends StatelessWidget {
   final TextEditingController controller;
   final String label;
