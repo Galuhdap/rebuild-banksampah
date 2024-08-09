@@ -46,14 +46,17 @@ class AppColors {
   static const colorNeutrals300 = Color(0xFFFb5b3b3);
   static const colorNeutrals200 = Color(0xFFFcccbcb);
   static const colorNeutrals100 = Color(0xFFFe3e3e3);
+  static const colorNeutrals0 = Color(0xFFFF2F2F2);
 
   //Success
-  static const colorSuccess300 = Color(0xFFF3a863a);
+  static const colorSuccess400 = Color(0xFFF3a863a);
+  static const colorSuccess300 = Color(0xFFF15B097);
   static const colorSuccess200 = Color(0xFFF92d092);
   static const colorSuccess100 = Color(0xFFFc9e7c9);
 
   //Warning
-  static const colorWarning300 = Color(0xFFFb78900);
+  static const colorWarning400 = Color(0xFFFb78900);
+  static const colorWarning300 = Color(0xFFFEDA145);
   static const colorWarning200 = Color(0xFFFffd65a);
   static const colorWarning100 = Color(0xFFFffeaac);
 
