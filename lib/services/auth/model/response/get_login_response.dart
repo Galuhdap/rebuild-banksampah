@@ -37,17 +37,17 @@ class GetLoginResponse {
 }
 
 class Data {
-    String token;
+    String accessToken;
 
     Data({
-        required this.token,
+        required this.accessToken,
     });
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
-        token: json["token"],
+        accessToken: json["accessToken"],
     );
 
     Map<String, dynamic> toJson() => {
-        "token": token,
+        "accessToken": accessToken,
     };
 }

@@ -40,30 +40,4 @@ class SharedPreferencesUtils {
     await prefs.remove(SHARED_AUTH_TOKEN);
   }
 
-  // Note: Setting Enumerator
-  // static Future<void> addSettingEnumerator(
-  //     List<SettingEnumeratorResponse?>? data) async {
-  //   var box = await Hive.openBox(HIVE_BOX);
-  //   List<String>? jsonData = data?.map((e) => jsonEncode(e?.toJson())).toList();
-  //   await box.put(HIVE_SETTING_ENUMERATOR, jsonData ?? []);
-  // }
-
-  // static Future<List<SettingEnumeratorResponse?>?>
-  //     getSettingEnumerator() async {
-  //   var box = await Hive.openBox(HIVE_BOX);
-  //   var result = box.get(HIVE_SETTING_ENUMERATOR);
-  //   if (result is List<String>) {
-  //     return result.map((e) {
-  //       final jsonMap = jsonDecode(e) as Map<String, dynamic>;
-  //       return SettingEnumeratorResponse.fromJson(jsonMap);
-  //     }).toList();
-  //   } else {
-  //     return null;
-  //   }
-  // }
-
-  // static Future<void> deleteSettingEnumerator() async {
-  //   var box = await Hive.openBox(HIVE_BOX);
-  //   return box.delete(HIVE_SETTING_ENUMERATOR);
-  // }
 }

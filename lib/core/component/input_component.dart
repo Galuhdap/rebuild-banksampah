@@ -13,10 +13,13 @@ class CustomTextField extends StatefulWidget {
   final String? Function(String?)? validator;
   final bool isObscure;
   final bool suffixIcon;
-
+  final Color fillColor;
   final AutovalidateMode? autovalidateMode;
   final VoidCallback? onTap;
   final bool readOnly;
+  final TextStyle? hintStyle;
+  final Color enabledBorderColor;
+  final double? enabledBorderWidth;
 
   const CustomTextField(
       {Key? key,
@@ -30,6 +33,10 @@ class CustomTextField extends StatefulWidget {
       this.suffixIcon = false,
       this.autovalidateMode,
       this.onTap,
+      this.fillColor = Colors.white,
+      this.hintStyle,
+      this.enabledBorderColor = AppColors.colorSecondary400,
+      this.enabledBorderWidth,
       this.readOnly = false})
       : _controller = controller,
         super(key: key);
@@ -61,10 +68,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
       keyboardType: widget.keyboardType,
       decoration: InputDecoration(
         filled: true,
-        fillColor: Colors.white,
+        fillColor: widget.fillColor,
         hintText: widget.hintText,
         //label: Text(label),
-        hintStyle: Get.textTheme.bodyMedium,
+        hintStyle: widget.hintStyle ?? Get.textTheme.bodyMedium,
         prefixIcon: widget.prefixIcon,
         suffixIcon: !widget.suffixIcon
             ? null
@@ -89,7 +96,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-              color: AppColors.colorSecondary400, width: AppSizes.s1),
+              color: widget.enabledBorderColor,
+              width: widget.enabledBorderWidth ?? AppSizes.s1),
           borderRadius: BorderRadius.circular(AppSizes.s10),
         ),
         contentPadding: AppSizes.symmetricPadding(

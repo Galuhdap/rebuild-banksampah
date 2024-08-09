@@ -34,8 +34,8 @@ class LoginController extends GetxController {
       },
       (response) async {
         await SharedPreferencesUtils.addUser(jsonEncode(response.toJson()));
-        await SharedPreferencesUtils.addAuthToken(response.data.token);
-        Get.offAllNamed(AppRoutes.bottomNavigation);
+        await SharedPreferencesUtils.addAuthToken(response.data.accessToken);
+        Get.offAllNamed(AppRoutes.home);
       },
     );
 

@@ -16,7 +16,7 @@ class SplashController extends GetxController {
     final prefs = await SharedPreferencesUtils.getAuthToken();
     if (prefs != null) {
       // Get.put(HomeController());
-      Get.offAllNamed(AppRoutes.bottomNavigation);
+      Get.offAllNamed(AppRoutes.home);
     } else {
       Get.offAllNamed(AppRoutes.login);
     }

@@ -6,6 +6,7 @@ import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/home/controllers/home_controller.dart';
+import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -63,39 +64,56 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Assets.images.oval.image(scale: 4)
+                Container(
+                  width: AppSizes.s120,
+                  height: AppSizes.s110,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(AppSizes.s10)),
+                    image: DecorationImage(
+                        image: AssetImage(Assets.images.oval.path),
+                        scale: 4,
+                        fit: BoxFit.cover),
+                  ),
+                )
               ],
             ).paddingSymmetric(vertical: AppSizes.s36),
             Text('Menu Kategori', style: Get.textTheme.titleLarge),
             AppSizes.s20.height,
-            Obx(() {
-              return controller.isLoading.value
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : controller.role.value == 'CUSTOMER'
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: MenuKategoriComponent(
-                                onTap: () {},
-                                image: Assets.images.recycle.path,
-                                label: 'Setor Sampah',
+            Obx(
+              () {
+                return controller.isLoading.value
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : controller.role.value == 'CUSTOMER'
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: MenuKategoriComponent(
+                                  onTap: () {
+                                    Get.toNamed(AppRoutes.setorSampah);
+                                  },
+                                  image: Assets.images.recycle.path,
+                                  label: 'Setor Sampah',
+                                ),
                               ),
-                            ),
-                            AppSizes.s20.width,
-                            Flexible(
-                              child: MenuKategoriComponent(
-                                onTap: () {},
-                                image: Assets.images.withdrawal.path,
-                                label: 'Penarikan Dana',
+                              AppSizes.s20.width,
+                              Flexible(
+                                child: MenuKategoriComponent(
+                                  onTap: () {
+                                    Get.toNamed(AppRoutes.withdrawFunds);
+                                  },
+                                  image: Assets.images.withdrawal.path,
+                                  label: 'Penarikan Dana',
+                                ),
                               ),
-                            ),
-                          ],
-                        )
-                      : Text("No Data");
-            })
+                            ],
+                          )
+                        : Text("No Data");
+              },
+            ),
           ],
         ).paddingSymmetric(horizontal: AppSizes.s24));
       },
