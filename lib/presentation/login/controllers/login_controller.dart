@@ -13,6 +13,7 @@ import 'package:rebuild_bank_sampah/services/auth/model/request/login_request.da
 class LoginController extends GetxController {
 
   var isBusy = false.obs;
+  
 
   final AuthRepository authRepository = locator();
   final formKey = GlobalKey<FormState>();
