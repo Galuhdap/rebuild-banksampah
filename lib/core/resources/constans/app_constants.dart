@@ -15,6 +15,7 @@ class AppConstants {
   static const String ACTION_LOGIN = "Login";
   static const String ACTION_REGISTER = "Registrasi akun Baru";
   static const String ACTION_TRACK_ORDER = "Lacak Pesanan";
+  
 
   // History
   static const String LABEL_HISTORY = "Riwayat";
