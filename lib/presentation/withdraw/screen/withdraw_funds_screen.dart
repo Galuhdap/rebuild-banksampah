@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/search_component.dart';
 import 'package:rebuild_bank_sampah/core/component/transaction_card_component.dart';
+import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
+import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_message_dialog.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/withdraw/controllers/withdraw_funds_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/withdraw/widget/menu_button_widget.dart';
@@ -18,7 +21,7 @@ class WithdrawFundsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Penarikan Dana',
+          AppConstants.LABEL_WITHDRAW_FUNDS,
           style: Get.textTheme.titleLarge!.copyWith(fontSize: AppSizes.s18),
         ),
         leading: IconButton(
@@ -40,7 +43,7 @@ class WithdrawFundsScreen extends StatelessWidget {
                 children: [
                   Flexible(
                     child: MenuButtonWidget(
-                      label: 'Pending',
+                      label: AppConstants.ACTION_PENDING,
                       onTap: () {
                         controller.setActive(true);
                       },
@@ -50,7 +53,7 @@ class WithdrawFundsScreen extends StatelessWidget {
                   AppSizes.s60.width,
                   Flexible(
                     child: MenuButtonWidget(
-                      label: 'Sukses',
+                      label: AppConstants.ACTION_SUKSES,
                       onTap: () {
                         controller.setActive(false);
                       },
@@ -74,7 +77,22 @@ class WithdrawFundsScreen extends StatelessWidget {
                           date: '26 Juli 2024',
                           amount: 'Rp. 50.000',
                           status: 'Pending',
-                          onTap: () {},
+                          onTap: () {
+                            showDepositTrashSucces(
+                              context: context,
+                              icon: Assets.icons.question.path,
+                              label: AppConstants.LABEL_WITHDRAW_FUNDS_QUESTION,
+                              firstButton: AppConstants.ACTION_NO,
+                              fistOnPressed: () {
+                                Get.back();
+                              },
+                              secondButton: AppConstants.ACTION_YES,
+                              seccondOnPressed: () {
+                                controller.setActive(false);
+                                Get.back();
+                              },
+                            );
+                          },
                         );
                       },
                     ),

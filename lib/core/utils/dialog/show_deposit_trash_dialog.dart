@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
@@ -8,11 +9,10 @@ import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_message
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/deposit_trash_controller.dart';
+import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
-void showDepositTrashDialog(
-    BuildContext context, String label) {
-
-        final controller = Get.put(DepositTrashController());
+void showDepositTrashDialog(BuildContext context, String label) {
+  final controller = Get.put(DepositTrashController());
   Get.dialog(
     barrierDismissible: false,
     Dialog(
@@ -82,7 +82,20 @@ void showDepositTrashDialog(
                 Flexible(
                   child: Button.filled(
                     onPressed: () {
-                      showDepositTrashSucces(context);
+                      showDepositTrashSucces(
+                        context: context,
+                        icon: Assets.icons.succes.path,
+                        label: AppConstants.LABEL_DEPOSIT_TRASH_SUCCES,
+                        firstButton: AppConstants.LABEL_SEE_HISTORY,
+                        fistOnPressed: () {
+                          Get.back();
+                          Get.back();
+                        },
+                        secondButton: AppConstants.LABEL_BERANDA,
+                        seccondOnPressed: () {
+                          Get.offAllNamed(AppRoutes.home);
+                        },
+                      );
                     },
                     label: AppConstants.ACTION_DEPOSIT,
                   ),

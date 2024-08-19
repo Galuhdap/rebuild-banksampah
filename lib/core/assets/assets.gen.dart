@@ -50,11 +50,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/profile.svg
   SvgGenImage get profile => const SvgGenImage('assets/icons/profile.svg');
 
+  /// File path: assets/icons/question.svg
+  SvgGenImage get question => const SvgGenImage('assets/icons/question.svg');
+
   /// File path: assets/icons/succes.svg
   SvgGenImage get succes => const SvgGenImage('assets/icons/succes.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [history, home, profile, succes];
+  List<SvgGenImage> get values => [history, home, profile, question, succes];
 }
 
 class $AssetsImagesGen {
@@ -69,12 +72,15 @@ class $AssetsImagesGen {
   /// File path: assets/images/recycle.png
   AssetGenImage get recycle => const AssetGenImage('assets/images/recycle.png');
 
+  /// File path: assets/images/user.png
+  AssetGenImage get user => const AssetGenImage('assets/images/user.png');
+
   /// File path: assets/images/withdrawal.png
   AssetGenImage get withdrawal =>
       const AssetGenImage('assets/images/withdrawal.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [logobs, oval, recycle, withdrawal];
+  List<AssetGenImage> get values => [logobs, oval, recycle, user, withdrawal];
 }
 
 class Assets {

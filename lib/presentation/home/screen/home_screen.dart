@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/menu_category_component.dart';
+import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
@@ -20,6 +21,9 @@ class HomeScreen extends StatelessWidget {
             body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(AppConstants.LABEL_WELCOME,
+                style:
+                    Get.textTheme.titleLarge!.copyWith(fontSize: AppSizes.s18)),
             Stack(
               alignment: Alignment.bottomRight,
               children: [
@@ -77,8 +81,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                 )
               ],
-            ).paddingSymmetric(vertical: AppSizes.s36),
-            Text('Menu Kategori', style: Get.textTheme.titleLarge),
+            ).paddingSymmetric(vertical: AppSizes.s16),
+            Text(AppConstants.LABEL_MENU_CATEGORY,
+                style:
+                    Get.textTheme.titleLarge!.copyWith(fontSize: AppSizes.s18)),
             AppSizes.s20.height,
             Obx(
               () {
@@ -87,27 +93,40 @@ class HomeScreen extends StatelessWidget {
                         child: CircularProgressIndicator(),
                       )
                     : controller.role.value == 'CUSTOMER'
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        ? Column(
                             children: [
-                              Flexible(
-                                child: MenuKategoriComponent(
-                                  onTap: () {
-                                    Get.toNamed(AppRoutes.setorSampah);
-                                  },
-                                  image: Assets.images.recycle.path,
-                                  label: 'Setor Sampah',
-                                ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    child: MenuKategoriComponent(
+                                      onTap: () {
+                                        Get.toNamed(AppRoutes.profile);
+                                      },
+                                      image: Assets.images.user.path,
+                                      label: AppConstants.LABEL_PROFILE,
+                                    ),
+                                  ),
+                                  AppSizes.s20.width,
+                                  Flexible(
+                                    child: MenuKategoriComponent(
+                                      onTap: () {
+                                        Get.toNamed(AppRoutes.setorSampah);
+                                      },
+                                      image: Assets.images.recycle.path,
+                                      label: AppConstants.LABEL_DEPOSIT_TRASH,
+                                    ),
+                                  ),
+                                ],
                               ),
-                              AppSizes.s20.width,
-                              Flexible(
-                                child: MenuKategoriComponent(
-                                  onTap: () {
-                                    Get.toNamed(AppRoutes.withdrawFunds);
-                                  },
-                                  image: Assets.images.withdrawal.path,
-                                  label: 'Penarikan Dana',
-                                ),
+                              AppSizes.s17.height,
+                              MenuKategoriComponent(
+                                onTap: () {
+                                  Get.toNamed(AppRoutes.withdrawFunds);
+                                },
+                                image: Assets.images.withdrawal.path,
+                                label: AppConstants.LABEL_WITHDRAW_FUNDS,
                               ),
                             ],
                           )
@@ -115,7 +134,7 @@ class HomeScreen extends StatelessWidget {
               },
             ),
           ],
-        ).paddingSymmetric(horizontal: AppSizes.s24));
+        ).paddingSymmetric(horizontal: AppSizes.s24, vertical: AppSizes.s27));
       },
     );
   }
