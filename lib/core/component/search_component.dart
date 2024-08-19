@@ -19,7 +19,6 @@ class SearchComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
       padding: AppSizes.symmetricPadding(
           horizontal: AppSizes.s10, vertical: AppSizes.s17),
       decoration: BoxDecoration(

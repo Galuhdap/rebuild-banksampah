@@ -16,6 +16,12 @@ class AppConstants {
   static const String LABEL_DEPOSIT_TRASH = "Setor Sampah";
   static const String LABEL_EDIT_DEPOSIT_TRASH = "Edit Setor Sampah";
 
+  static const String LABEL_WITHDRAW_FUNDS= "Penarikan Dana";
+
+
+  static const String LABEL_WELCOME = "Selamat Datang!";
+  static const String LABEL_MENU_CATEGORY = "Menu Category";
+
 
 
   // Input Hint
@@ -31,10 +37,15 @@ class AppConstants {
   static const String ACTION_CLOSE = "Close";
   static const String ACTION_DEPOSIT = "Deposit";
   static const String ACTION_TRACK_ORDER = "Lacak Pesanan";
+  static const String ACTION_YES = "Ya";
+  static const String ACTION_NO = "Tidak";
+  static const String ACTION_PENDING = "Pending";
+  static const String ACTION_SUKSES = "Sukses";
 
   // History
   static const String LABEL_RIWAYAT = "Riwayat";
   static const String LABEL_DEPOSIT_TRASH_SUCCES = "Setor Sampah Berhasil!";
+  static const String LABEL_WITHDRAW_FUNDS_QUESTION = "Apakah anda ingin menyetujuinya?";
   static const String LABEL_SEE_HISTORY = "Lihat History";
 
   //Buttom Navigation

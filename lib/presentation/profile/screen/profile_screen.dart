@@ -7,7 +7,7 @@ import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_utils.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
-//import 'package:rebuild_bank_sampah/presentation/profile/widget/no_profile_widget.dart';
+import 'package:rebuild_bank_sampah/presentation/profile/widget/no_profile_widget.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -16,12 +16,26 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          AppConstants.LABEL_PROFILE,
+          style: Get.textTheme.titleLarge!.copyWith(fontSize: AppSizes.s18),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: AppColors.colorBaseBlack,
+          ),
+        ),
+      ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // NoProfileWidget(
-          //   onTap: () {},
-          // ),
+          NoProfileWidget(
+            onTap: () {},
+          ),
           Column(
             children: [
               InputWidget(
@@ -49,11 +63,11 @@ class ProfileScreen extends StatelessWidget {
                 },
                 label: AppConstants.LABEL_LOGOUT,
                 color: AppColors.colorBaseError,
-                textColor: AppColors.colorBaseError,
+                textColor: AppColors.colorBaseWhite,
               ),
               AppSizes.s20.height,
             ],
-          ).paddingSymmetric(horizontal: AppSizes.s24)
+          ).paddingSymmetric(horizontal: AppSizes.s24, vertical: AppSizes.s44)
         ],
       ),
     );

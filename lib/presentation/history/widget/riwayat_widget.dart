@@ -35,7 +35,7 @@ class RiwayatWidget extends StatelessWidget {
             ),
             Text(price,
                 style: Get.textTheme.titleMedium!.copyWith(
-                    fontSize: AppSizes.s25, color: AppColors.colorBasePrimary)),
+                    fontSize: AppSizes.s16, color: AppColors.colorBasePrimary)),
           ],
         ).paddingSymmetric(horizontal: AppSizes.s12),
         AppSizes.s12.height,

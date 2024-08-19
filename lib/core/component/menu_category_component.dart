@@ -42,7 +42,7 @@ class MenuKategoriComponent extends StatelessWidget {
               scale: 3,
             ),
             AppSizes.s21.height,
-            Text(label, style: Get.textTheme.titleMedium!.copyWith(fontSize: 18)),
+            Text(label, style: Get.textTheme.titleMedium!.copyWith(fontSize: 15)),
           ],
         ),
       ),
