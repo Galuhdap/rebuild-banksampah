@@ -47,6 +47,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/home.svg
   SvgGenImage get home => const SvgGenImage('assets/icons/home.svg');
 
+  /// File path: assets/icons/mark.svg
+  SvgGenImage get mark => const SvgGenImage('assets/icons/mark.svg');
+
   /// File path: assets/icons/profile.svg
   SvgGenImage get profile => const SvgGenImage('assets/icons/profile.svg');
 
@@ -57,7 +60,8 @@ class $AssetsIconsGen {
   SvgGenImage get succes => const SvgGenImage('assets/icons/succes.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [history, home, profile, question, succes];
+  List<SvgGenImage> get values =>
+      [history, home, mark, profile, question, succes];
 }
 
 class $AssetsImagesGen {
@@ -66,11 +70,22 @@ class $AssetsImagesGen {
   /// File path: assets/images/logobs.png
   AssetGenImage get logobs => const AssetGenImage('assets/images/logobs.png');
 
+  /// File path: assets/images/minyak.png
+  AssetGenImage get minyak => const AssetGenImage('assets/images/minyak.png');
+
   /// File path: assets/images/oval.png
   AssetGenImage get oval => const AssetGenImage('assets/images/oval.png');
 
+  /// File path: assets/images/received.png
+  AssetGenImage get received =>
+      const AssetGenImage('assets/images/received.png');
+
   /// File path: assets/images/recycle.png
   AssetGenImage get recycle => const AssetGenImage('assets/images/recycle.png');
+
+  /// File path: assets/images/shopping.png
+  AssetGenImage get shopping =>
+      const AssetGenImage('assets/images/shopping.png');
 
   /// File path: assets/images/user.png
   AssetGenImage get user => const AssetGenImage('assets/images/user.png');
@@ -80,7 +95,8 @@ class $AssetsImagesGen {
       const AssetGenImage('assets/images/withdrawal.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [logobs, oval, recycle, user, withdrawal];
+  List<AssetGenImage> get values =>
+      [logobs, minyak, oval, received, recycle, shopping, user, withdrawal];
 }
 
 class Assets {

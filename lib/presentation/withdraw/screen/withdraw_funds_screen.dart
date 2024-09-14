@@ -91,6 +91,7 @@ class WithdrawFundsScreen extends StatelessWidget {
                                 controller.setActive(false);
                                 Get.back();
                               },
+                              showButton: true
                             );
                           },
                         );

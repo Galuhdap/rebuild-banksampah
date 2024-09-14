@@ -29,7 +29,11 @@ class MenuButtonWidget extends StatelessWidget {
                 color: isActive!
                     ? label == 'Pending'
                         ? AppColors.colorWarning300
-                        : AppColors.colorSuccess300
+                        : label == 'Selesai'
+                            ? AppColors.colorPrimary800
+                            : label == 'Batal'
+                                ? AppColors.colorBaseError
+                                : AppColors.colorSuccess300
                     : AppColors.colorNeutrals600),
           ),
           AppSizes.s10.height,
@@ -37,9 +41,13 @@ class MenuButtonWidget extends StatelessWidget {
             color: isActive!
                 ? label == 'Pending'
                     ? AppColors.colorWarning300
-                    : AppColors.colorSuccess300
-                : AppColors.colorBaseWhite,
-            thickness: isActive! ? 2 : 0,
+                    : label == 'Selesai'
+                        ? AppColors.colorPrimary800
+                        : label == 'Batal'
+                            ? AppColors.colorBaseError
+                            : AppColors.colorSuccess300
+                : AppColors.colorNeutrals100,
+            thickness: isActive! ? 2 : 1,
           )
         ],
       ),

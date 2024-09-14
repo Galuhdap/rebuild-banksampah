@@ -9,11 +9,14 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/home/controllers/home_controller.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
+import '../../trash/controllers/deposit_trash_controller.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    Get.put(DepositTrashController());
     return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (controller) {
@@ -86,13 +89,19 @@ class HomeScreen extends StatelessWidget {
                 style:
                     Get.textTheme.titleLarge!.copyWith(fontSize: AppSizes.s18)),
             AppSizes.s20.height,
+
+            //AdminKoprasi
+
+            //WARGA
+
+            //CUSTOMER
             Obx(
               () {
                 return controller.isLoading.value
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
-                    : controller.role.value == 'CUSTOMER'
+                    : controller.role.value == 'WEIGHER'
                         ? Column(
                             children: [
                               Row(
@@ -130,7 +139,120 @@ class HomeScreen extends StatelessWidget {
                               ),
                             ],
                           )
-                        : Text("No Data");
+                        : controller.role.value == 'CUSTOMER'
+                            ? Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: MenuKategoriComponent(
+                                          onTap: () {
+                                            Get.toNamed(AppRoutes.profile);
+                                          },
+                                          image: Assets.images.user.path,
+                                          label: AppConstants.LABEL_PROFILE,
+                                        ),
+                                      ),
+                                      AppSizes.s20.width,
+                                      Flexible(
+                                        child: MenuKategoriComponent(
+                                          onTap: () {
+                                            Get.toNamed(AppRoutes.setorSampah);
+                                          },
+                                          image: Assets.images.recycle.path,
+                                          label:
+                                              AppConstants.LABEL_DEPOSIT_TRASH,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  AppSizes.s17.height,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: MenuKategoriComponent(
+                                          onTap: () {
+                                            Get.toNamed(AppRoutes.shop);
+                                          },
+                                          image: Assets.images.shopping.path,
+                                          label:
+                                              AppConstants.ACTION_COOPERATIVE,
+                                        ),
+                                      ),
+                                      AppSizes.s20.width,
+                                      Flexible(
+                                        child: MenuKategoriComponent(
+                                          onTap: () {
+                                            Get.toNamed(AppRoutes.orderSee);
+                                          },
+                                          image: Assets.images.received.path,
+                                          label: AppConstants.ACTION_ORDER,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              )
+                            : Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: MenuKategoriComponent(
+                                          onTap: () {
+                                            Get.toNamed(AppRoutes.profile);
+                                          },
+                                          image: Assets.images.user.path,
+                                          label: AppConstants.LABEL_PROFILE,
+                                        ),
+                                      ),
+                                      AppSizes.s20.width,
+                                      Flexible(
+                                        child: MenuKategoriComponent(
+                                          onTap: () {
+                                            //Get.toNamed(AppRoutes.withdrawFunds);
+                                          },
+                                          image: Assets.images.withdrawal.path,
+                                          label: AppConstants.LABEL_WITHDRAW,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  AppSizes.s17.height,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: MenuKategoriComponent(
+                                          onTap: () {
+                                            //Get.toNamed(AppRoutes.profile);
+                                          },
+                                          image: Assets.images.shopping.path,
+                                          label:
+                                              AppConstants.ACTION_COOPERATIVE,
+                                        ),
+                                      ),
+                                      AppSizes.s20.width,
+                                      Flexible(
+                                        child: MenuKategoriComponent(
+                                          onTap: () {
+                                            //Get.toNamed(AppRoutes.setorSampah);
+                                          },
+                                          image: Assets.images.received.path,
+                                          label: AppConstants.ACTION_ORDER,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              );
               },
             ),
           ],

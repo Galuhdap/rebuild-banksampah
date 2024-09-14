@@ -4,23 +4,27 @@ class AppConstants {
   static const String LABEL_PASSWORD = "Password";
   static const String LABEL_NAME = "Nama";
   static const String LABEL_NOKTP = "No KTP";
-  static const String LABEL_ADDRESS = "ALAMAT";
-  static const String LABEL_PHONE_NUMBER = "Phone Number";
+  static const String LABEL_ADDRESS = "Alamat";
+  static const String LABEL_PHONE_NUMBER = "No Telp";
 
   static const String LABEL_KODE_NASABAH = "Kode Nasabah";
   static const String LABEL_TYPE_TRASH = "Jenis Sampah";
   static const String LABEL_WEIGHT= "Berat";
-  static const String LABEL_PRICE = "Harga";
+  static const String LABEL_PRICE = "*harga sampah yang dipilih";
 
   
   static const String LABEL_DEPOSIT_TRASH = "Setor Sampah";
   static const String LABEL_EDIT_DEPOSIT_TRASH = "Edit Setor Sampah";
 
   static const String LABEL_WITHDRAW_FUNDS= "Penarikan Dana";
+  static const String LABEL_WITHDRAW= "Pengajuan Penarikan Dana";
 
 
   static const String LABEL_WELCOME = "Selamat Datang!";
   static const String LABEL_MENU_CATEGORY = "Menu Category";
+
+  static const String LABEL_COOPERATIVE = "Koprasi";
+  static const String LABEL_CHECKOUT = "Checkout";
 
 
 
@@ -41,12 +45,19 @@ class AppConstants {
   static const String ACTION_NO = "Tidak";
   static const String ACTION_PENDING = "Pending";
   static const String ACTION_SUKSES = "Sukses";
+  static const String ACTION_FINISH = "Selesai";  
+  static const String ACTION_CENCEL = "Batal";  
+  
+  static const String ACTION_COOPERATIVE = "Koprasi";
+  static const String ACTION_ORDER = "Pesanan";
 
   // History
   static const String LABEL_RIWAYAT = "Riwayat";
   static const String LABEL_DEPOSIT_TRASH_SUCCES = "Setor Sampah Berhasil!";
+  static const String LABEL_PROCESS_ORDER = "Pesanan anda sedang diproses!";
   static const String LABEL_WITHDRAW_FUNDS_QUESTION = "Apakah anda ingin menyetujuinya?";
   static const String LABEL_SEE_HISTORY = "Lihat History";
+  static const String LABEL_SEE_ORDER = "Lihat Pesanan";
 
   //Buttom Navigation
   static const String LABEL_HOME = "Home";

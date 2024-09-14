@@ -22,7 +22,7 @@ class MenuKategoriComponent extends StatelessWidget {
         width: double.infinity,
         height: AppSizes.s195,
         padding: AppSizes.symmetricPadding(
-            vertical: AppSizes.s25),
+            vertical: AppSizes.s15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSizes.s12),
           color: AppColors.colorBaseWhite,
@@ -36,13 +36,14 @@ class MenuKategoriComponent extends StatelessWidget {
           ],
         ),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
               image,
               scale: 3,
             ),
             AppSizes.s21.height,
-            Text(label, style: Get.textTheme.titleMedium!.copyWith(fontSize: 15)),
+            Text(label,maxLines: 2 , textAlign: TextAlign.center, style: Get.textTheme.titleMedium!.copyWith(fontSize: 15)),
           ],
         ),
       ),

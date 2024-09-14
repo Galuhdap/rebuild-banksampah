@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -13,13 +12,16 @@ final dio = new Dio(BaseOptions(
 
 abstract class ApiService {
   Future<dynamic> get(
-      String endpoint, {
-        Map<String, String>? queryParameter,
-      }) async {
+    String endpoint, {
+    Map<String, String>? queryParameter,
+    Map<String, String>? header,
+  }) async {
     try {
-      Response response =
-      await dio.get(endpoint, queryParameters: queryParameter);
-      inspect(response);
+      Response response = await dio.get(
+        endpoint,
+        queryParameters: queryParameter,
+        options: Options(headers: header),
+      );
 
       final rawResponse = jsonDecode(response.toString());
       return rawResponse;
@@ -29,7 +31,7 @@ abstract class ApiService {
     }
   }
 
-   Future<Either<Failure, dynamic>> post(
+  Future<Either<Failure, dynamic>> post(
     String endpoint, {
     Map<String, String>? queryParameter,
     Map<String, String>? header,
@@ -50,7 +52,6 @@ abstract class ApiService {
       return Left(ErrorHandler.handle(error).failure);
     }
   }
-
 
   // Future<dynamic> post(
   //     String endpoint, {
