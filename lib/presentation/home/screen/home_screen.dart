@@ -129,14 +129,14 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              AppSizes.s17.height,
-                              MenuKategoriComponent(
-                                onTap: () {
-                                  Get.toNamed(AppRoutes.withdrawFunds);
-                                },
-                                image: Assets.images.withdrawal.path,
-                                label: AppConstants.LABEL_WITHDRAW_FUNDS,
-                              ),
+                              // AppSizes.s17.height,
+                              // MenuKategoriComponent(
+                              //   onTap: () {
+                              //     Get.toNamed(AppRoutes.withdrawFunds);
+                              //   },
+                              //   image: Assets.images.withdrawal.path,
+                              //   label: AppConstants.LABEL_WITHDRAW_FUNDS,
+                              // ),
                             ],
                           )
                         : controller.role.value == 'CUSTOMER'
@@ -232,7 +232,7 @@ class HomeScreen extends StatelessWidget {
                                       Flexible(
                                         child: MenuKategoriComponent(
                                           onTap: () {
-                                            //Get.toNamed(AppRoutes.profile);
+                                            Get.toNamed(AppRoutes.shopAdmin);
                                           },
                                           image: Assets.images.shopping.path,
                                           label:

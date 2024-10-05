@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/card_tile_component.dart';
 import 'package:rebuild_bank_sampah/core/component/search_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
@@ -32,6 +34,23 @@ class ShoppingScreen extends StatelessWidget {
                 color: AppColors.colorBaseBlack,
               ),
             ),
+            actions: [
+              IconButton(
+                onPressed: () {
+                  Get.toNamed(AppRoutes.basket);
+                },
+                icon: Badge(
+                  label: Text('2'),
+                  largeSize: 20,
+                  backgroundColor: AppColors.colorBasePrimary,
+                  child: SvgPicture.asset(
+                    Assets.icons.shop.path,
+                    width: 35,
+                    height: 35,
+                  ),
+                ),
+              ).paddingOnly(right: AppSizes.s10)
+            ],
           ),
           body: Column(
             children: [

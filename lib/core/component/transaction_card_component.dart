@@ -48,7 +48,7 @@ class TransactionCardComponent extends StatelessWidget {
                   Text(
                     kode,
                     style: Get.textTheme.labelLarge!
-                        .copyWith(fontSize: AppSizes.s15),
+                        .copyWith(fontSize: AppSizes.s12),
                   ),
                   AppSizes.s12.height,
                   Row(
@@ -57,21 +57,22 @@ class TransactionCardComponent extends StatelessWidget {
                       Text(
                         label,
                         style: Get.textTheme.titleSmall!
-                            .copyWith(fontSize: AppSizes.s20),
+                            .copyWith(fontSize: AppSizes.s16),
                       ),
                       Text(
                         amount,
                         style: Get.textTheme.titleMedium!.copyWith(
-                            fontSize: AppSizes.s20,
+                            fontSize: AppSizes.s16,
                             color: AppColors.colorPrimary800),
                       ),
                     ],
                   ),
                   AppSizes.s12.height,
                   Text(
-                    date,
+                    'Diajukan pada ${date}',
                     style: Get.textTheme.labelMedium!.copyWith(
                       color: AppColors.colorNeutrals500,
+                      fontSize: 10
                     ),
                   ),
                 ],
@@ -93,7 +94,7 @@ class TransactionCardComponent extends StatelessWidget {
                     child: Text(
                       status!,
                       style: Get.textTheme.titleMedium!
-                          .copyWith(color: AppColors.colorBaseWhite, fontSize: AppSizes.s17),
+                          .copyWith(color: AppColors.colorBaseWhite, fontSize: AppSizes.s15),
                     )),
               )
             : SizedBox()

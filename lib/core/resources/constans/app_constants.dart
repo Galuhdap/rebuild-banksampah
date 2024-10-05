@@ -1,6 +1,12 @@
 class AppConstants {
   // Text Label
   static const String LABEL_EMAIL = "Email";
+  static const String LABEL_NAME_PRODUK = "Nama Produk";
+  static const String LABEL_INPUT_NAME_PRODUK = "Masukkan nama Produk";
+  static const String LABEL_PRICE_PRODUK = "Harga";
+  static const String LABEL_INPUT_PRICE_PRODUK = "Masukkan Harga";
+  static const String LABEL_STOCK_PRODUK = "Stock";
+  static const String LABEL_INPUT_STOCK_PRODUK = "Masukkan stok";
   static const String LABEL_PASSWORD = "Password";
   static const String LABEL_NAME = "Nama";
   static const String LABEL_NOKTP = "No KTP";
@@ -25,6 +31,7 @@ class AppConstants {
 
   static const String LABEL_COOPERATIVE = "Koprasi";
   static const String LABEL_CHECKOUT = "Checkout";
+  static const String LABEL_BASKET = "Keranjang Saya";
 
 
 

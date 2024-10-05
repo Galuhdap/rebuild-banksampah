@@ -23,28 +23,5 @@ class TrashDataSources extends ApiService {
       return left(Failure(400, 'data masuk'));
     }
 
-    // inspect(response);
-
-    // if (response.statusC == 200) {
-    //   return Right(GetTrashResponse.fromJson(response));
-    // } else {
-    //   return left(Failure(400, 'data masuk'));
-    // }
-
-    // return response.fold(
-    // (failure) => Left(failure),
-    // (response) {
-    //   // Cek apakah response sukses (misalnya kode statusnya 200)
-    //   if (response.statusCode == 200) {
-    //     //final Map<String, dynamic> jsonResponse = json.decode(response.body);
-    //     return Right(GetTrashResponse.fromJson(response));
-    //   } else {
-    //     return Left(Failure('Cek a'));
-    //   }
-
-    // return response.fold(
-    //   (failure) => Left(failure),
-    //   (response) => Right(GetTrashResponse.fromJson(response)),
-    // );
   }
 }

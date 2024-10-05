@@ -37,62 +37,71 @@ class WithdrawFundsScreen extends StatelessWidget {
       body: Column(
         children: [
           SearchComponent(controller: TextEditingController(), onTap: () {}),
-          Obx(
-            () {
-              return Row(
-                children: [
-                  Flexible(
-                    child: MenuButtonWidget(
-                      label: AppConstants.ACTION_PENDING,
-                      onTap: () {
-                        controller.setActive(true);
-                      },
-                      isActive: controller.isActive.value,
-                    ),
-                  ),
-                  AppSizes.s60.width,
-                  Flexible(
-                    child: MenuButtonWidget(
-                      label: AppConstants.ACTION_SUKSES,
-                      onTap: () {
-                        controller.setActive(false);
-                      },
-                      isActive: !controller.isActive.value,
-                    ),
-                  ),
-                ],
-              ).paddingSymmetric(horizontal: AppSizes.s44);
-            },
+          Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              Divider(
+                color: AppColors.colorNeutrals100,
+                thickness: 1,
+              ),
+              Obx(
+                () {
+                  return Row(
+                    children: [
+                      Flexible(
+                        child: MenuButtonWidget(
+                          label: AppConstants.ACTION_PENDING,
+                          onTap: () {
+                            controller.setActiveButton(0);
+                          },
+                          isActive: controller.activeButtonIndex.value == 0,
+                        ),
+                      ),
+                      AppSizes.s60.width,
+                      Flexible(
+                        child: MenuButtonWidget(
+                          label: AppConstants.ACTION_SUKSES,
+                          onTap: () {
+                            controller.setActiveButton(1);
+                          },
+                          isActive: controller.activeButtonIndex.value == 1,
+                        ),
+                      ),
+                    ],
+                  ).paddingSymmetric(horizontal: AppSizes.s44);
+                },
+              ),
+            ],
           ),
           AppSizes.s20.height,
           Obx(() {
-            return controller.isActive.value
+            return controller.activeButtonIndex.value == 0
                 ? Expanded(
                     child: ListView.builder(
                       itemCount: 10,
                       itemBuilder: (BuildContext context, index) {
                         return TransactionCardComponent(
-                          kode: 'KP - 001',
+                          kode: 'Koprasi Mawar',
                           label: 'Mutiara Ayu',
                           date: '26 Juli 2024',
                           amount: 'Rp. 50.000',
                           status: 'Pending',
                           onTap: () {
                             showDepositTrashSucces(
-                              context: context,
-                              icon: Assets.icons.question.path,
-                              label: AppConstants.LABEL_WITHDRAW_FUNDS_QUESTION,
-                              firstButton: AppConstants.ACTION_NO,
-                              fistOnPressed: () {
-                                Get.back();
-                              },
-                              secondButton: AppConstants.ACTION_YES,
-                              seccondOnPressed: () {
-                                controller.setActive(false);
-                                Get.back();
-                              },
-                              showButton: true
-                            );
+                                context: context,
+                                icon: Assets.icons.question.path,
+                                label:
+                                    AppConstants.LABEL_WITHDRAW_FUNDS_QUESTION,
+                                firstButton: AppConstants.ACTION_NO,
+                                fistOnPressed: () {
+                                  Get.back();
+                                },
+                                secondButton: AppConstants.ACTION_YES,
+                                seccondOnPressed: () {
+                                  // controller.setActive(false);
+                                  Get.back();
+                                },
+                                showButton: true);
                           },
                         );
                       },

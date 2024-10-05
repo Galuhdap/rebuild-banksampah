@@ -1,9 +1,9 @@
 import 'package:get/get.dart';
 
 class WithdrawFundsController extends GetxController {
-  RxBool isActive = true.obs;
+  RxInt activeButtonIndex = 0.obs;
 
-  void setActive(bool value) {
-    isActive.value = value;
+  void setActiveButton(int index) {
+    activeButtonIndex.value = index;
   }
 }

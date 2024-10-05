@@ -21,15 +21,22 @@ void showDepositTrashSucces(
       ),
       child: Container(
         padding: AppSizes.symmetricPadding(
-            horizontal: AppSizes.s24, vertical: AppSizes.s30),
+            horizontal: AppSizes.s20, vertical: AppSizes.s30),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SvgPicture.asset(icon),
-            AppSizes.s40.height,
-            Center(
-              child: Text(label, style: Get.textTheme.labelLarge),
+            AppSizes.s30.height,
+            Container(
+              padding: AppSizes.symmetricPadding(horizontal: AppSizes.s10),
+              child: Text(
+                label,
+                style: Get.textTheme.labelLarge!.copyWith(
+                  fontSize: AppSizes.s18,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
             AppSizes.s40.height,
             showButton == true

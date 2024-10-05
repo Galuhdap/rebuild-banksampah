@@ -9,4 +9,9 @@ class NetworkConstants {
   //login
   static const String POST_LOGIN_URL = BASE_URL + "api/login";
   static const String GET_TRASH_URL = BASE_URL + "api/weigher/trash";
+
+
+  //Product
+  static const String GET_PRODUCT_URL = BASE_URL + "api/admin/products";
+  static const String POST_PRODUCT_URL = BASE_URL + "api/admin/products";
 }

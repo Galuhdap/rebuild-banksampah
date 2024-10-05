@@ -83,7 +83,7 @@ class CardTile extends StatelessWidget {
                 ],
                 AppSizes.s20.height,
                 Container(
-                  width: AppSizes.setResponsiveWidth(context) * 0.52,
+                  width: showCheckout ? AppSizes.setResponsiveWidth(context) * 0.55 : AppSizes.setResponsiveWidth(context) * 0.3,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
