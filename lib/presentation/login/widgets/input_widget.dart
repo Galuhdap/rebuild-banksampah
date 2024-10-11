@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/core/component/input_component.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
@@ -16,6 +17,7 @@ class InputWidget extends StatelessWidget {
   final bool? readOnly;
   final TextStyle? hintStyle;
   final Function(String)? onChanged;
+  final List<TextInputFormatter>? inputFormatters;
 
   const InputWidget({
     super.key,
@@ -29,6 +31,7 @@ class InputWidget extends StatelessWidget {
     this.readOnly = false,
     this.hintStyle,
     this.onChanged,
+    this.inputFormatters,
   });
 
   @override
@@ -53,6 +56,7 @@ class InputWidget extends StatelessWidget {
           readOnly: readOnly!,
           hintStyle: hintStyle,
           onChanged: onChanged,
+          inputFormatters: inputFormatters,
         ),
       ],
     );

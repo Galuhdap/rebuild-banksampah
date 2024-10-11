@@ -19,6 +19,9 @@ class AppConstants {
   static const String LABEL_PRICE = "*harga sampah yang dipilih";
   static const String LABEL_PRICE_TRASH = "Harga sampah";
   static const String LABEL_REGISTER_USER = "Register User";
+  static const String LABEL_ADD_REGISTER_USER = "Tambah User";
+  static const String LABEL_USERNAME = "Username";
+
 
   
   static const String LABEL_DEPOSIT_TRASH = "Setor Sampah";
@@ -42,8 +45,11 @@ class AppConstants {
 
 
   // Input Hint
-  static const String HINT_EMAIL = "Enter Email";
-  static const String HINT_PASSWORD = "Enter Password";
+  static const String HINT_EMAIL = "Masukan Username";
+  static const String HINT_PASSWORD = "Masukan Password";
+  static const String HINT_NAME = "Masukan Nama";
+  static const String HINT_NO_KTP = "Masukan Nomor KTP";
+  static const String HINT_ALAMAT = "Masukan Alamat";
   static const String HINT_PHONE_NUMBER = "Phone Number";
   static const String HINT_ATAU = "atau";
   static const String HINT_SEARCH = "Masukkan kata kunci";
@@ -67,6 +73,7 @@ class AppConstants {
   // History
   static const String LABEL_RIWAYAT = "Riwayat";
   static const String LABEL_DEPOSIT_TRASH_SUCCES = "Setor Sampah Berhasil!";
+  static const String LABEL_REGISTER_SUCCES = "Register Berhasil!";
   static const String LABEL_DELETE_DEPOSIT_TRASH_SUCCES = "Hapus Sampah Berhasil!";
   static const String LABEL_PROCESS_ORDER = "Pesanan anda sedang diproses!";
   static const String LABEL_WITHDRAW_FUNDS_QUESTION = "Apakah anda ingin menyetujuinya?";
@@ -88,7 +95,7 @@ class AppConstants {
   static const String LABEL_SAVE_PROFILE = "Simpan Profile";
   static const String LABEL_UPLOAD_PHOTO = "Upload Photo";
   static const String LABEL_GENERAL_INFORMATION = "General Information";
-  static const String LABEL_EDIT_PROFILE = "Edit Profile";
+  static const String LABEL_EDIT_PROFILE = "Edit Data";
   static const String LABEL_DELETE = "Hapus";
   static const String LABEL_LOGOUT = "Logout";
 

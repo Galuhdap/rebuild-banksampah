@@ -4,7 +4,6 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/datasources/failure.da
 import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_utils.dart';
 import 'package:rebuild_bank_sampah/services/lib/api_services.dart';
 import 'package:rebuild_bank_sampah/services/lib/network_constants.dart';
-import 'package:rebuild_bank_sampah/services/home/model/response/get_customer_balance_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/customer/get_deposit_customer_trash_response.dart';
 
 class CustomerDepositTrashDatasources extends ApiService {

@@ -6,6 +6,9 @@ class NetworkConstants {
 
   //login
   static const String POST_LOGIN_URL = BASE_URL + "api/login";
+  static const String GET_REGISTER_URL = BASE_URL + "api/super/users";
+  static const String GET_ROLE_URL = BASE_URL + "api/super/role";
+  static const String POST_REGISTER_URL = BASE_URL + "api/super/register";
 
   //trash
   static const String GET_TRASH_URL = BASE_URL + "api/weigher/trash";
@@ -25,6 +28,10 @@ class NetworkConstants {
 
   static String GET_CUSTOMER_DEPOSIT_TRASH_URL(String id) {
     return BASE_URL + "api/customer/deposit/$id";
+  }
+
+  static String EDIT_PRICE_TRASH_URL(String id) {
+    return BASE_URL + "api/super/trash/$id";
   }
 
   //super

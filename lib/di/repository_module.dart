@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:rebuild_bank_sampah/services/auth/auth_data_sources.dart';
+import 'package:rebuild_bank_sampah/services/auth/auth_repository.dart';
 import 'package:rebuild_bank_sampah/services/home/datarepository/home_repository.dart';
 import 'package:rebuild_bank_sampah/services/product/repository/product_data_repository.dart';
 import 'package:rebuild_bank_sampah/services/trash/repository/customer_trash_repository.dart';
@@ -17,6 +17,6 @@ void initRepositoriesModule(GetIt locator) {
       () => DepositTrashDataRespository(locator()));
   locator.registerLazySingleton<CustomerTrashRepository>(
       () => CustomerTrashRepository(locator()));
-  locator.registerLazySingleton<HomeRepository>(
-      () => HomeRepository(locator()));
+  locator
+      .registerLazySingleton<HomeRepository>(() => HomeRepository(locator()));
 }

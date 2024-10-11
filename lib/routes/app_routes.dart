@@ -7,6 +7,8 @@ import 'package:rebuild_bank_sampah/presentation/order/screen/detail_order_scree
 import 'package:rebuild_bank_sampah/presentation/order/screen/order_see_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/product/screen/add_product_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/profile/screen/profile_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/register/screen/add_register_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/register/screen/register_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/shop/screen/basket_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/shop/screen/checkout_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/product/screen/product_screen.dart';
@@ -31,6 +33,8 @@ class AppRoutes {
   static const String home = "/home";
   static const String history = "/history";
   static const String profile = "/profile";
+  static const String register = "/register";
+  static const String addRegister = "/add-register";
 
   static const String setorSampah = "/setor-sampah";
   static const String priceTrash = "/price-sampah";
@@ -71,6 +75,8 @@ class AppRoutes {
     GetPage(name: customerTrashDeposit, page : () => DepositTrashCustomerScreen()),
     GetPage(name: priceTrash, page : () => TrashPriceScreen()),
     GetPage(name: addTrashSuper, page : () => AddPriceTrashScreen()),
+    GetPage(name: register, page : () => RegisterScreen()),
+    GetPage(name: addRegister, page : () => AddRegisterScreen()),
     //cara menggunakan Binding
     //GetPage(name: login, page : () => LoginScreen(), binding: LoginBinding()),
   ];

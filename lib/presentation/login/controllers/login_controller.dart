@@ -6,7 +6,7 @@ import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_utils.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
-import 'package:rebuild_bank_sampah/services/auth/auth_data_sources.dart';
+import 'package:rebuild_bank_sampah/services/auth/auth_repository.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/request/login_request.dart';
 
 class LoginController extends GetxController {

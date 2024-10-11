@@ -81,6 +81,18 @@ class $AssetsImagesGen {
   AssetGenImage get imageProductAdd =>
       const AssetGenImage('assets/images/image-product-add.png');
 
+  /// File path: assets/images/logo_blitar.png
+  AssetGenImage get logoBlitar =>
+      const AssetGenImage('assets/images/logo_blitar.png');
+
+  /// File path: assets/images/logo_tuturi.png
+  AssetGenImage get logoTuturi =>
+      const AssetGenImage('assets/images/logo_tuturi.png');
+
+  /// File path: assets/images/logo_untag.png
+  AssetGenImage get logoUntag =>
+      const AssetGenImage('assets/images/logo_untag.png');
+
   /// File path: assets/images/logobs.png
   AssetGenImage get logobs => const AssetGenImage('assets/images/logobs.png');
 
@@ -119,6 +131,9 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [
         emptyData,
         imageProductAdd,
+        logoBlitar,
+        logoTuturi,
+        logoUntag,
         logobs,
         manageUser,
         minyak,

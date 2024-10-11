@@ -51,6 +51,7 @@ dependencies:
   # dropdown_search: ^6.0.1
   drop_down_search_field: ^1.0.5
   iconsax: ^0.0.8
+  currency_text_input_formatter: ^2.2.5
   # dropdown_search: ^6.0.1
 
 

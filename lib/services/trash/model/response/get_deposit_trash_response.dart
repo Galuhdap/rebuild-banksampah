@@ -3,7 +3,6 @@
 //     final depositTrashResponse = depositTrashResponseFromJson(jsonString);
 
 import 'dart:convert';
-import 'dart:ffi';
 
 DepositTrashResponse depositTrashResponseFromJson(String str) =>
     DepositTrashResponse.fromJson(json.decode(str));

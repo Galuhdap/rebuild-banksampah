@@ -21,6 +21,11 @@ class TrashRepository {
   Future<Either<Failure, PostTrashResponse>> postTrashSuper(PriceTrashRequest data) async {
     return sources.postTrashSuper(data);
   }
+
+  Future<Either<Failure, PostTrashResponse>> editTrashSuper(PriceTrashRequest data, String id) async {
+    return sources.editTrashSuper(data, id);
+  }
+
   Future<Either<Failure, DeletePriceTrashResponse>> deleteTrashSuper(String id) async {
     return sources.deletePriceTrash(id);
   }

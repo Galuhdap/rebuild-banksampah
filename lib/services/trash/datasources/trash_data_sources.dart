@@ -68,7 +68,32 @@ class TrashDataSources extends ApiService {
     }
   }
 
-    Future<Either<Failure, DeletePriceTrashResponse>> deletePriceTrash(
+  Future<Either<Failure, PostTrashResponse>> editTrashSuper(
+      PriceTrashRequest data, String id) async {
+    final prefs = await SharedPreferencesUtils.getAuthToken();
+
+    try {
+      final response = await Dio().put(
+        NetworkConstants.EDIT_PRICE_TRASH_URL(id),
+        data: {
+          "name": data.name,
+          "weight": data.weight,
+          "price": data.price,
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${prefs}",
+          },
+        ),
+      );
+
+      return Right(PostTrashResponse.fromJson(response.data));
+    } catch (e) {
+      return Left(Failure(400, 'No data Tidak masuk'));
+    }
+  }
+
+  Future<Either<Failure, DeletePriceTrashResponse>> deletePriceTrash(
       String id) async {
     final prefs = await SharedPreferencesUtils.getAuthToken();
 

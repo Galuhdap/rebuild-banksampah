@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/core/config/theme_config.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
@@ -21,6 +22,7 @@ class CustomTextField extends StatefulWidget {
   final Color enabledBorderColor;
   final double? enabledBorderWidth;
   final Function(String)? onChanged;
+  final List<TextInputFormatter>? inputFormatters;
 
   const CustomTextField(
       {Key? key,
@@ -39,6 +41,7 @@ class CustomTextField extends StatefulWidget {
       this.enabledBorderColor = AppColors.colorSecondary400,
       this.enabledBorderWidth,
       this.onChanged,
+      this.inputFormatters,
       this.readOnly = false})
       : _controller = controller,
         super(key: key);
@@ -69,6 +72,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       autovalidateMode: widget.autovalidateMode,
       keyboardType: widget.keyboardType,
       onChanged: widget.onChanged,
+      inputFormatters: widget.inputFormatters,
       decoration: InputDecoration(
         filled: true,
         fillColor: widget.fillColor,

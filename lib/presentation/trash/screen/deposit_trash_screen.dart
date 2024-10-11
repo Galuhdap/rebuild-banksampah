@@ -10,7 +10,6 @@ import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_dialog.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/date_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
-import 'package:rebuild_bank_sampah/presentation/home/controllers/home_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/deposit_trash_controller.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 

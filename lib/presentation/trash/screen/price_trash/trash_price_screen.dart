@@ -10,6 +10,7 @@ import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_dialog.
 import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/trash_controller.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/edit_price_trash_screen.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
 class TrashPriceScreen extends StatelessWidget {
@@ -106,6 +107,12 @@ class TrashPriceScreen extends StatelessWidget {
                                       price: data.harga.currencyFormatRp,
                                       controller: controller,
                                       id: data.id,
+                                      ontap: () async {
+                                        Get.to(EditPriceTrashScreen(
+                                          data: data,
+                                          id: data.id,
+                                        ));
+                                      },
                                     );
                                   },
                                 ),
@@ -124,13 +131,15 @@ class PriceTrashWidget extends StatelessWidget {
   final String price;
   final String id;
   final TrashController controller;
+  final VoidCallback ontap;
 
   const PriceTrashWidget(
       {super.key,
       required this.name,
       required this.price,
       required this.controller,
-      required this.id});
+      required this.id,
+      required this.ontap});
 
   @override
   Widget build(BuildContext context) {
@@ -150,21 +159,12 @@ class PriceTrashWidget extends StatelessWidget {
                       color: AppColors.colorNeutrals800),
                 ),
               ),
-              // AppSizes.s30.height,
-              // UDWidget(
-              //   onTap: () async {
-              //     // await controller
-              //     //     .deleteDepositTrash(
-              //     //         data.id,
-              //     //         context);
-              //     //     showDepositTrashDialog(
-              //     //         context,
-              //     //         AppConstants
-              //     //             .LABEL_EDIT_DEPOSIT_TRASH);
-              //   },
-              //   name: AppConstants.LABEL_EDIT_PROFILE,
-              //   icon: Icons.create_rounded,
-              // ),
+              AppSizes.s30.height,
+              UDWidget(
+                onTap: ontap,
+                name: AppConstants.LABEL_EDIT_PROFILE,
+                icon: Icons.create_rounded,
+              ),
               AppSizes.s30.height,
               Obx(
                 () {

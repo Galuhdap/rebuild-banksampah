@@ -199,8 +199,9 @@ class DepositTrashController extends GetxController {
               fistOnPressed: () async {
                 listDepositTrash.clear();
                 await getDepositTrash();
-                Get.back();
-                Get.back();
+                Get.toNamed(AppRoutes.setorSampah);
+                // Get.back();
+                // Get.back();
               },
               // secondButton: AppConstants.LABEL_BERANDA,
               // seccondOnPressed: () async {
