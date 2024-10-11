@@ -15,6 +15,70 @@ void showDepositTrashSucces(
     dynamic Function()? seccondOnPressed,
     required bool showButton}) {
   Get.dialog(
+    barrierDismissible: false,
+    Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Container(
+        padding: AppSizes.symmetricPadding(
+            horizontal: AppSizes.s20, vertical: AppSizes.s30),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SvgPicture.asset(icon),
+            AppSizes.s30.height,
+            Container(
+              padding: AppSizes.symmetricPadding(horizontal: AppSizes.s10),
+              child: Text(
+                label,
+                style: Get.textTheme.labelLarge!.copyWith(
+                  fontSize: AppSizes.s18,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            AppSizes.s40.height,
+            showButton == true
+                ? Row(
+                    children: [
+                      Flexible(
+                        child: Button.outlined(
+                          onPressed: fistOnPressed!,
+                          label: firstButton!,
+                        ),
+                      ),
+                      AppSizes.s22.width,
+                      Flexible(
+                        child: Button.filled(
+                          onPressed: seccondOnPressed!,
+                          label: secondButton!,
+                        ),
+                      ),
+                    ],
+                  )
+                : Button.filled(
+                    onPressed: fistOnPressed!,
+                    label: firstButton!,
+                  ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+void showPriceTrashSucces(
+    {required BuildContext context,
+    required String icon,
+    required String label,
+    required String? firstButton,
+    required dynamic Function()? fistOnPressed,
+    String? secondButton,
+    dynamic Function()? seccondOnPressed,
+    required bool showButton}) {
+  Get.dialog(
     Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),

@@ -55,7 +55,10 @@ class ShoppingScreen extends StatelessWidget {
           body: Column(
             children: [
               SearchComponent(
-                  controller: TextEditingController(), onTap: () {}),
+                controller: TextEditingController(),
+                onTap: () {},
+                onChanged: (value) {},
+              ),
               Expanded(
                 child: ListView.builder(
                   itemCount: 10,

@@ -73,12 +73,20 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/empty-data.png
+  AssetGenImage get emptyData =>
+      const AssetGenImage('assets/images/empty-data.png');
+
   /// File path: assets/images/image-product-add.png
   AssetGenImage get imageProductAdd =>
       const AssetGenImage('assets/images/image-product-add.png');
 
   /// File path: assets/images/logobs.png
   AssetGenImage get logobs => const AssetGenImage('assets/images/logobs.png');
+
+  /// File path: assets/images/manage_user.png
+  AssetGenImage get manageUser =>
+      const AssetGenImage('assets/images/manage_user.png');
 
   /// File path: assets/images/minyak.png
   AssetGenImage get minyak => const AssetGenImage('assets/images/minyak.png');
@@ -97,6 +105,9 @@ class $AssetsImagesGen {
   AssetGenImage get shopping =>
       const AssetGenImage('assets/images/shopping.png');
 
+  /// File path: assets/images/trash.png
+  AssetGenImage get trash => const AssetGenImage('assets/images/trash.png');
+
   /// File path: assets/images/user.png
   AssetGenImage get user => const AssetGenImage('assets/images/user.png');
 
@@ -106,13 +117,16 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        emptyData,
         imageProductAdd,
         logobs,
+        manageUser,
         minyak,
         oval,
         received,
         recycle,
         shopping,
+        trash,
         user,
         withdrawal
       ];

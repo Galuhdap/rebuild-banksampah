@@ -9,11 +9,13 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 class SearchComponent extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback onTap;
+  final Function(String)? onChanged;
 
   const SearchComponent({
     super.key,
     required this.controller,
     required this.onTap,
+    required this.onChanged,
   });
 
   @override
@@ -48,24 +50,25 @@ class SearchComponent extends StatelessWidget {
                     color: AppColors.colorSecondary600, fontSize: AppSizes.s15),
                 enabledBorderColor: AppColors.colorNeutrals0,
                 enabledBorderWidth: AppSizes.s0,
+                onChanged: onChanged,
               ),
             ),
           ),
           AppSizes.s15.width,
-          InkWell(
-            onTap: onTap,
-            child: Container(
-              padding: AppSizes.allPadding(AppSizes.s10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppSizes.s4),
-                color: AppColors.colorBasePrimary,
-              ),
-              child: Icon(
-                Icons.search_rounded,
-                color: AppColors.colorBaseWhite,
-              ),
-            ),
-          ),
+          // InkWell(
+          //   onTap: onTap,
+          //   child: Container(
+          //     padding: AppSizes.allPadding(AppSizes.s10),
+          //     decoration: BoxDecoration(
+          //       borderRadius: BorderRadius.circular(AppSizes.s4),
+          //       color: AppColors.colorBasePrimary,
+          //     ),
+          //     child: Icon(
+          //       Icons.search_rounded,
+          //       color: AppColors.colorBaseWhite,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     ).paddingOnly(

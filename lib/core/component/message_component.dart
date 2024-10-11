@@ -21,4 +21,21 @@ class MessageComponent {
       margin: EdgeInsets.all(AppSizes.s24),
     );
   }
+  static SnackbarController snackbarTop({
+    required String title,
+    required String message,
+    bool isError = false,
+  }) {
+    return Get.snackbar(
+      '',
+      message,
+      titleText: Container(),
+      messageText: Text(
+        message,
+        style: ThemeConfig.labelMedium,
+      ),
+      snackPosition: SnackPosition.TOP,
+      margin: EdgeInsets.all(AppSizes.s24),
+    );
+  }
 }

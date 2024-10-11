@@ -5,18 +5,16 @@ import 'package:rebuild_bank_sampah/core/component/menu_category_component.dart'
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
+import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/home/controllers/home_controller.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
-
-import '../../trash/controllers/deposit_trash_controller.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(DepositTrashController());
     return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (controller) {
@@ -43,31 +41,72 @@ class HomeScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'Hi, Muti',
-                        style: Get.textTheme.titleLarge!.copyWith(
-                            fontSize: AppSizes.s16,
-                            color: AppColors.colorBaseWhite),
+                      Obx(() {
+                        return Text(
+                          'Hi, ${controller.name.value}',
+                          style: Get.textTheme.titleLarge!.copyWith(
+                              fontSize: AppSizes.s16,
+                              color: AppColors.colorBaseWhite),
+                        );
+                      }),
+                      AppSizes.s10.height,
+                      Obx(() {
+                        return Text(
+                          controller.role.value,
+                          style: Get.textTheme.bodyMedium!
+                              .copyWith(color: AppColors.colorBaseWhite),
+                        );
+                      }),
+                      AppSizes.s20.height,
+                      Obx(
+                        () {
+                          return controller.role.value == 'WEIGHER'
+                              ? Text(
+                                  'Berat',
+                                  style: Get.textTheme.bodyMedium!.copyWith(
+                                      color: AppColors.colorBaseWhite),
+                                )
+                              : controller.role.value == 'SUPER_ADMIN'
+                                  ? SizedBox()
+                                  : Text(
+                                      'Saldo',
+                                      style: Get.textTheme.bodyMedium!.copyWith(
+                                          color: AppColors.colorBaseWhite),
+                                    );
+                        },
                       ),
                       AppSizes.s4.height,
-                      Text(
-                        'Kode Pengepul : KP - 0012',
-                        style: Get.textTheme.bodyMedium!
-                            .copyWith(color: AppColors.colorBaseWhite),
-                      ),
-                      AppSizes.s40.height,
-                      Text(
-                        'Saldo',
-                        style: Get.textTheme.bodyMedium!
-                            .copyWith(color: AppColors.colorBaseWhite),
-                      ),
-                      AppSizes.s4.height,
-                      Text(
-                        'Rp. 50.000',
-                        style: Get.textTheme.titleLarge!.copyWith(
-                            fontSize: AppSizes.s24,
-                            color: AppColors.colorBaseWhite),
-                      ),
+                      Obx(() {
+                        return controller.role.value == 'WEIGHER'
+                            ? controller.isLoadingCustomer.value
+                                ? CircularProgressIndicator()
+                                : Text(
+                                   
+                                    '${controller.summaryWeigher.value?.weight ?? 'tunggu...'} KG',
+                                    style: Get.textTheme.titleLarge!.copyWith(
+                                        fontSize: AppSizes.s24,
+                                        color: AppColors.colorBaseWhite),
+                                  )
+                            : controller.role.value == 'SUPER_ADMIN'
+                                ? SizedBox(
+                                    height: 20,
+                                  )
+                                : controller.isLoadingCustomer.value
+                                    ? Center(
+                                        child: CircularProgressIndicator(),
+                                      )
+                                    : Text(
+                                        (controller.balanceCustomer.value
+                                                    ?.balance ??
+                                                0)
+                                            .currencyFormatRp,
+                                        style: Get.textTheme.titleLarge!
+                                            .copyWith(
+                                                fontSize: AppSizes.s24,
+                                                color:
+                                                    AppColors.colorBaseWhite),
+                                      );
+                      })
                     ],
                   ),
                 ),
@@ -91,8 +130,6 @@ class HomeScreen extends StatelessWidget {
             AppSizes.s20.height,
 
             //AdminKoprasi
-
-            //WARGA
 
             //CUSTOMER
             Obx(
@@ -159,7 +196,8 @@ class HomeScreen extends StatelessWidget {
                                       Flexible(
                                         child: MenuKategoriComponent(
                                           onTap: () {
-                                            Get.toNamed(AppRoutes.setorSampah);
+                                            Get.toNamed(
+                                                AppRoutes.customerTrashDeposit);
                                           },
                                           image: Assets.images.recycle.path,
                                           label:
@@ -175,19 +213,22 @@ class HomeScreen extends StatelessWidget {
                                     children: [
                                       Flexible(
                                         child: MenuKategoriComponent(
-                                          onTap: () {
-                                            Get.toNamed(AppRoutes.shop);
-                                          },
+                                          // onTap: () {
+                                          //   Get.toNamed(AppRoutes.shop);
+                                          // },
+                                          onTap: () {},
                                           image: Assets.images.shopping.path,
                                           label:
                                               AppConstants.ACTION_COOPERATIVE,
+                                          disabel: true,
                                         ),
                                       ),
                                       AppSizes.s20.width,
                                       Flexible(
                                         child: MenuKategoriComponent(
+                                          disabel: true,
                                           onTap: () {
-                                            Get.toNamed(AppRoutes.orderSee);
+                                            // Get.toNamed(AppRoutes.orderSee);
                                           },
                                           image: Assets.images.received.path,
                                           label: AppConstants.ACTION_ORDER,
@@ -197,62 +238,131 @@ class HomeScreen extends StatelessWidget {
                                   ),
                                 ],
                               )
-                            : Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                            : controller.role.value == 'SUPER_ADMIN'
+                                ? Column(
                                     children: [
-                                      Flexible(
-                                        child: MenuKategoriComponent(
-                                          onTap: () {
-                                            Get.toNamed(AppRoutes.profile);
-                                          },
-                                          image: Assets.images.user.path,
-                                          label: AppConstants.LABEL_PROFILE,
-                                        ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: MenuKategoriComponent(
+                                              onTap: () {
+                                                Get.toNamed(AppRoutes.profile);
+                                              },
+                                              image: Assets.images.user.path,
+                                              label: AppConstants.LABEL_PROFILE,
+                                            ),
+                                          ),
+                                          AppSizes.s20.width,
+                                          Flexible(
+                                            child: MenuKategoriComponent(
+                                              onTap: () {
+                                                // Get.toNamed(
+                                                //     AppRoutes.withdrawFunds);
+                                              },
+                                              image:
+                                                  Assets.images.withdrawal.path,
+                                              label: AppConstants
+                                                  .LABEL_WITHDRAW_FUNDS,
+                                              disabel: true,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      AppSizes.s20.width,
-                                      Flexible(
-                                        child: MenuKategoriComponent(
-                                          onTap: () {
-                                            //Get.toNamed(AppRoutes.withdrawFunds);
-                                          },
-                                          image: Assets.images.withdrawal.path,
-                                          label: AppConstants.LABEL_WITHDRAW,
-                                        ),
+                                      AppSizes.s17.height,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: MenuKategoriComponent(
+                                              onTap: () {
+                                                Get.toNamed(
+                                                    AppRoutes.priceTrash);
+                                              },
+                                              image: Assets.images.trash.path,
+                                              label: AppConstants
+                                                  .LABEL_PRICE_TRASH,
+                                            ),
+                                          ),
+                                          AppSizes.s20.width,
+                                          Flexible(
+                                            child: MenuKategoriComponent(
+                                              onTap: () {
+                                                //Get.toNamed(AppRoutes.setorSampah);
+                                              },
+                                              image:
+                                                  Assets.images.manageUser.path,
+                                              label: AppConstants
+                                                  .LABEL_REGISTER_USER,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
-                                  ),
-                                  AppSizes.s17.height,
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                  )
+                                : Column(
                                     children: [
-                                      Flexible(
-                                        child: MenuKategoriComponent(
-                                          onTap: () {
-                                            Get.toNamed(AppRoutes.shopAdmin);
-                                          },
-                                          image: Assets.images.shopping.path,
-                                          label:
-                                              AppConstants.ACTION_COOPERATIVE,
-                                        ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: MenuKategoriComponent(
+                                              onTap: () {
+                                                Get.toNamed(AppRoutes.profile);
+                                              },
+                                              image: Assets.images.user.path,
+                                              label: AppConstants.LABEL_PROFILE,
+                                            ),
+                                          ),
+                                          AppSizes.s20.width,
+                                          Flexible(
+                                            child: MenuKategoriComponent(
+                                              onTap: () {
+                                                //Get.toNamed(AppRoutes.withdrawFunds);
+                                              },
+                                              image:
+                                                  Assets.images.withdrawal.path,
+                                              label:
+                                                  AppConstants.LABEL_WITHDRAW,
+                                            ),
+                                          ),
+                                        ],
                                       ),
-                                      AppSizes.s20.width,
-                                      Flexible(
-                                        child: MenuKategoriComponent(
-                                          onTap: () {
-                                            //Get.toNamed(AppRoutes.setorSampah);
-                                          },
-                                          image: Assets.images.received.path,
-                                          label: AppConstants.ACTION_ORDER,
-                                        ),
+                                      AppSizes.s17.height,
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            child: MenuKategoriComponent(
+                                              onTap: () {
+                                                Get.toNamed(
+                                                    AppRoutes.shopAdmin);
+                                              },
+                                              image:
+                                                  Assets.images.shopping.path,
+                                              label: AppConstants
+                                                  .ACTION_COOPERATIVE,
+                                            ),
+                                          ),
+                                          AppSizes.s20.width,
+                                          Flexible(
+                                            child: MenuKategoriComponent(
+                                              onTap: () {
+                                                //Get.toNamed(AppRoutes.setorSampah);
+                                              },
+                                              image:
+                                                  Assets.images.received.path,
+                                              label: AppConstants.ACTION_ORDER,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ],
-                                  ),
-                                ],
-                              );
+                                  );
               },
             ),
           ],

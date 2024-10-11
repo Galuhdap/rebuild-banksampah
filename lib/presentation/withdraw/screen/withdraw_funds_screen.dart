@@ -36,7 +36,11 @@ class WithdrawFundsScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          SearchComponent(controller: TextEditingController(), onTap: () {}),
+          SearchComponent(
+            controller: TextEditingController(),
+            onTap: () {},
+            onChanged: (value) {},
+          ),
           Stack(
             alignment: Alignment.bottomCenter,
             children: [

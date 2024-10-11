@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/search_component.dart';
 import 'package:rebuild_bank_sampah/core/component/transaction_card_component.dart';
+import 'package:rebuild_bank_sampah/core/component/update_delete_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_dialog.dart';
+import 'package:rebuild_bank_sampah/core/utils/extensions/date_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
+import 'package:rebuild_bank_sampah/presentation/home/controllers/home_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/deposit_trash_controller.dart';
+import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
-class SetorSampahScreen extends StatelessWidget {
+class SetorSampahScreen extends StatefulWidget {
   const SetorSampahScreen({super.key});
 
+  @override
+  State<SetorSampahScreen> createState() => _SetorSampahScreenState();
+}
+
+class _SetorSampahScreenState extends State<SetorSampahScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<DepositTrashController>(
@@ -20,9 +30,11 @@ class SetorSampahScreen extends StatelessWidget {
           return Scaffold(
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                // controller.getTrash();
-                showDepositTrashDialog(
-                    context, AppConstants.LABEL_DEPOSIT_TRASH);
+                controller.selectedCustomerId.value = '';
+                controller.selectedTrashId.value = '';
+                controller.weight.text = '';
+                controller.totalPriceTrash.value = 0;
+                Get.toNamed(AppRoutes.addTrashDeposit);
               },
               backgroundColor: AppColors.colorBasePrimary,
               child: Icon(
@@ -39,7 +51,7 @@ class SetorSampahScreen extends StatelessWidget {
               ),
               leading: IconButton(
                 onPressed: () {
-                  Get.back();
+                  Get.offAndToNamed(AppRoutes.home);
                 },
                 icon: Icon(
                   Icons.arrow_back_rounded,
@@ -50,94 +62,126 @@ class SetorSampahScreen extends StatelessWidget {
             body: Column(
               children: [
                 SearchComponent(
-                    controller: controller.searchDepositTrash, onTap: () {}),
-                
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: 10,
-                    itemBuilder: (BuildContext context, index) {
-                      return TransactionCardComponent(
-                        kode: 'KP - 001',
-                        label: 'Mutiara Ayu',
-                        date: '26 Juli 2024',
-                        amount: '2 Kg',
-                        isStatus: false,
-                        onTap: () {
-                          showModalBottomSheet<void>(
-                            context: context,
-                            builder: (BuildContext context) {
-                              return Container(
-                                height: AppSizes.s200,
+                  controller: controller.searchDepositTrash,
+                  onTap: () {},
+                  onChanged: (value) {
+                    controller.searchQuery.value = value;
+                    controller.filterSearchTrash();
+                  },
+                ),
+                Obx(
+                  () {
+                    return controller.isloadingDepositTrash.value
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : controller.listDepositTrash.isEmpty
+                            ? Container(
                                 padding: AppSizes.symmetricPadding(
-                                    horizontal: AppSizes.s24),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(AppSizes.s16),
-                                    topRight: Radius.circular(AppSizes.s16),
+                                    vertical: AppSizes.s150),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Assets.images.emptyData.image(scale: 4),
+                                      Text(
+                                        'Data Kosong',
+                                        style: Get.textTheme.titleLarge!
+                                            .copyWith(fontSize: AppSizes.s18),
+                                      ),
+                                      Text(
+                                        'Tidak ada data yang bisa ditampilkan sekarang.',
+                                        style: Get.textTheme.titleLarge!
+                                            .copyWith(
+                                                fontSize: AppSizes.s12,
+                                                fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
                                   ),
-                                  color: AppColors.colorBaseWhite,
                                 ),
-                                child: Column(
-                                  children: [
-                                    AppSizes.s16.height,
-                                    Center(
-                                      child: Container(
-                                        width: AppSizes.s40,
-                                        height: AppSizes.s4,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                                AppSizes.s2),
-                                            color: AppColors.colorNeutrals200),
-                                      ),
-                                    ),
-                                    AppSizes.s26.height,
-                                    InkWell(
+                              )
+                            : Expanded(
+                                child: ListView.builder(
+                                  itemCount: controller.searchQuery.isNotEmpty
+                                      ? controller.searchDepositTrashs.length
+                                      : controller.listDepositTrash.length,
+                                  itemBuilder: (BuildContext context, index) {
+                                    var data = controller.searchQuery.isNotEmpty
+                                        ? controller.searchDepositTrashs[index]
+                                        : controller.listDepositTrash[index];
+                                    return TransactionCardComponent(
+                                      kode: data.user.profile.kdUser,
+                                      label: data.user.profile.name,
+                                      date: data.createdAt
+                                          .toDateddmmmyyyyFormattedString(),
+                                      amount: '${data.weight} Kg',
+                                      isStatus: false,
                                       onTap: () {
-                                        showDepositTrashDialog(
-                                            context,
-                                            AppConstants
-                                                .LABEL_EDIT_DEPOSIT_TRASH);
+                                        showModalBottom(
+                                          context,
+                                          Column(
+                                            children: [
+                                              AppSizes.s8.height,
+                                              Center(
+                                                child: Container(
+                                                  width: AppSizes.s56,
+                                                  height: AppSizes.s4,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              AppSizes.s8),
+                                                      color: AppColors
+                                                          .colorNeutrals800),
+                                                ),
+                                              ),
+                                              // AppSizes.s30.height,
+                                              // UDWidget(
+                                              //   onTap: () async {
+                                              //     // await controller
+                                              //     //     .deleteDepositTrash(
+                                              //     //         data.id,
+                                              //     //         context);
+                                              //     //     showDepositTrashDialog(
+                                              //     //         context,
+                                              //     //         AppConstants
+                                              //     //             .LABEL_EDIT_DEPOSIT_TRASH);
+                                              //   },
+                                              //   name: AppConstants
+                                              //       .LABEL_EDIT_PROFILE,
+                                              //   icon: Icons.create_rounded,
+                                              // ),
+                                              AppSizes.s30.height,
+                                              Obx(
+                                                () {
+                                                  return controller
+                                                          .isloadingDeleteDepositTrash
+                                                          .value
+                                                      ? Center(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                        )
+                                                      : UDWidget(
+                                                          onTap: () async {
+                                                            await controller
+                                                                .deleteDepositTrash(
+                                                                    data.id,
+                                                                    context);
+                                                          },
+                                                          name: AppConstants
+                                                              .LABEL_DELETE,
+                                                          icon: Icons.delete,
+                                                        );
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        );
                                       },
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.create_rounded,
-                                            color: AppColors.colorPrimary600,
-                                          ),
-                                          AppSizes.s24.width,
-                                          Text(
-                                            AppConstants.LABEL_EDIT_PROFILE,
-                                            style: Get.textTheme.titleLarge!
-                                                .copyWith(
-                                                    fontSize: AppSizes.s18),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    AppSizes.s37.height,
-                                    Row(
-                                      children: [
-                                        Icon(
-                                          Icons.delete,
-                                          color: AppColors.colorBaseError,
-                                        ),
-                                        AppSizes.s24.width,
-                                        Text(
-                                          AppConstants.LABEL_DELETE,
-                                          style: Get.textTheme.titleLarge!
-                                              .copyWith(fontSize: AppSizes.s18),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                    );
+                                  },
                                 ),
                               );
-                            },
-                          );
-                        },
-                      );
-                    },
-                  ),
+                  },
                 ),
               ],
             ).paddingSymmetric(horizontal: AppSizes.s20),

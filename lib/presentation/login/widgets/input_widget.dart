@@ -15,6 +15,7 @@ class InputWidget extends StatelessWidget {
   final bool suffixIcon;
   final bool? readOnly;
   final TextStyle? hintStyle;
+  final Function(String)? onChanged;
 
   const InputWidget({
     super.key,
@@ -26,7 +27,8 @@ class InputWidget extends StatelessWidget {
     this.isObscure = false,
     this.suffixIcon = false,
     this.readOnly = false,
-    this.hintStyle
+    this.hintStyle,
+    this.onChanged,
   });
 
   @override
@@ -50,6 +52,7 @@ class InputWidget extends StatelessWidget {
           suffixIcon: suffixIcon,
           readOnly: readOnly!,
           hintStyle: hintStyle,
+          onChanged: onChanged,
         ),
       ],
     );

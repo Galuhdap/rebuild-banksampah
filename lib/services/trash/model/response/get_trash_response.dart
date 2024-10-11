@@ -39,7 +39,7 @@ class GetTrashResponse {
 class GroupTrash {
     final String id;
     final String nama;
-    final int berat;
+    final num berat;
     final int harga;
     final DateTime createdAt;
     final DateTime updatedAt;

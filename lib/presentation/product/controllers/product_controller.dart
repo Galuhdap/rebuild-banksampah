@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
-import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 import 'package:rebuild_bank_sampah/services/product/model/request/product_request.dart';
 import 'package:rebuild_bank_sampah/services/product/model/response/get_product.dart';
 import 'package:rebuild_bank_sampah/services/product/repository/product_data_repository.dart';

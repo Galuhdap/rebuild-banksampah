@@ -20,6 +20,7 @@ class CustomTextField extends StatefulWidget {
   final TextStyle? hintStyle;
   final Color enabledBorderColor;
   final double? enabledBorderWidth;
+  final Function(String)? onChanged;
 
   const CustomTextField(
       {Key? key,
@@ -37,6 +38,7 @@ class CustomTextField extends StatefulWidget {
       this.hintStyle,
       this.enabledBorderColor = AppColors.colorSecondary400,
       this.enabledBorderWidth,
+      this.onChanged,
       this.readOnly = false})
       : _controller = controller,
         super(key: key);
@@ -66,6 +68,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       obscureText: isObscurePwd,
       autovalidateMode: widget.autovalidateMode,
       keyboardType: widget.keyboardType,
+      onChanged: widget.onChanged,
       decoration: InputDecoration(
         filled: true,
         fillColor: widget.fillColor,

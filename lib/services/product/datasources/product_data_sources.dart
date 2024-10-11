@@ -46,14 +46,6 @@ class ProductDataSources extends ApiService {
           },
         ),
       );
-      // final response = await post(NetworkConstants.POST_PRODUCT_URL,
-      //     header: {
-      //       "Content-Type": "application/json",
-      //       "Authorization": "Bearer ${prefs}",
-      //     },
-      //     body: formData);
-
-      print(response);
 
       return Right(PostProductResponse.fromJson(response.data));
     } catch (e) {

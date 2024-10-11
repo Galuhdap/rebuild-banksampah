@@ -42,7 +42,7 @@ class ProductScreen extends StatelessWidget {
               ),
               leading: IconButton(
                 onPressed: () {
-                   Get.offAllNamed(AppRoutes.home);
+                  Get.offAllNamed(AppRoutes.home);
                 },
                 icon: Icon(
                   Icons.arrow_back_rounded,
@@ -53,7 +53,10 @@ class ProductScreen extends StatelessWidget {
             body: Column(
               children: [
                 SearchComponent(
-                    controller: TextEditingController(), onTap: () {}),
+                  controller: TextEditingController(),
+                  onTap: () {},
+                  onChanged: (value) {},
+                ),
                 Obx(
                   () {
                     return controller.isLoadingProduct.value
