@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
+import 'package:rebuild_bank_sampah/core/component/search_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
+import 'package:rebuild_bank_sampah/core/utils/extensions/date_ext.dart';
+import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/order/controllers/order_controller.dart';
+import 'package:rebuild_bank_sampah/presentation/order/screen/detail_order_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/order/widgets/card_order_item.dart';
 import 'package:rebuild_bank_sampah/presentation/withdraw/widget/menu_button_widget.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
+import 'package:rebuild_bank_sampah/services/order/model/response/get_order_customer_response.dart';
 
 class OrderSeeScreen extends StatelessWidget {
   const OrderSeeScreen({super.key});
@@ -25,7 +31,7 @@ class OrderSeeScreen extends StatelessWidget {
             ),
             leading: IconButton(
               onPressed: () {
-                Get.back();
+                Get.offAllNamed(AppRoutes.home);
               },
               icon: Icon(
                 Icons.arrow_back_rounded,
@@ -36,7 +42,14 @@ class OrderSeeScreen extends StatelessWidget {
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AppSizes.s12.height,
+              SearchComponent(
+                controller: controller.searchOrderSeeAdmin,
+                onTap: () {},
+                onChanged: (value) {
+                  controller.searchQuery.value = value;
+                  controller.filterSearchTrash();
+                },
+              ).paddingSymmetric(horizontal: AppSizes.s16),
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
@@ -51,6 +64,8 @@ class OrderSeeScreen extends StatelessWidget {
                           child: MenuButtonWidget(
                             label: AppConstants.ACTION_PENDING,
                             onTap: () {
+                              controller.searchOrderSeeAdmin.clear();
+                              controller.searchQuery.value = '';
                               controller.setActiveButton(0);
                             },
                             isActive: controller.activeButtonIndex.value == 0,
@@ -61,6 +76,8 @@ class OrderSeeScreen extends StatelessWidget {
                           child: MenuButtonWidget(
                             label: AppConstants.ACTION_FINISH,
                             onTap: () {
+                              controller.searchOrderSeeAdmin.clear();
+                              controller.searchQuery.value = '';
                               controller.setActiveButton(1);
                             },
                             isActive: controller.activeButtonIndex.value == 1,
@@ -71,6 +88,8 @@ class OrderSeeScreen extends StatelessWidget {
                           child: MenuButtonWidget(
                             label: AppConstants.ACTION_CENCEL,
                             onTap: () {
+                              controller.searchOrderSeeAdmin.clear();
+                              controller.searchQuery.value = '';
                               controller.setActiveButton(2);
                             },
                             isActive: controller.activeButtonIndex.value == 2,
@@ -84,56 +103,74 @@ class OrderSeeScreen extends StatelessWidget {
               AppSizes.s5.height,
               Obx(
                 () {
-                  return controller.activeButtonIndex.value == 0
-                      ? Expanded(
-                          child: ListView.builder(
-                            padding: AppSizes.onlyPadding(top: AppSizes.s15),
-                            itemCount: 10,
-                            itemBuilder: (BuildContext context, index) {
-                              return CardOrderItem(
-                                date: '26 Juli 2024, 16:08',
-                                price: 'Rp. 15.0000',
-                                invoice: 'P-7I539743',
-                                statusColor: AppColors.colorWarning300,
-                                onTap: () {
-                                  Get.toNamed(AppRoutes.detailOrder);
-                                },
-                              );
-                            },
-                          ),
+                  List<OrderCustomer> filteredOrders =
+                      controller.listOrderCustomer.where((order) {
+                    if (controller.activeButtonIndex.value == 0) {
+                      return order.status == 'PENDING';
+                    } else if (controller.activeButtonIndex.value == 1) {
+                      return order.status == 'DONE';
+                    } else {
+                      return order.status == 'CANCEL';
+                    }
+                  }).toList();
+                  return controller.isLoadingOrder.value
+                      ? Center(
+                          child: CircularProgressIndicator(),
                         )
-                      : controller.activeButtonIndex.value == 1
-                          ? Expanded(
-                              child: ListView.builder(
-                                padding:
-                                    AppSizes.onlyPadding(top: AppSizes.s15),
-                                itemCount: 10,
-                                itemBuilder: (BuildContext context, index) {
-                                  return CardOrderItem(
-                                    date: '26 Juli 2024, 16:08',
-                                    price: 'Rp. 15.000',
-                                    invoice: 'P-7I88888',
-                                    statusColor: AppColors.colorPrimary800,
-                                    onTap: () {
-                                      Get.toNamed(AppRoutes.detailOrder);
-                                    },
-                                  );
-                                },
+                      : filteredOrders.isEmpty
+                          ? Container(
+                              padding: AppSizes.symmetricPadding(
+                                  vertical: AppSizes.s150),
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Assets.images.emptyData.image(scale: 4),
+                                    Text(
+                                      'Data Kosong',
+                                      style: Get.textTheme.titleLarge!
+                                          .copyWith(fontSize: AppSizes.s18),
+                                    ),
+                                    Text(
+                                      'Tidak ada pesanan untuk status ini.',
+                                      style: Get.textTheme.titleLarge!.copyWith(
+                                          fontSize: AppSizes.s12,
+                                          fontWeight: FontWeight.w400),
+                                    ),
+                                  ],
+                                ),
                               ),
                             )
                           : Expanded(
                               child: ListView.builder(
                                 padding:
                                     AppSizes.onlyPadding(top: AppSizes.s15),
-                                itemCount: 10,
+                                itemCount: controller.searchQuery.isNotEmpty
+                                    ? controller.searchListOrderCustomer.length
+                                    : filteredOrders.length,
                                 itemBuilder: (BuildContext context, index) {
+                                  OrderCustomer order =
+                                      controller.searchQuery.isNotEmpty
+                                          ? controller
+                                              .searchListOrderCustomer[index]
+                                          : filteredOrders[index];
                                   return CardOrderItem(
-                                    date: '26 Juli 2024, 16:08',
-                                    price: 'Rp. 15.000',
-                                    invoice: 'P-7I66666',
-                                    statusColor: AppColors.colorBaseError,
+                                    date: order.createdAt
+                                        .toFormattedDateDayTimeString(),
+                                    price: order.totalPrice.currencyFormatRp,
+                                    invoice: order.orderCode,
+                                    statusColor:
+                                        controller.activeButtonIndex.value == 0
+                                            ? AppColors.colorWarning300
+                                            : controller.activeButtonIndex
+                                                        .value ==
+                                                    1
+                                                ? AppColors.colorPrimary800
+                                                : AppColors.colorBaseError,
                                     onTap: () {
-                                      Get.toNamed(AppRoutes.detailOrder);
+                                      Get.to(DetailOrderScreen(
+                                        data: order,
+                                      ));
                                     },
                                   );
                                 },

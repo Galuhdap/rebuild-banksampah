@@ -53,6 +53,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/mark.svg
   SvgGenImage get mark => const SvgGenImage('assets/icons/mark.svg');
 
+  /// File path: assets/icons/ph_question.svg
+  SvgGenImage get phQuestion =>
+      const SvgGenImage('assets/icons/ph_question.svg');
+
   /// File path: assets/icons/profile.svg
   SvgGenImage get profile => const SvgGenImage('assets/icons/profile.svg');
 
@@ -66,12 +70,25 @@ class $AssetsIconsGen {
   SvgGenImage get succes => const SvgGenImage('assets/icons/succes.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values =>
-      [checklist, history, home, mark, profile, question, shop, succes];
+  List<SvgGenImage> get values => [
+        checklist,
+        history,
+        home,
+        mark,
+        phQuestion,
+        profile,
+        question,
+        shop,
+        succes
+      ];
 }
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
+
+  /// File path: assets/images/box_kosong.png
+  AssetGenImage get boxKosong =>
+      const AssetGenImage('assets/images/box_kosong.png');
 
   /// File path: assets/images/empty-data.png
   AssetGenImage get emptyData =>
@@ -84,6 +101,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/logo_blitar.png
   AssetGenImage get logoBlitar =>
       const AssetGenImage('assets/images/logo_blitar.png');
+
+  /// File path: assets/images/logo_bs.png
+  AssetGenImage get logoBs => const AssetGenImage('assets/images/logo_bs.png');
 
   /// File path: assets/images/logo_tuturi.png
   AssetGenImage get logoTuturi =>
@@ -129,9 +149,11 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        boxKosong,
         emptyData,
         imageProductAdd,
         logoBlitar,
+        logoBs,
         logoTuturi,
         logoUntag,
         logobs,
@@ -147,12 +169,30 @@ class $AssetsImagesGen {
       ];
 }
 
+class $AssetsLottieGen {
+  const $AssetsLottieGen();
+
+  /// File path: assets/lottie/loading_sampah.json
+  String get loadingSampah => 'assets/lottie/loading_sampah.json';
+
+  /// File path: assets/lottie/loading_transaction.json
+  String get loadingTransaction => 'assets/lottie/loading_transaction.json';
+
+  /// File path: assets/lottie/loading_universal.json
+  String get loadingUniversal => 'assets/lottie/loading_universal.json';
+
+  /// List of all assets
+  List<String> get values =>
+      [loadingSampah, loadingTransaction, loadingUniversal];
+}
+
 class Assets {
   Assets._();
 
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLottieGen lottie = $AssetsLottieGen();
 }
 
 class AssetGenImage {

@@ -1,14 +1,9 @@
 import 'dart:developer';
 
-import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/message_component.dart';
-import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
-import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_message_dialog.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
-import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/request/price_trash_request.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_trash_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/repository/trash_respository.dart';
@@ -28,10 +23,6 @@ class TrashController extends GetxController {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
-
-    // CurrencyTextInputFormatter currencyFormatter =
-    //   CurrencyTextInputFormatter(locale: 'ID', decimalDigits: 0, name: '');
- 
 
   @override
   void onInit() {
@@ -65,12 +56,12 @@ class TrashController extends GetxController {
   Future<void> postDepositTrash(BuildContext context) async {
     isloadingAddTrash.value = true;
     try {
-      double? numericValue = double.parse(weightController.text);
+      // double? numericValue = double.parse(weightController.text);
       String inputText = priceController.text.replaceAll(RegExp(r'[^0-9]'), '');
       final data = PriceTrashRequest(
         name: nameController.text,
         price: int.parse(inputText),
-        weight: numericValue,
+        weight: 1,
       );
 
       final response = await trashRepository.postTrashSuper(data);
@@ -87,17 +78,8 @@ class TrashController extends GetxController {
             message: 'Price Trash added successfully',
             isError: false,
           );
-          showDepositTrashSucces(
-              context: context,
-              icon: Assets.icons.succes.path,
-              label: 'Berhasil Disimpan',
-              firstButton: AppConstants.LABEL_BACK,
-              fistOnPressed: () async {
-                listTrash.clear();
-                await getTrash();
-                Get.toNamed(AppRoutes.priceTrash);
-              },
-              showButton: false);
+          listTrash.clear();
+          await getTrash();
 
           update();
         },
@@ -116,14 +98,11 @@ class TrashController extends GetxController {
       required String id}) async {
     isloadingAddTrash.value = true;
     try {
-
-
       final response = await trashRepository.editTrashSuper(data, id);
 
       response.fold(
         (failure) {
           inspect(failure.code);
-          Get.back();
           update();
         },
         (response) async {
@@ -132,19 +111,8 @@ class TrashController extends GetxController {
             message: 'Price Trash Edit successfully',
             isError: false,
           );
-          showDepositTrashSucces(
-              context: context,
-              icon: Assets.icons.succes.path,
-              label: 'Berhasil Disimpan',
-              firstButton: AppConstants.LABEL_BACK,
-              fistOnPressed: () async {
-                listTrash.clear();
-                await getTrash();
-                Get.toNamed(AppRoutes.priceTrash);
-                // Get.back();
-                // Get.back();
-              },
-              showButton: false);
+          listTrash.clear();
+          await getTrash();
 
           update();
         },
@@ -172,25 +140,27 @@ class TrashController extends GetxController {
             message: 'Hapus Sampah Succes',
             isError: false,
           );
-          showDepositTrashSucces(
-              context: context,
-              icon: Assets.icons.succes.path,
-              label: AppConstants.LABEL_DELETE_DEPOSIT_TRASH_SUCCES,
-              firstButton: AppConstants.LABEL_BACK,
-              fistOnPressed: () async {
-                listTrash.clear();
-                await getTrash();
-                Get.back();
-                Get.back();
-                //Get.toNamed(AppRoutes.priceTrash);
-              },
-              // secondButton: AppConstants.LABEL_BERANDA,
-              // seccondOnPressed: () async {
-              //   listTrash.clear();
-              //   await getTrash();
-              //   Get.offAllNamed(AppRoutes.home);
-              // },
-              showButton: false);
+          listTrash.clear();
+          await getTrash();
+          // showDepositTrashSucces(
+          //     context: context,
+          //     icon: Assets.icons.succes.path,
+          //     label: AppConstants.LABEL_DELETE_DEPOSIT_TRASH_SUCCES,
+          //     firstButton: AppConstants.LABEL_BACK,
+          //     fistOnPressed: () async {
+          //       listTrash.clear();
+          //       await getTrash();
+          //       Get.back();
+          //       Get.back();
+          //       //Get.toNamed(AppRoutes.priceTrash);
+          //     },
+          //     // secondButton: AppConstants.LABEL_BERANDA,
+          //     // seccondOnPressed: () async {
+          //     //   listTrash.clear();
+          //     //   await getTrash();
+          //     //   Get.offAllNamed(AppRoutes.home);
+          //     // },
+          //     showButton: false);
 
           update();
         },

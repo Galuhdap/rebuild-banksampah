@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       InputWidget(
-                        label: AppConstants.LABEL_EMAIL,
+                        label: AppConstants.LABEL_USERNAME,
                         hintText: AppConstants.HINT_EMAIL,
                         controller: controller.usernameController,
                         textInputType: TextInputType.name,

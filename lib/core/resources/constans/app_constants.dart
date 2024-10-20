@@ -9,7 +9,7 @@ class AppConstants {
   static const String LABEL_INPUT_STOCK_PRODUK = "Masukkan stok";
   static const String LABEL_PASSWORD = "Password";
   static const String LABEL_NAME = "Nama";
-  static const String LABEL_NOKTP = "No KTP";
+  static const String LABEL_NOKTP = "Verification Card";
   static const String LABEL_ADDRESS = "Alamat";
   static const String LABEL_PHONE_NUMBER = "No Telp";
 
@@ -21,8 +21,6 @@ class AppConstants {
   static const String LABEL_REGISTER_USER = "Register User";
   static const String LABEL_ADD_REGISTER_USER = "Tambah User";
   static const String LABEL_USERNAME = "Username";
-
-
   
   static const String LABEL_DEPOSIT_TRASH = "Setor Sampah";
   static const String LABEL_EDIT_DEPOSIT_TRASH = "Edit Setor Sampah";
@@ -30,6 +28,8 @@ class AppConstants {
   static const String LABEL_WEIGHT_TRASH = "Berat Sampah";
   static const String LABEL_PRICEs_TRASH = "Harga Sampah";
   static const String LABEL_BACK = "Kembali";
+  static const String LABEL_NO = "Tidak";
+  static const String LABEL_YES = "Ya";
 
   static const String LABEL_WITHDRAW_FUNDS= "Penarikan Dana";
   static const String LABEL_WITHDRAW= "Pengajuan Penarikan Dana";
@@ -75,6 +75,7 @@ class AppConstants {
   static const String LABEL_DEPOSIT_TRASH_SUCCES = "Setor Sampah Berhasil!";
   static const String LABEL_REGISTER_SUCCES = "Register Berhasil!";
   static const String LABEL_DELETE_DEPOSIT_TRASH_SUCCES = "Hapus Sampah Berhasil!";
+  static const String LABEL_DELETE_QUESTION = "Apakah anda ingin menghapus?";
   static const String LABEL_PROCESS_ORDER = "Pesanan anda sedang diproses!";
   static const String LABEL_WITHDRAW_FUNDS_QUESTION = "Apakah anda ingin menyetujuinya?";
   static const String LABEL_SEE_HISTORY = "Lihat History";

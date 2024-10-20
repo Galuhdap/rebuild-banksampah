@@ -5,10 +5,14 @@ import 'package:rebuild_bank_sampah/core/component/card_tile_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
+import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
+import 'package:rebuild_bank_sampah/presentation/order/widgets/card_order_tile_widget.dart';
+import 'package:rebuild_bank_sampah/services/order/model/response/get_order_customer_response.dart';
 
 class DetailOrderScreen extends StatelessWidget {
-  const DetailOrderScreen({super.key});
+  final OrderCustomer? data;
+  const DetailOrderScreen({super.key, this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +45,7 @@ class DetailOrderScreen extends StatelessWidget {
                     Get.textTheme.bodyLarge!.copyWith(fontSize: AppSizes.s16),
               ),
               Text(
-                'P-7I539743',
+                data!.orderCode,
                 style:
                     Get.textTheme.bodyLarge!.copyWith(fontSize: AppSizes.s16),
               ),
@@ -56,12 +60,14 @@ class DetailOrderScreen extends StatelessWidget {
           AppSizes.s20.height,
           Expanded(
             child: ListView.builder(
-              itemCount: 3,
+              itemCount: data!.products.length,
               itemBuilder: (BuildContext context, index) {
-                return CardTile(
-                  title: 'Minyak 1 Liter',
-                  stock: '20',
-                  price: 'Rp 15.000',
+                var datas = data!.products[index];
+                return CardOrderTileWidget(
+                  imageUrl: datas.image,
+                  title: datas.name,
+                  quantity: datas.quantity,
+                  price: datas.price.currencyFormatRp,
                   onTap: () {
                     //controller.changeStatus(index);
                   },
@@ -105,7 +111,7 @@ class DetailOrderScreen extends StatelessWidget {
                 ),
                 AppSizes.s20.width,
                 Text(
-                  '0',
+                  data!.totalPrice.currencyFormatRp,
                   style: Get.textTheme.titleLarge!.copyWith(
                       fontSize: AppSizes.s17,
                       color: AppColors.colorBasePrimary),
@@ -113,7 +119,11 @@ class DetailOrderScreen extends StatelessWidget {
               ],
             ),
             AppSizes.s20.height,
-            Button.outlined(onPressed: () {}, label: 'Batalkan Pesanan', borderRadius: AppSizes.s4,)
+            Button.outlined(
+              onPressed: () {},
+              label: 'Batalkan Pesanan',
+              borderRadius: AppSizes.s4,
+            )
           ],
         ),
       ),

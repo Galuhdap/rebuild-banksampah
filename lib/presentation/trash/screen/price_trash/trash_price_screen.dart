@@ -7,10 +7,12 @@ import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_dialog.dart';
+import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_message_dialog.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/trash_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/edit_price_trash_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/loading_delete_price_trash.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
 class TrashPriceScreen extends StatelessWidget {
@@ -166,21 +168,46 @@ class PriceTrashWidget extends StatelessWidget {
                 icon: Icons.create_rounded,
               ),
               AppSizes.s30.height,
-              Obx(
-                () {
-                  return controller.isloadingDeletePriceTrash.value
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : UDWidget(
-                          onTap: () async {
-                            await controller.deletePriceTrash(id, context);
-                          },
-                          name: AppConstants.LABEL_DELETE,
-                          icon: Icons.delete,
-                        );
+              UDWidget(
+                onTap: () async {
+                  showDepositTrashSucces(
+                      context: context,
+                      icon: Assets.icons.phQuestion.path,
+                      label: AppConstants.LABEL_DELETE_QUESTION,
+                      firstButton: AppConstants.LABEL_NO,
+                      fistOnPressed: () async {
+                        Get.back();
+                        Get.back();
+                        //Get.toNamed(AppRoutes.priceTrash);
+                      },
+                      secondButton: AppConstants.LABEL_YES,
+                      seccondOnPressed: () async {
+                        // listTrash.clear();
+                        // await getTrash();
+                        Get.to(LoadingDeletePriceTrashScreen());
+                        await controller.deletePriceTrash(id, context);
+                      },
+                      showButton: true);
+                  // await controller.deletePriceTrash(id, context);
                 },
+                name: AppConstants.LABEL_DELETE,
+                icon: Icons.delete,
               ),
+              // Obx(
+              //   () {
+              //     return controller.isloadingDeletePriceTrash.value
+              //         ? Center(
+              //             child: CircularProgressIndicator(),
+              //           )
+              //         : UDWidget(
+              //             onTap: () async {
+              //               await controller.deletePriceTrash(id, context);
+              //             },
+              //             name: AppConstants.LABEL_DELETE,
+              //             icon: Icons.delete,
+              //           );
+              //   },
+              // ),
             ],
           ),
         );

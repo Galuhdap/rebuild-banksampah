@@ -8,6 +8,7 @@ import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/home/controllers/home_controller.dart';
+import 'package:rebuild_bank_sampah/presentation/profile/controllers/profile_controller.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -15,6 +16,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Get.put(ProfileController());
     return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (controller) {
@@ -219,22 +221,22 @@ class HomeScreen extends StatelessWidget {
                                       children: [
                                         Flexible(
                                           child: MenuKategoriComponent(
-                                            // onTap: () {
-                                            //   Get.toNamed(AppRoutes.shop);
-                                            // },
-                                            onTap: () {},
+                                            onTap: () {
+                                              Get.toNamed(AppRoutes.shop);
+                                            },
+                                            // onTap: () {},
                                             image: Assets.images.shopping.path,
                                             label:
                                                 AppConstants.ACTION_COOPERATIVE,
-                                            disabel: true,
+                                            disabel: false,
                                           ),
                                         ),
                                         AppSizes.s20.width,
                                         Flexible(
                                           child: MenuKategoriComponent(
-                                            disabel: true,
+                                            disabel: false,
                                             onTap: () {
-                                              // Get.toNamed(AppRoutes.orderSee);
+                                            Get.toNamed(AppRoutes.orderSee);
                                             },
                                             image: Assets.images.received.path,
                                             label: AppConstants.ACTION_ORDER,
@@ -365,7 +367,7 @@ class HomeScreen extends StatelessWidget {
                                             Flexible(
                                               child: MenuKategoriComponent(
                                                 onTap: () {
-                                                  //Get.toNamed(AppRoutes.setorSampah);
+                                                  Get.toNamed(AppRoutes.orderAdminKoprasi);
                                                 },
                                                 image:
                                                     Assets.images.received.path,

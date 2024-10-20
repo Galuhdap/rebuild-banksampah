@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/search_component.dart';
-import 'package:rebuild_bank_sampah/core/component/update_delete_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
-import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_dialog.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/register/controllers/register_controller.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
@@ -22,10 +20,7 @@ class RegisterScreen extends StatelessWidget {
           return Scaffold(
               floatingActionButton: FloatingActionButton(
                 onPressed: () {
-                  // controller.selectedCustomerId.value = '';
-                  // controller.selectedTrashId.value = '';
-                  // controller.weight.text = '';
-                  // controller.totalPriceTrash.value = 0;
+                 // Get.put(RegisterController());
                   Get.toNamed(AppRoutes.addRegister);
                 },
                 backgroundColor: AppColors.colorBasePrimary,
@@ -142,54 +137,54 @@ class CardUserRegisterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        showModalBottom(
-          context,
-          Column(
-            children: [
-              AppSizes.s8.height,
-              Center(
-                child: Container(
-                  width: AppSizes.s56,
-                  height: AppSizes.s4,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSizes.s8),
-                      color: AppColors.colorNeutrals800),
-                ),
-              ),
-              // AppSizes.s30.height,
-              // UDWidget(
-              //   onTap: () async {
-              //     // await controller
-              //     //     .deleteDepositTrash(
-              //     //         data.id,
-              //     //         context);
-              //     //     showDepositTrashDialog(
-              //     //         context,
-              //     //         AppConstants
-              //     //             .LABEL_EDIT_DEPOSIT_TRASH);
-              //   },
-              //   name: AppConstants.LABEL_EDIT_PROFILE,
-              //   icon: Icons.create_rounded,
-              // ),
-              AppSizes.s30.height,
-              Obx(
-                () {
-                  return controller.isLoadingDeleteUser.value
-                      ? Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : UDWidget(
-                          onTap: () async {
-                            //await controller.deletePriceTrash(id, context);
-                          },
-                          name: AppConstants.LABEL_DELETE,
-                          icon: Icons.delete,
-                        );
-                },
-              ),
-            ],
-          ),
-        );
+        // showModalBottom(
+        //   context,
+        //   Column(
+        //     children: [
+        //       AppSizes.s8.height,
+        //       Center(
+        //         child: Container(
+        //           width: AppSizes.s56,
+        //           height: AppSizes.s4,
+        //           decoration: BoxDecoration(
+        //               borderRadius: BorderRadius.circular(AppSizes.s8),
+        //               color: AppColors.colorNeutrals800),
+        //         ),
+        //       ),
+        //       // AppSizes.s30.height,
+        //       // UDWidget(
+        //       //   onTap: () async {
+        //       //     // await controller
+        //       //     //     .deleteDepositTrash(
+        //       //     //         data.id,
+        //       //     //         context);
+        //       //     //     showDepositTrashDialog(
+        //       //     //         context,
+        //       //     //         AppConstants
+        //       //     //             .LABEL_EDIT_DEPOSIT_TRASH);
+        //       //   },
+        //       //   name: AppConstants.LABEL_EDIT_PROFILE,
+        //       //   icon: Icons.create_rounded,
+        //       // ),
+        //       AppSizes.s30.height,
+        //       Obx(
+        //         () {
+        //           return controller.isLoadingDeleteUser.value
+        //               ? Center(
+        //                   child: CircularProgressIndicator(),
+        //                 )
+        //               : UDWidget(
+        //                   onTap: () async {
+        //                     //await controller.deletePriceTrash(id, context);
+        //                   },
+        //                   name: AppConstants.LABEL_DELETE,
+        //                   icon: Icons.delete,
+        //                 );
+        //         },
+        //       ),
+        //     ],
+        //   ),
+        // );
       },
       child: Container(
         padding: AppSizes.allPadding(AppSizes.s16),

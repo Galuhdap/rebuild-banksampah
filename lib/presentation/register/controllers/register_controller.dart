@@ -1,10 +1,7 @@
 import 'package:drop_down_search_field/drop_down_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/message_component.dart';
-import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
-import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_message_dialog.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
 import 'package:rebuild_bank_sampah/services/auth/auth_repository.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/request/register_request.dart';
@@ -28,6 +25,7 @@ class RegisterController extends GetxController {
 
   RxString searchQuery = "".obs;
   RxBool isLoadingUser = false.obs;
+  RxBool isLoadingRole = false.obs;
   RxBool isLoadingDeleteUser = false.obs;
   RxBool isLoadingAddUser = false.obs;
 
@@ -67,7 +65,7 @@ class RegisterController extends GetxController {
   }
 
   Future<void> getRole() async {
-    isLoadingUser.value = true;
+    isLoadingRole.value = true;
     try {
       final response = await authRepository.getRoleRegister();
 
@@ -82,10 +80,10 @@ class RegisterController extends GetxController {
           listRoleUser.addAll(response.data);
         },
       );
-      isLoadingUser.value = false;
+      isLoadingRole.value = false;
     } catch (e) {
       print('e:$e');
-      isLoadingUser.value = false;
+      isLoadingRole.value = false;
     }
   }
 
@@ -120,25 +118,16 @@ class RegisterController extends GetxController {
             message: 'User added successfully',
             isError: false,
           );
-          showDepositTrashSucces(
-              context: context,
-              icon: Assets.icons.succes.path,
-              label: AppConstants.LABEL_REGISTER_SUCCES,
-              firstButton: AppConstants.LABEL_SEE_HISTORY,
-              fistOnPressed: () async {
-                listUserRegister.clear();
-                await getUser();
-                Get.back();
-                Get.back();
-              },
-              // secondButton: AppConstants.LABEL_BERANDA,
-              // seccondOnPressed: () async {
-              //   listDepositTrash.clear();
-              //   await getDepositTrash();
-              //   Get.offAllNamed(AppRoutes.home);
-              // },
-              showButton: false);
-
+          nameController.text = '';
+          alamatController.text = '';
+          noKtpController.text = '';
+          usernameController.text = '';
+          passwordController.text = '';
+          formKey.currentState?.reset();
+          dropdownSearchFieldController.clear();
+          listUserRegister.clear();
+          await getUser();
+          await getRole();
           update();
         },
       );

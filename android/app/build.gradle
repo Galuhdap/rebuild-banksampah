@@ -58,11 +58,11 @@ android {
         prod {
             dimension "app"
             applicationIdSuffix ".dev"
-            resValue "string", "app_name", "Bank Sampah"
+            resValue "string", "app_name", "Karung Berkah"
         }
          dev {
             dimension "app"
-            resValue "string", "app_name", "Dev Bank Sampah"
+            resValue "string", "app_name", "Dev Karung Berkah"
         }
 
     }

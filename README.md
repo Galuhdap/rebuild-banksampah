@@ -67,3 +67,13 @@ Bank Sampah
 2. **Android Studio**
 
 `--flavor prod --no-enable-impeller`
+
+# Create appBundle for Android platform. Runs in release mode by default.
+
+build appbundle dev: flutter build appbundle -t lib/main_dev.dart --flavor=dev --no-shrink
+build appbundle prod: flutter build appbundle -t lib/main_prod.dart --no-tree-shake-icons --flavor=prod --no-shrink
+
+# Create APK for dev / prod flavor. Runs in release mode by default.
+
+build apk dev : flutter build apk -t lib/main_dev.dart --flavor dev --split-per-abi --no-shrink
+build apk prod : flutter build apk -t lib/main_prod.dart --flavor prod --split-per-abi --no-shrink

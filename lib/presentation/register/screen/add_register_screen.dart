@@ -11,6 +11,7 @@ import 'package:rebuild_bank_sampah/core/utils/helpers/validation_helper.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 import 'package:rebuild_bank_sampah/presentation/profile/widget/no_profile_widget.dart';
 import 'package:rebuild_bank_sampah/presentation/register/controllers/register_controller.dart';
+import 'package:rebuild_bank_sampah/presentation/register/screen/loading_register_screen.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_role_response.dart';
 
 class AddRegisterScreen extends StatelessWidget {
@@ -21,38 +22,31 @@ class AddRegisterScreen extends StatelessWidget {
     RegisterController controller = Get.find();
     return Scaffold(
       bottomNavigationBar: Container(
-          padding: AppSizes.symmetricPadding(
-              vertical: AppSizes.s16, horizontal: AppSizes.s16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                offset: const Offset(0, -2),
-                blurRadius: 30.0,
-                blurStyle: BlurStyle.outer,
-                spreadRadius: 0,
-                color: AppColors.colorBaseBlack.withOpacity(0.08),
-              ),
-            ],
-          ),
-          child: Obx(() {
-            return controller.isLoadingAddUser.value
-                ? Container(
-                    width: 50,
-                    height: 50,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : Button.filled(
-                    onPressed: () async {
-                      if (controller.formKey.currentState!.validate()) {
-                        await controller.postDepositTrash(context);
-                      }
-                    },
-                    label: "Tambah User",
-                  );
-          })),
+        padding: AppSizes.symmetricPadding(
+            vertical: AppSizes.s16, horizontal: AppSizes.s16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, -2),
+              blurRadius: 30.0,
+              blurStyle: BlurStyle.outer,
+              spreadRadius: 0,
+              color: AppColors.colorBaseBlack.withOpacity(0.08),
+            ),
+          ],
+        ),
+        child: Button.filled(
+          onPressed: () async {
+            Get.to(LoadingRegisterScreen());
+            await controller.postDepositTrash(context);
+            // if (controller.formKey.currentState!.validate()) {
+
+            // }
+          },
+          label: "Tambah User",
+        ),
+      ),
       appBar: AppBar(
         title: Text(
           AppConstants.LABEL_ADD_REGISTER_USER,
@@ -73,124 +67,127 @@ class AddRegisterScreen extends StatelessWidget {
           NoProfileWidget(
             onTap: () {},
           ),
-          Form(
-              key: controller.formKey,
-              child: Column(
+          Column(
+            children: [
+              InputWidget(
+                label: AppConstants.LABEL_NAME,
+                hintText: AppConstants.HINT_NAME,
+                controller: controller.nameController,
+                textInputType: TextInputType.name,
+                validator: emptyValidation,
+              ),
+              AppSizes.s20.height,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  InputWidget(
-                    label: AppConstants.LABEL_NAME,
-                    hintText: AppConstants.HINT_NAME,
-                    controller: controller.nameController,
-                    validator: emptyValidation,
+                  Text(
+                    'Role',
+                    style: Get.textTheme.labelLarge!.copyWith(
+                      fontSize: AppSizes.s12,
+                    ),
                   ),
-                  AppSizes.s20.height,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Role',
-                        style: Get.textTheme.labelLarge!.copyWith(
-                          fontSize: AppSizes.s12,
+                  AppSizes.s10.height,
+                  DropDownSearchFormField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                      decoration: InputDecoration(
+                        hintText: 'Pilih Role',
+                        suffixIcon: Icon(Iconsax.arrow_down_1),
+                        hintStyle: Get.textTheme.titleMedium!.copyWith(
+                            color: AppColors.colorSecondary600,
+                            fontSize: AppSizes.s15),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(AppSizes.s10),
+                          borderSide: BorderSide(
+                            color: AppColors.colorSecondary400,
+                            width: AppSizes.s1,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(AppSizes.s10),
+                          borderSide: BorderSide(
+                              color: AppColors.colorSecondary400,
+                              width: AppSizes.s2),
                         ),
                       ),
-                      AppSizes.s10.height,
-                      DropDownSearchFormField(
-                        textFieldConfiguration: TextFieldConfiguration(
-                          decoration: InputDecoration(
-                            hintText: 'Pilih Role',
-                            suffixIcon: Icon(Iconsax.arrow_down_1),
-                            hintStyle: Get.textTheme.titleMedium!.copyWith(
-                                color: AppColors.colorSecondary600,
-                                fontSize: AppSizes.s15),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(AppSizes.s10),
-                              borderSide: BorderSide(
-                                color: AppColors.colorSecondary400,
-                                width: AppSizes.s1,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(AppSizes.s10),
-                              borderSide: BorderSide(
-                                  color: AppColors.colorSecondary400,
-                                  width: AppSizes.s2),
-                            ),
-                          ),
+                      style: TextStyle(
+                        fontSize: AppSizes.s16,
+                        color: Colors.black,
+                      ),
+                      controller: controller.dropdownSearchFieldController,
+                    ),
+                    suggestionsCallback: (pattern) {
+                      return controller.getSuggestions(pattern);
+                    },
+                    itemBuilder: (context, RoleData suggestion) {
+                      return ListTile(
+                        title: Text(
+                          suggestion.name,
                           style: TextStyle(
                             fontSize: AppSizes.s16,
                             color: Colors.black,
                           ),
-                          controller: controller.dropdownSearchFieldController,
                         ),
-                        suggestionsCallback: (pattern) {
-                          return controller.getSuggestions(pattern);
-                        },
-                        itemBuilder: (context, RoleData suggestion) {
-                          return ListTile(
-                            title: Text(
-                              suggestion.name,
-                              style: TextStyle(
-                                fontSize: AppSizes.s16,
-                                color: Colors.black,
-                              ),
-                            ),
-                          );
-                        },
-                        itemSeparatorBuilder: (context, index) {
-                          return const Divider();
-                        },
-                        transitionBuilder:
-                            (context, suggestionsBox, controller) {
-                          return suggestionsBox;
-                        },
-                        onSuggestionSelected: (RoleData suggestion) {
-                          controller.dropdownSearchFieldController.text =
-                              suggestion.name;
-                          //controller.selectedCustomerId.value = suggestion.id;
-                        },
-                        suggestionsBoxController:
-                            controller.suggestionBoxController,
-                        validator: (value) =>
-                            value!.isEmpty ? 'Please select a customer' : null,
-                        onSaved: (value) {},
-                        displayAllSuggestionWhenTap: true,
-                      ),
-                    ],
-                  ),
-                  AppSizes.s20.height,
-                  InputWidget(
-                    label: AppConstants.LABEL_NOKTP,
-                    hintText: AppConstants.HINT_NO_KTP,
-                    controller: controller.noKtpController,
-                    validator: emptyValidation,
-                  ),
-                  AppSizes.s20.height,
-                  InputWidget(
-                    label: AppConstants.LABEL_ADDRESS,
-                    hintText: AppConstants.HINT_ALAMAT,
-                    controller: controller.alamatController,
-                    validator: emptyValidation,
-                  ),
-                  AppSizes.s20.height,
-                  InputWidget(
-                    label: AppConstants.LABEL_USERNAME,
-                    hintText: AppConstants.HINT_EMAIL,
-                    controller: controller.usernameController,
-                    validator: emptyValidation,
-                  ),
-                  AppSizes.s20.height,
-                  InputWidget(
-                    label: AppConstants.LABEL_PASSWORD,
-                    hintText: AppConstants.HINT_PASSWORD,
-                    controller: controller.passwordController,
-                    textInputType: TextInputType.name,
-                    validator: emptyValidation,
-                    isObscure: true,
-                    suffixIcon: true,
+                      );
+                    },
+                    itemSeparatorBuilder: (context, index) {
+                      return const Divider();
+                    },
+                    transitionBuilder: (context, suggestionsBox, controller) {
+                      return suggestionsBox;
+                    },
+                    onSuggestionSelected: (RoleData suggestion) {
+                      controller.dropdownSearchFieldController.text =
+                          suggestion.name;
+                      //controller.selectedCustomerId.value = suggestion.id;
+                    },
+                    suggestionsBoxController:
+                        controller.suggestionBoxController,
+                    validator: (value) =>
+                        value!.isEmpty ? 'Please select a customer' : null,
+                    onSaved: (value) {},
+                    displayAllSuggestionWhenTap: true,
                   ),
                 ],
-              ).paddingSymmetric(
-                  horizontal: AppSizes.s24, vertical: AppSizes.s44))
+              ),
+              AppSizes.s20.height,
+              InputWidget(
+                label: AppConstants.LABEL_NOKTP,
+                hintText: AppConstants.HINT_NO_KTP,
+                controller: controller.noKtpController,
+                textInputType: TextInputType.number,
+                validator: emptyValidation,
+              ),
+              AppSizes.s20.height,
+              InputWidget(
+                label: AppConstants.LABEL_ADDRESS,
+                hintText: AppConstants.HINT_ALAMAT,
+                controller: controller.alamatController,
+                textInputType: TextInputType.name,
+                validator: emptyValidation,
+              ),
+              AppSizes.s20.height,
+              InputWidget(
+                label: AppConstants.LABEL_USERNAME,
+                hintText: AppConstants.HINT_EMAIL,
+                controller: controller.usernameController,
+                textInputType: TextInputType.name,
+                validator: emptyValidation,
+              ),
+              AppSizes.s20.height,
+              InputWidget(
+                label: AppConstants.LABEL_PASSWORD,
+                hintText: AppConstants.HINT_PASSWORD,
+                controller: controller.passwordController,
+                textInputType: TextInputType.name,
+                validator: emptyValidation,
+                isObscure: true,
+                suffixIcon: true,
+              ),
+            ],
+          ).paddingSymmetric(horizontal: AppSizes.s24, vertical: AppSizes.s44)
+          // Form(
+          //     key: controller.formKey,
+          //     child: )
         ],
       ),
     );

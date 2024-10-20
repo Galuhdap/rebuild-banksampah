@@ -7,6 +7,7 @@ import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_utils.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
+import 'package:rebuild_bank_sampah/presentation/profile/controllers/profile_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/profile/widget/no_profile_widget.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
@@ -15,6 +16,7 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProfileController controller = Get.find();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -38,26 +40,48 @@ class ProfileScreen extends StatelessWidget {
           ),
           Column(
             children: [
-              InputWidget(
-                label: AppConstants.LABEL_NAME,
-                controller: TextEditingController(text: 'Muti'),
-                readOnly: true,
-              ),
+              Obx(() {
+                if (controller.profile.value != null) {
+                  return InputWidget(
+                    label: AppConstants.LABEL_NAME,
+                    controller: TextEditingController(
+                        text: controller.profile.value!.name),
+                    readOnly: true,
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              }),
               AppSizes.s20.height,
-              InputWidget(
-                label: AppConstants.LABEL_NOKTP,
-                controller: TextEditingController(text: '12345678090'),
-                readOnly: true,
-              ),
+              Obx(() {
+                if (controller.profile.value != null) {
+                  return InputWidget(
+                    label: AppConstants.LABEL_NOKTP,
+                    controller: TextEditingController(
+                        text: controller.profile.value!.identityType),
+                    readOnly: true,
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              }),
               AppSizes.s20.height,
-              InputWidget(
-                label: AppConstants.LABEL_ADDRESS,
-                controller: TextEditingController(text: 'Jl indonesia'),
-                readOnly: true,
-              ),
+              Obx(() {
+                if (controller.profile.value != null) {
+                  return InputWidget(
+                    label: AppConstants.LABEL_ADDRESS,
+                    controller: TextEditingController(
+                        text: controller.profile.value!.address),
+                    readOnly: true,
+                  );
+                } else {
+                  return CircularProgressIndicator();
+                }
+              }),
               AppSizes.s44.height,
               Button.outlined(
                 onPressed: () async {
+                  await controller.removeItem();
                   await SharedPreferencesUtils.deleteAuthToken();
                   Get.offAllNamed(AppRoutes.login);
                 },

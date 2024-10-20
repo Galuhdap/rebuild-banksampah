@@ -10,6 +10,7 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/deposit_trash_controller.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/loading_trash_screen.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_customer_deposit_trash_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_trash_response.dart';
 
@@ -61,6 +62,7 @@ class AddDepositTrashScreen extends StatelessWidget {
                   )
                 : Button.filled(
                     onPressed: () async {
+                      Get.to(LoadingTrashScreen());
                       await controller.postDepositTrash(context);
                     },
                     label: AppConstants.ACTION_DEPOSIT,

@@ -6,7 +6,6 @@ import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_message_dialog.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
-import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/request/deposit_trash_request.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_customer_deposit_trash_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_deposit_trash_response.dart';
@@ -191,25 +190,37 @@ class DepositTrashController extends GetxController {
             message: 'Product added successfully',
             isError: false,
           );
-          showDepositTrashSucces(
-              context: context,
-              icon: Assets.icons.succes.path,
-              label: AppConstants.LABEL_DEPOSIT_TRASH_SUCCES,
-              firstButton: AppConstants.LABEL_SEE_HISTORY,
-              fistOnPressed: () async {
+           weight.text = '';
+                totalPriceTrash.value = 0;
+                dropdownSearchFieldController.clear();
+                selectedCustomerId.value = '';
+                dropdownTrashController.clear();
+                selectedTrashId.value = '';
+                listTrash.clear();
+                listCustomer.clear();
                 listDepositTrash.clear();
+
+                await getCustomerDepositTrash();
                 await getDepositTrash();
-                Get.toNamed(AppRoutes.setorSampah);
-                // Get.back();
-                // Get.back();
-              },
-              // secondButton: AppConstants.LABEL_BERANDA,
-              // seccondOnPressed: () async {
-              //   listDepositTrash.clear();
-              //   await getDepositTrash();
-              //   Get.offAllNamed(AppRoutes.home);
-              // },
-              showButton: false);
+                await getTrash();
+              
+          // showDepositTrashSucces(
+          //     context: context,
+          //     icon: Assets.icons.succes.path,
+          //     label: AppConstants.LABEL_DEPOSIT_TRASH_SUCCES,
+          //     firstButton: AppConstants.LABEL_SEE_HISTORY,
+          //     fistOnPressed: () async {
+               
+          //       // Get.back();
+          //       // Get.back();
+          //     },
+          //     // secondButton: AppConstants.LABEL_BERANDA,
+          //     // seccondOnPressed: () async {
+          //     //   listDepositTrash.clear();
+          //     //   await getDepositTrash();
+          //     //   Get.offAllNamed(AppRoutes.home);
+          //     // },
+          //     showButton: false);
 
           update();
         },
@@ -252,7 +263,7 @@ class DepositTrashController extends GetxController {
               fistOnPressed: () async {
                 listDepositTrash.clear();
                 await getDepositTrash();
-                 Get.back();
+                Get.back();
                 Get.back();
               },
               // secondButton: AppConstants.LABEL_BERANDA,

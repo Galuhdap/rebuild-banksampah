@@ -12,6 +12,7 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/trash_controller.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/loading_price_trash_screen.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/request/price_trash_request.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_trash_response.dart';
 
@@ -25,8 +26,8 @@ class EditPriceTrashScreen extends StatelessWidget {
     TrashController controller = Get.find();
     final TextEditingController nameController =
         TextEditingController(text: data!.nama);
-    final TextEditingController weightController =
-        TextEditingController(text: data!.berat.toString());
+    // final TextEditingController weightController =
+    //     TextEditingController(text: data!.berat.toString());
     final TextEditingController priceController =
         TextEditingController(text: data!.harga.toString());
     return Scaffold(
@@ -46,46 +47,38 @@ class EditPriceTrashScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Container(
-          padding: AppSizes.symmetricPadding(
-              vertical: AppSizes.s16, horizontal: AppSizes.s16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                offset: const Offset(0, -2),
-                blurRadius: 30.0,
-                blurStyle: BlurStyle.outer,
-                spreadRadius: 0,
-                color: AppColors.colorBaseBlack.withOpacity(0.08),
-              ),
-            ],
-          ),
-          child: Obx(() {
-            return controller.isloadingAddTrash.value
-                ? Container(
-                    width: 50,
-                    height: 50,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : Button.filled(
-                    onPressed: () async {
-                      double? numericValue =
-                          double.parse(weightController.text);
-                      String inputText = priceController.text
-                          .replaceAll(RegExp(r'[^0-9]'), '');
-                      final data = PriceTrashRequest(
-                        name: nameController.text,
-                        price: int.parse(inputText),
-                        weight: numericValue,
-                      );
-                      await controller.editDepositTrash(
-                          context: context, data: data, id: id);
-                    },
-                    label: AppConstants.ACTION_DEPOSIT,
-                  );
-          })),
+        padding: AppSizes.symmetricPadding(
+            vertical: AppSizes.s16, horizontal: AppSizes.s16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, -2),
+              blurRadius: 30.0,
+              blurStyle: BlurStyle.outer,
+              spreadRadius: 0,
+              color: AppColors.colorBaseBlack.withOpacity(0.08),
+            ),
+          ],
+        ),
+        child: Button.filled(
+          onPressed: () async {
+            Get.to(LoadingPriceTrashScreen());
+            // double? numericValue =
+            //     double.parse(weightController.text);
+            String inputText =
+                priceController.text.replaceAll(RegExp(r'[^0-9]'), '');
+            final data = PriceTrashRequest(
+              name: nameController.text,
+              price: int.parse(inputText),
+              weight: 1,
+            );
+            await controller.editDepositTrash(
+                context: context, data: data, id: id);
+          },
+          label: AppConstants.ACTION_DEPOSIT,
+        ),
+      ),
       body: ListView(
         children: [
           AppSizes.s20.height,
@@ -93,15 +86,6 @@ class EditPriceTrashScreen extends StatelessWidget {
             label: AppConstants.LABEL_NAME_TRASH,
             hintText: AppConstants.LABEL_NAME_TRASH,
             controller: nameController,
-            textInputType: TextInputType.name,
-            hintStyle: Get.textTheme.titleMedium!.copyWith(
-                color: AppColors.colorSecondary600, fontSize: AppSizes.s12),
-          ),
-          AppSizes.s12.height,
-          InputWidget(
-            label: AppConstants.LABEL_WEIGHT,
-            hintText: AppConstants.LABEL_WEIGHT,
-            controller: weightController,
             textInputType: TextInputType.name,
             hintStyle: Get.textTheme.titleMedium!.copyWith(
                 color: AppColors.colorSecondary600, fontSize: AppSizes.s12),

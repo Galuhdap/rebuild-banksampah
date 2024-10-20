@@ -13,7 +13,7 @@
             ]
         },      
         {
-            "name": "Dev Bank Sampah",
+            "name": "Dev Karung Berkah",
             "type": "dart",
             "request": "launch",
             "program": "lib/main_dev.dart",

@@ -6,7 +6,7 @@ import 'package:rebuild_bank_sampah/services/product/model/response/get_product.
 import 'package:rebuild_bank_sampah/services/product/model/response/post_product_response.dart';
 
 class ProductDataRepository {
-   final ProductDataSources sources;
+  final ProductDataSources sources;
 
   ProductDataRepository(this.sources);
 
@@ -14,7 +14,8 @@ class ProductDataRepository {
     return sources.getProduct();
   }
 
-  Future<Either<Failure, PostProductResponse>> postProduct(ProductRequest data) async {
+  Future<Either<Failure, PostProductResponse>> postProduct(
+      ProductRequest data) async {
     return sources.postProduct(data);
   }
 }

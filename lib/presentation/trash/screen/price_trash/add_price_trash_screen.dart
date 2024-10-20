@@ -12,6 +12,7 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/trash_controller.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/loading_price_trash_screen.dart';
 
 class AddPriceTrashScreen extends StatelessWidget {
   const AddPriceTrashScreen({super.key});
@@ -50,22 +51,13 @@ class AddPriceTrashScreen extends StatelessWidget {
               ),
             ],
           ),
-          child: Obx(() {
-            return controller.isloadingAddTrash.value
-                ? Container(
-                    width: 50,
-                    height: 50,
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  )
-                : Button.filled(
+          child:Button.filled(
                     onPressed: () async {
+                      Get.to(LoadingPriceTrashScreen());
                       await controller.postDepositTrash(context);
                     },
                     label: AppConstants.ACTION_DEPOSIT,
-                  );
-          })),
+                  ),),
       body: ListView(
         children: [
           AppSizes.s20.height,
@@ -78,14 +70,14 @@ class AddPriceTrashScreen extends StatelessWidget {
                 color: AppColors.colorSecondary600, fontSize: AppSizes.s12),
           ),
           AppSizes.s12.height,
-          InputWidget(
-            label: AppConstants.LABEL_WEIGHT,
-            hintText: AppConstants.LABEL_WEIGHT,
-            controller: controller.weightController,
-            textInputType: TextInputType.number,
-            hintStyle: Get.textTheme.titleMedium!.copyWith(
-                color: AppColors.colorSecondary600, fontSize: AppSizes.s12),
-          ),
+          // InputWidget(
+          //   label: AppConstants.LABEL_WEIGHT,
+          //   hintText: AppConstants.LABEL_WEIGHT,
+          //   controller: controller.weightController,
+          //   textInputType: TextInputType.number,
+          //   hintStyle: Get.textTheme.titleMedium!.copyWith(
+          //       color: AppColors.colorSecondary600, fontSize: AppSizes.s12),
+          // ),
           AppSizes.s12.height,
           InputWidget(
             label: AppConstants.LABEL_PRICEs_TRASH,

@@ -4,7 +4,6 @@ import 'package:rebuild_bank_sampah/core/component/input_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
-import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 
 class SearchComponent extends StatelessWidget {
   final TextEditingController controller;
@@ -54,7 +53,7 @@ class SearchComponent extends StatelessWidget {
               ),
             ),
           ),
-          AppSizes.s15.width,
+          // AppSizes.s15.width,
           // InkWell(
           //   onTap: onTap,
           //   child: Container(
