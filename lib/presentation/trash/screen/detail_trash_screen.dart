@@ -9,9 +9,9 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/order/widgets/card_order_tile_widget.dart';
 import 'package:rebuild_bank_sampah/services/order/model/response/get_order_customer_response.dart';
 
-class DetailOrderScreen extends StatelessWidget {
+class DetailTrashScreen extends StatelessWidget {
   final OrderCustomer? data;
-  const DetailOrderScreen({super.key, this.data});
+  const DetailTrashScreen({super.key, this.data});
 
   @override
   Widget build(BuildContext context) {

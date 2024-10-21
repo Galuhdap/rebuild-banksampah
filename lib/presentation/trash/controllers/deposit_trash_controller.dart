@@ -41,8 +41,8 @@ class DepositTrashController extends GetxController {
   RxDouble totalPriceTrash = 0.0.obs;
   RxString searchQuery = "".obs;
   RxList<DepositTrash> searchDepositTrashs = <DepositTrash>[].obs;
-
-  RxString selectedCustomerId = ''.obs; // Untuk menyimpan ID yang dipilih
+  RxString selectedCustomerId = ''.obs;
+  RxInt activeButtonIndex = 0.obs;
 
   // Fungsi untuk mendapatkan suggestions
   List<Customer> getSuggestions(String query) {
@@ -65,6 +65,10 @@ class DepositTrashController extends GetxController {
     getTrash();
     getDepositTrash();
     getCustomerDepositTrash();
+  }
+
+  void setActiveButton(int index) {
+    activeButtonIndex.value = index;
   }
 
   void setDropdownValue(String value) {
@@ -190,27 +194,27 @@ class DepositTrashController extends GetxController {
             message: 'Product added successfully',
             isError: false,
           );
-           weight.text = '';
-                totalPriceTrash.value = 0;
-                dropdownSearchFieldController.clear();
-                selectedCustomerId.value = '';
-                dropdownTrashController.clear();
-                selectedTrashId.value = '';
-                listTrash.clear();
-                listCustomer.clear();
-                listDepositTrash.clear();
+          weight.text = '';
+          totalPriceTrash.value = 0;
+          dropdownSearchFieldController.clear();
+          selectedCustomerId.value = '';
+          dropdownTrashController.clear();
+          selectedTrashId.value = '';
+          listTrash.clear();
+          listCustomer.clear();
+          listDepositTrash.clear();
 
-                await getCustomerDepositTrash();
-                await getDepositTrash();
-                await getTrash();
-              
+          await getCustomerDepositTrash();
+          await getDepositTrash();
+          await getTrash();
+
           // showDepositTrashSucces(
           //     context: context,
           //     icon: Assets.icons.succes.path,
           //     label: AppConstants.LABEL_DEPOSIT_TRASH_SUCCES,
           //     firstButton: AppConstants.LABEL_SEE_HISTORY,
           //     fistOnPressed: () async {
-               
+
           //       // Get.back();
           //       // Get.back();
           //     },
@@ -285,13 +289,45 @@ class DepositTrashController extends GetxController {
     }
   }
 
+  // void filterSearchTrash() {
+  //   if (searchQuery.value.isEmpty) {
+  //     searchDepositTrashs.assignAll(listDepositTrash);
+  //   } else {
+  //     searchDepositTrashs.assignAll(
+  //       listDepositTrash.where((data) {
+  //         return data.user.username
+  //             .toLowerCase()
+  //             .contains(searchQuery.value.toLowerCase());
+  //       }).toList(),
+  //     );
+  //   }
+  // }
+
   void filterSearchTrash() {
     if (searchQuery.value.isEmpty) {
-      searchDepositTrashs.assignAll(listDepositTrash);
+      List<DepositTrash> filteredOrders = listDepositTrash.where((order) {
+        if (activeButtonIndex.value == 0) {
+          return order.status == 'PENDING';
+        } else if (activeButtonIndex.value == 1) {
+          return order.status == 'DONE';
+        } else {
+          return order.status == 'CANCEL';
+        }
+      }).toList();
+      searchDepositTrashs.assignAll(filteredOrders);
     } else {
+      List<DepositTrash> filteredOrders = listDepositTrash.where((order) {
+        if (activeButtonIndex.value == 0) {
+          return order.status == 'PENDING';
+        } else if (activeButtonIndex.value == 1) {
+          return order.status == 'DONE';
+        } else {
+          return order.status == 'CANCEL';
+        }
+      }).toList();
       searchDepositTrashs.assignAll(
-        listDepositTrash.where((data) {
-          return data.user.username
+        filteredOrders.where((data) {
+          return data.user.profile.name
               .toLowerCase()
               .contains(searchQuery.value.toLowerCase());
         }).toList(),

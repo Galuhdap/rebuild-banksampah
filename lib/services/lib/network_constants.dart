@@ -35,6 +35,9 @@ class NetworkConstants {
     return BASE_URL + "api/super/trash/$id";
   }
 
+  static const String PUT_STATUS_DEPOSIT_URL =
+      BASE_URL + "api/customer/deposit/update-status";
+
   //super
   static const String POST_SUPER_TRASH_URL = BASE_URL + "api/super/trash";
 
