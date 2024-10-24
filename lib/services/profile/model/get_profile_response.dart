@@ -53,6 +53,7 @@ class ProfileData {
     final String id;
     final String userId;
     final String identityType;
+    final String telp;
     final String identityNumber;
     final String name;
     final String address;
@@ -61,6 +62,7 @@ class ProfileData {
         required this.id,
         required this.userId,
         required this.identityType,
+        required this.telp,
         required this.identityNumber,
         required this.name,
         required this.address,
@@ -70,6 +72,7 @@ class ProfileData {
         String? id,
         String? userId,
         String? identityType,
+        String? telp,
         String? identityNumber,
         String? name,
         String? address,
@@ -78,6 +81,7 @@ class ProfileData {
             id: id ?? this.id,
             userId: userId ?? this.userId,
             identityType: identityType ?? this.identityType,
+            telp: telp ?? this.telp,
             identityNumber: identityNumber ?? this.identityNumber,
             name: name ?? this.name,
             address: address ?? this.address,
@@ -87,6 +91,7 @@ class ProfileData {
         id: json["id"],
         userId: json["userId"],
         identityType: json["identityType"],
+        telp: json["telp"],
         identityNumber: json["identityNumber"],
         name: json["name"],
         address: json["address"],
@@ -96,6 +101,7 @@ class ProfileData {
         "id": id,
         "userId": userId,
         "identityType": identityType,
+        "telp": telp,
         "identityNumber": identityNumber,
         "name": name,
         "address": address,

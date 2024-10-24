@@ -9,7 +9,8 @@ class NetworkConstants {
   static const String GET_REGISTER_URL = BASE_URL + "api/super/users";
   static const String GET_ROLE_URL = BASE_URL + "api/super/role";
   static const String POST_REGISTER_URL = BASE_URL + "api/super/register";
-  static const String POST_FORGOT_PASSWORD_URL = BASE_URL + "api/forgot-password";
+  static const String POST_FORGOT_PASSWORD_URL =
+      BASE_URL + "api/forgot-password";
   static String DELETE_REGISTER_URL(String id) {
     return BASE_URL + "api/super/users/$id";
   }
@@ -68,6 +69,13 @@ class NetworkConstants {
   //Product
   static const String GET_PRODUCT_URL = BASE_URL + "api/admin/products";
   static const String POST_PRODUCT_URL = BASE_URL + "api/admin/products";
+  static String PUT_PRODUCT_URL(String id) {
+    return BASE_URL + "api/admin/products/$id";
+  }
+  static String DELETE_PRODUCT_URL(String id) {
+    return BASE_URL + "api/admin/products/$id";
+  }
+
   static const String POST_PRODUCT_BUY_CUSTOMER_URL =
       BASE_URL + "api/customer/transaction";
   static const String GET_PRODUCT_CUSTOMER_URL =

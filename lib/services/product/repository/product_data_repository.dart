@@ -18,4 +18,9 @@ class ProductDataRepository {
       ProductRequest data) async {
     return sources.postProduct(data);
   }
+
+  Future<Either<Failure, PostProductResponse>> putProduct(
+      ProductRequest data, String id) async {
+    return sources.putProduct(data,id);
+  }
 }

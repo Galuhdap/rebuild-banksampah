@@ -15,13 +15,15 @@ class WithdrawFunstAdminKoprasiController extends GetxController {
   TextEditingController nemeController = TextEditingController();
   TextEditingController fundsController = TextEditingController();
 
+  final TextEditingController searchWithdraw = TextEditingController();
+
   RxList<DataWithdrawAdminKoprasi> listWithdrawAdminKoprasi =
       <DataWithdrawAdminKoprasi>[].obs;
   RxList<DataWithdrawAdminKoprasi> searchListWithdrawAdminKoprasi =
       <DataWithdrawAdminKoprasi>[].obs;
   RxBool isLoadingGetWithdrawAdminKopraso = false.obs;
   RxBool isLoadingAddtWithdrawAdminKopraso = false.obs;
-  
+
   RxInt activeButtonIndex = 0.obs;
   RxString searchQuery = "".obs;
 
@@ -60,13 +62,13 @@ class WithdrawFunstAdminKoprasiController extends GetxController {
     }
   }
 
-  Future<void> postWithdrawAdminKoprasi() async {
+  Future<void> postWithdrawAdminKoprasi(String name) async {
     isLoadingAddtWithdrawAdminKopraso.value = true;
     try {
       // double? numericValue = double.parse(weightController.text);
       String inputText = fundsController.text.replaceAll(RegExp(r'[^0-9]'), '');
       final data = WithdrawAdminKoprasiRequest(
-        nameAdmin: nemeKoprasiController.text,
+        nameAdmin: name,
         nameCoop: nemeController.text,
         nominal: int.parse(inputText),
       );
@@ -76,7 +78,11 @@ class WithdrawFunstAdminKoprasiController extends GetxController {
       response.fold(
         (failure) {
           inspect(failure.code);
-
+          MessageComponent.snackbarTop(
+            title: 'Gagal',
+            message: 'Gagal Melakukan Pengajuan successfully',
+            isError: false,
+          );
           update();
         },
         (response) async {
@@ -99,7 +105,7 @@ class WithdrawFunstAdminKoprasiController extends GetxController {
     }
   }
 
-  void filterSearchTrash() {
+  void filterSearch() {
     if (searchQuery.value.isEmpty) {
       List<DataWithdrawAdminKoprasi> filteredOrders =
           listWithdrawAdminKoprasi.where((order) {

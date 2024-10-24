@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
+import 'package:rebuild_bank_sampah/presentation/order/screen/loading_order_screen.dart';
 import 'package:rebuild_bank_sampah/services/order/model/request/post_update_status_request.dart';
 import 'package:rebuild_bank_sampah/services/order/model/response/get_order_admin_response.dart';
 import 'package:rebuild_bank_sampah/services/order/repository/order_admin_data_repository.dart';
@@ -80,7 +81,6 @@ class OrderAdminKoprasiController extends GetxController {
             message: failure.message,
             isError: true,
           );
-          Get.back();
           update();
         },
         (response) async {
@@ -89,6 +89,9 @@ class OrderAdminKoprasiController extends GetxController {
             message: 'Pesanan successfully',
             isError: false,
           );
+          Get.to(LoadingOrderScreen(
+            label: 'Pesanan Telah Disetujui',
+          ));
           listOrder.clear();
           searchListOrder.clear();
           await getOrderSeeAdmin();

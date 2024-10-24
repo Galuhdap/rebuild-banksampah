@@ -19,7 +19,8 @@ class DetailOrderAdminKoprasiScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    OrderAdminKoprasiController controller = Get.put(OrderAdminKoprasiController());
+    OrderAdminKoprasiController controller =
+        Get.put(OrderAdminKoprasiController());
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -178,7 +179,6 @@ class DetailOrderAdminKoprasiScreen extends StatelessWidget {
               AppSizes.s20.height,
               Button.filled(
                 onPressed: () async {
-                  Get.to(LoadingOrderScreen(label: 'Pesanan Telah Disetujui',));
                   final datum = PostUpdateStatusRequest(
                     transactionId: data.id,
                     status: 'DONE',
@@ -192,7 +192,6 @@ class DetailOrderAdminKoprasiScreen extends StatelessWidget {
               Button.outlined(
                 colorBorder: AppColors.colorError300,
                 onPressed: () async {
-                  Get.to(LoadingOrderScreen(label: 'Pesanan Telah Dibatalkan'));
                   final datum = PostUpdateStatusRequest(
                     transactionId: data.id,
                     status: "CANCEL",

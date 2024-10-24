@@ -36,27 +36,27 @@ class AddPriceTrashScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Container(
-          padding: AppSizes.symmetricPadding(
-              vertical: AppSizes.s16, horizontal: AppSizes.s16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                offset: const Offset(0, -2),
-                blurRadius: 30.0,
-                blurStyle: BlurStyle.outer,
-                spreadRadius: 0,
-                color: AppColors.colorBaseBlack.withOpacity(0.08),
-              ),
-            ],
-          ),
-          child:Button.filled(
-                    onPressed: () async {
-                      
-                      await controller.postDepositTrash(context);
-                    },
-                    label: AppConstants.ACTION_DEPOSIT,
-                  ),),
+        padding: AppSizes.symmetricPadding(
+            vertical: AppSizes.s16, horizontal: AppSizes.s16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              offset: const Offset(0, -2),
+              blurRadius: 30.0,
+              blurStyle: BlurStyle.outer,
+              spreadRadius: 0,
+              color: AppColors.colorBaseBlack.withOpacity(0.08),
+            ),
+          ],
+        ),
+        child: Button.filled(
+          onPressed: () async {
+            await controller.postDepositTrash(context);
+          },
+          label: AppConstants.ACTION_DEPOSIT,
+        ),
+      ),
       body: ListView(
         children: [
           AppSizes.s20.height,
@@ -85,8 +85,8 @@ class AddPriceTrashScreen extends StatelessWidget {
             inputFormatters: <TextInputFormatter>[
               CurrencyTextInputFormatter.currency(
                 locale: 'id',
-                symbol: 'Rp ', 
-                decimalDigits: 0, 
+                symbol: 'Rp ',
+                decimalDigits: 0,
               ),
             ],
             textInputType: TextInputType.number,

@@ -11,6 +11,7 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/helpers/validation_helper.dart';
 import 'package:rebuild_bank_sampah/presentation/home/controllers/home_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
+import 'package:rebuild_bank_sampah/presentation/profile/controllers/profile_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/withdraw/controllers/withdraw_funst_admin_koprasi_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/withdraw/screen/admin_koprasi/loading_admin_koprasi.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
@@ -20,7 +21,7 @@ class AddWithdrawFunstAdminKoprasi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //ProfileController controllerProfile = Get.find();
+    ProfileController controllerProfile = Get.put(ProfileController());
     HomeController controllerHome = Get.put(HomeController());
     WithdrawFunstAdminKoprasiController controller = Get.put(WithdrawFunstAdminKoprasiController());
 
@@ -63,7 +64,7 @@ class AddWithdrawFunstAdminKoprasi extends StatelessWidget {
             Button.filled(
               onPressed: () async {
                 Get.to(LoadingAdminKoprasi(label: 'Penagajuan Penarikan Dana Berhasil',));
-                await controller.postWithdrawAdminKoprasi();
+                await controller.postWithdrawAdminKoprasi(controllerProfile.profile.value!.name);
               },
               label: 'Ajukan',
             )
@@ -94,8 +95,8 @@ class AddWithdrawFunstAdminKoprasi extends StatelessWidget {
           AppSizes.s20.height,
           InputWidget(
             label: AppConstants.LABEL_NAME_COORPT,
-            controller: controller.nemeKoprasiController,
-            // readOnly: true,
+            controller: TextEditingController(text: controllerProfile.profile.value!.name),
+            readOnly: true,
           ),
           AppSizes.s20.height,
           InputWidget(

@@ -7,10 +7,8 @@ import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_utils.dart';
-import 'package:rebuild_bank_sampah/presentation/home/controllers/home_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 import 'package:rebuild_bank_sampah/presentation/profile/controllers/profile_controller.dart';
-import 'package:rebuild_bank_sampah/presentation/profile/widget/no_profile_widget.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -68,9 +66,9 @@ class ProfileScreen extends StatelessWidget {
               Obx(() {
                 if (controller.profile.value != null) {
                   return InputWidget(
-                    label: AppConstants.LABEL_NOKTP,
+                    label: AppConstants.LABEL_PHONE_NUMBER,
                     controller: TextEditingController(
-                        text: controller.profile.value!.identityType),
+                        text: controller.profile.value!.telp),
                     readOnly: true,
                   );
                 } else {

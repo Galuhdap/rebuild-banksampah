@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:currency_text_input_formatter/currency_text_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,17 +14,23 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/helpers/validation_helper.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 import 'package:rebuild_bank_sampah/presentation/product/controllers/product_controller.dart';
+import 'package:rebuild_bank_sampah/services/product/model/request/product_request.dart';
+import 'package:rebuild_bank_sampah/services/product/model/response/get_product.dart';
 
-class AddProductScreen extends StatelessWidget {
-  const AddProductScreen({super.key});
+class EditProductScreen extends StatelessWidget {
+  final Product datas;
+  const EditProductScreen({super.key, required this.datas});
 
   @override
   Widget build(BuildContext context) {
     ProductController controller = Get.put(ProductController());
+    final nameProductController = TextEditingController(text: datas.name);
+    final priceController = TextEditingController(text: datas.price.toString());
+    final stockController = TextEditingController(text: datas.stock.toString());
     return Scaffold(
         appBar: AppBar(
           title: Text(
-            'Tambah Product',
+            'Edit Product',
             style: Get.textTheme.titleLarge!.copyWith(fontSize: AppSizes.s18),
           ),
           leading: IconButton(
@@ -36,12 +43,12 @@ class AddProductScreen extends StatelessWidget {
             ),
           ),
         ),
-        body: Column(
-          children: [
-            AppSizes.s20.height,
-            Obx(
-              () {
-                return InkWell(
+        body: Obx(
+          () {
+            return Column(
+              children: [
+                AppSizes.s20.height,
+                InkWell(
                   onTap: () {
                     controller.pickImageFromGallerry();
                   },
@@ -76,61 +83,93 @@ class AddProductScreen extends StatelessWidget {
                             ],
                           ),
                         )
-                      : Assets.images.imageProductAdd.image(scale: 4),
-                );
-              },
-            ),
-            AppSizes.s30.height,
-            Form(
-              key: controller.formKey,
-              child: Column(
-                children: [
-                  InputWidget(
-                    label: AppConstants.LABEL_NAME_PRODUK,
-                    hintText: AppConstants.LABEL_INPUT_NAME_PRODUK,
-                    controller: controller.nameProductController,
-                    textInputType: TextInputType.name,
-                    validator: emptyValidation,
-                  ),
-                  AppSizes.s20.height,
-                  InputWidget(
-                    label: AppConstants.LABEL_PRICE_PRODUK,
-                    hintText: AppConstants.LABEL_INPUT_PRICE_PRODUK,
-                    controller: controller.priceController,
-                    textInputType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      CurrencyTextInputFormatter.currency(
-                        locale: 'id',
-                        symbol: 'Rp ',
-                        decimalDigits: 0,
+                      : datas.image.isNotEmpty
+                          ? Container(
+                              width: 100,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: CachedNetworkImage(
+                                imageUrl: datas.image,
+                                fit: BoxFit.cover,
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) =>
+                                        CircularProgressIndicator(
+                                            value: downloadProgress.progress),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              ),
+                            )
+                          : Assets.images.imageProductAdd.image(scale: 4),
+                ),
+                AppSizes.s30.height,
+                Form(
+                  key: controller.formKey,
+                  child: Column(
+                    children: [
+                      InputWidget(
+                        label: AppConstants.LABEL_NAME_PRODUK,
+                        hintText: AppConstants.LABEL_INPUT_NAME_PRODUK,
+                        controller: nameProductController,
+                        textInputType: TextInputType.name,
+                        validator: emptyValidation,
+                      ),
+                      AppSizes.s20.height,
+                      InputWidget(
+                        label: AppConstants.LABEL_PRICE_PRODUK,
+                        hintText: AppConstants.LABEL_INPUT_PRICE_PRODUK,
+                        controller: priceController,
+                        textInputType: TextInputType.number,
+                        inputFormatters: <TextInputFormatter>[
+                          CurrencyTextInputFormatter.currency(
+                            locale: 'id',
+                            symbol: 'Rp ',
+                            decimalDigits: 0,
+                          ),
+                        ],
+                        validator: emptyValidation,
+                      ),
+                      AppSizes.s20.height,
+                      InputWidget(
+                        label: AppConstants.LABEL_STOCK_PRODUK,
+                        hintText: AppConstants.LABEL_INPUT_STOCK_PRODUK,
+                        controller: stockController,
+                        textInputType: TextInputType.number,
+                        validator: emptyValidation,
                       ),
                     ],
-                    validator: emptyValidation,
                   ),
-                  AppSizes.s20.height,
-                  InputWidget(
-                    label: AppConstants.LABEL_STOCK_PRODUK,
-                    hintText: AppConstants.LABEL_INPUT_STOCK_PRODUK,
-                    controller: controller.stockController,
-                    textInputType: TextInputType.number,
-                    validator: emptyValidation,
-                  ),
-                ],
-              ),
-            ),
-            AppSizes.s40.height,
-            controller.isLoadingAddProduct.value
-                ? Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : Button.filled(
+                ),
+                AppSizes.s40.height,
+                Button.filled(
                     onPressed: () async {
-                      await controller.postProduct();
+                      File? selectedImageFile;
+                      if (controller.selectedImage.value != null) {
+                        selectedImageFile =
+                            File(controller.selectedImage.value!.path);
+                      } else {
+                        selectedImageFile =
+                            null; // Tidak ada gambar yang dipilih
+                      }
+                      String inputText = priceController.text
+                          .replaceAll(RegExp(r'[^0-9]'), '');
+                      var data = ProductRequest(
+                        name: nameProductController.text,
+                        price: int.parse(inputText),
+                        stock: int.parse(stockController.text),
+                        image: selectedImageFile,
+                      );
+                      await controller.putProduct(
+                        data,
+                        datas.id,
+                      );
                     },
                     label: 'Simpan'),
-          ],
-        ).paddingSymmetric(
-          horizontal: AppSizes.s20,
+              ],
+            ).paddingSymmetric(
+              horizontal: AppSizes.s20,
+            );
+          },
         ));
   }
 

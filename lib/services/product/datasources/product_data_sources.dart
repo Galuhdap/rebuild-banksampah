@@ -32,7 +32,7 @@ class ProductDataSources extends ApiService {
       'name': data.name,
       'price': data.price,
       'stock': data.stock,
-      'image': await MultipartFile.fromFile(data.image.path),
+      'image': await MultipartFile.fromFile(data.image!.path),
     });
 
     try {
@@ -53,20 +53,60 @@ class ProductDataSources extends ApiService {
     }
   }
 
-  // Future<Either<Failure, PostProductResponse>> postProduct(ProductRequest data) async {
+  Future<Either<Failure, PostProductResponse>> putProduct(
+      ProductRequest data, String id) async {
+    final prefs = await SharedPreferencesUtils.getAuthToken();
+
+    final formData = FormData.fromMap({
+      'name': data.name,
+      'price': data.price,
+      'stock': data.stock,
+      'image': data.image == null
+          ? null
+          : await MultipartFile.fromFile(data.image!.path),
+    });
+    // final formData = FormData.fromMap({
+    //   'name': name,
+    //   'price': price,
+    //   'stock': stock,
+    //   'image': file == null ? null : await MultipartFile.fromFile(file.path),
+    // });
+
+    try {
+      final response = await Dio().put(
+        NetworkConstants.PUT_PRODUCT_URL(id),
+        data: formData,
+        options: Options(
+          headers: {
+            "Content-Type": "multipart/form-data",
+            "Authorization": "Bearer ${prefs}",
+          },
+        ),
+      );
+
+      return Right(PostProductResponse.fromJson(response.data));
+    } catch (e) {
+      return Left(Failure(400, 'No data masuk'));
+    }
+  }
+
+  //   Future<Either<Failure, DeleteDepositTrashResponse>> deleteProduct(
+  //     String id) async {
   //   final prefs = await SharedPreferencesUtils.getAuthToken();
 
   //   try {
-  //    final response = await post(NetworkConstants.POST_PRODUCT_URL,
-  //         header: {
-  //           "Content-Type": "application/json",
+  //     final response = await Dio().delete(
+  //       NetworkConstants.DELETE_PRODUCT_URL(id),
+  //       options: Options(
+  //         headers: {
   //           "Authorization": "Bearer ${prefs}",
   //         },
-  //         body: data.toJson());
+  //       ),
+  //     );
 
-  //     return Right(PostProductResponse.fromJson(response));
+  //     return Right(DeleteDepositTrashResponse.fromJson(response.data));
   //   } catch (e) {
-  //     return left(Failure(400, 'No data masuk'));
+  //     return Left(Failure(400, 'Nor data Tidak masuk'));
   //   }
   // }
 }
