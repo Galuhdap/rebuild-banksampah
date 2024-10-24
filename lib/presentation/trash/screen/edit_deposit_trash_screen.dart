@@ -8,7 +8,6 @@ import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/deposit_trash_controller.dart';
-import 'package:rebuild_bank_sampah/presentation/trash/screen/loading_trash_screen.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/request/post_deposit_trash_request.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_deposit_trash_response.dart';
 
@@ -79,7 +78,7 @@ class EditDepositTrashScreen extends StatelessWidget {
                           datas.add(item);
                         }
                       }
-                      Get.to(LoadingTrashScreen());
+
                       await controller.putDepositTrash(
                           context, data.summaryId, data.user.id, datas);
                     },
@@ -111,7 +110,8 @@ class EditDepositTrashScreen extends StatelessWidget {
                 itemCount: data.deposits.length,
                 itemBuilder: (context, index) {
                   var trash = data.deposits[index];
-                  TextEditingController controllerWeight = TextEditingController(text: trash.weight.toString());
+                  TextEditingController controllerWeight =
+                      TextEditingController(text: trash.weight.toString());
                   controllers.add(controllerWeight);
                   return Container(
                     margin: AppSizes.symmetricPadding(vertical: AppSizes.s10),

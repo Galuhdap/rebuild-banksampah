@@ -10,8 +10,8 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/deposit_trash_controller.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
-class LoadingTrashScreen extends StatelessWidget {
-  const LoadingTrashScreen({super.key});
+class LoadingUpdateTrashScreen extends StatelessWidget {
+  const LoadingUpdateTrashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class LoadingTrashScreen extends StatelessWidget {
       child: Scaffold(
         body: Obx(
           () {
-            return controller.isloadingAddDepositTrash.value
+            return controller.isloadingPutDepositTrash.value
                 ? Center(
                     child: SizedBox(
                       width: 300,

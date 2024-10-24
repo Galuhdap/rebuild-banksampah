@@ -9,6 +9,7 @@ import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_message_dialog.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/screen/loading_trash_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/loading_trash_update_screen.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/request/post_deposit_trash_request.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_customer_deposit_trash_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_deposit_trash_response.dart';
@@ -31,6 +32,10 @@ class DepositTrashController extends GetxController {
 
   SuggestionsBoxController suggestionBoxController = SuggestionsBoxController();
 
+  // List<TextEditingController> weightControllers = [];
+  RxList<TextEditingController> weightControllers =
+      <TextEditingController>[].obs;
+
   RxList<GroupTrash> listTrash = <GroupTrash>[].obs;
   RxList<DepositTrash> listDepositTrash = <DepositTrash>[].obs;
   RxList<Customer> listCustomer = <Customer>[].obs;
@@ -51,6 +56,18 @@ class DepositTrashController extends GetxController {
   RxInt activeButtonIndex = 0.obs;
   RxList<GroupTrash> trashList = <GroupTrash>[].obs;
 
+  final textEditingControllers = <int, TextEditingController>{};
+
+//   void updateTrashWeight(int trashId, String weight) {
+//   // Set berat sampah berdasarkan trashId
+//   selectedTrashList.firstWhere((element) => element.id == trashId).berat = double.tryParse(weight) ?? 0.0;
+// }
+
+// void initializeTextEditingControllers() {
+//   for (var trash in selectedTrashList) {
+//     textEditingControllers[trash.id] = TextEditingController(text: trash.berat.toString());
+//   }
+// }
 
   List<Customer> getSuggestions(String query) {
     return listCustomer
@@ -65,7 +82,6 @@ class DepositTrashController extends GetxController {
             (trash) => trash.nama.toLowerCase().contains(query.toLowerCase()))
         .toList();
   }
-
 
   @override
   void onInit() {
@@ -177,16 +193,53 @@ class DepositTrashController extends GetxController {
   Future<void> postDepositTrash(BuildContext context) async {
     isloadingAddDepositTrash.value = true;
     try {
-      List<ItemTrsah> itemTrashList = selectedTrashList.map((trash) {
-        return ItemTrsah(
-          trashId: trash.id,
-          weight: trash.berat, // Menggunakan berat dari model GroupTrash
-        );
-      }).toList();
+      List<ItemTrsah> datas = [];
+
+      print(datas);
+
+      for (int i = 0; i < weightControllers.length; i++) {
+        String weightText = weightControllers[i].value.text;
+        double weight = double.tryParse(weightText) ?? 0.0; // Parsing berat
+
+        print('Berat yang diinput: $weight'); // Debugging berat
+
+        if (weight > 0) {
+          ItemTrsah item = ItemTrsah(
+            trashId: selectedTrashList[i].id,
+            weight: weight,
+          );
+          datas.add(item);
+          print(
+              'Item ditambahkan: ${item.trashId}, Berat: ${item.weight}'); // Debugging item
+        }
+      }
+
+      print('Total item yang dikirim: ${datas.length}');
+      // List<ItemTrsah> datas = [];
+
+      // for (int i = 0; i < weightControllers.length; i++) {
+      //   String weightText = textEditingControllers[i]!.text;
+      //   double weight = double.tryParse(weightText) ?? 0.0; // Parsing berat
+
+      //   if (weight > 0) {
+      //     // Pastikan berat lebih dari 0 sebelum menambahkannya ke daftar
+      //     ItemTrsah item = ItemTrsah(
+      //       trashId: selectedTrashList[i].id,
+      //       weight: weight,
+      //     );
+      //     datas.add(item);
+      //   }
+      // }
+      // List<ItemTrsah> itemTrashList = selectedTrashList.map((trash) {
+      //   return ItemTrsah(
+      //     trashId: trash.id,
+      //     weight: trash.berat, // Menggunakan berat dari model GroupTrash
+      //   );
+      // }).toList();
 
       final data = PostDepositTrashRequest(
         userId: selectedCustomerId.value.toString(),
-        ItemTrsahs: itemTrashList,
+        ItemTrsahs: datas,
       );
 
       final response = await depositTrashDataRespository.postDepositTrash(data);
@@ -205,7 +258,7 @@ class DepositTrashController extends GetxController {
         (response) async {
           MessageComponent.snackbarTop(
             title: 'Success',
-            message: 'Product added successfully',
+            message: 'Behasil Menimbang Sampah',
             isError: false,
           );
           Get.to(LoadingTrashScreen());
@@ -242,6 +295,8 @@ class DepositTrashController extends GetxController {
         ItemTrsahs: datas,
       );
 
+      // print(data);
+
       final response =
           await depositTrashDataRespository.putDepositTrash(data, idSummary);
 
@@ -253,7 +308,7 @@ class DepositTrashController extends GetxController {
             message: failure.message,
             isError: true,
           );
-          Get.back();
+
           update();
         },
         (response) async {
@@ -262,6 +317,7 @@ class DepositTrashController extends GetxController {
             message: 'Product added successfully',
             isError: false,
           );
+          Get.to(LoadingUpdateTrashScreen());
           weight.text = '';
           totalPriceTrash.value = 0;
           dropdownSearchFieldController.clear();
@@ -377,6 +433,8 @@ class DepositTrashController extends GetxController {
 
     if (!isTrashAlreadySelected) {
       var selectedTrash = listTrash.firstWhere((trash) => trash.id == trashId);
+
+      // Tambahkan ke selectedTrashList
       selectedTrashList.add(
         GroupTrash(
           id: selectedTrash.id,
@@ -385,16 +443,64 @@ class DepositTrashController extends GetxController {
           berat: 0, // Default weight
         ),
       );
+
+      // Tambahkan TextEditingController untuk berat
+      weightControllers.add(TextEditingController());
     } else {
-      // Anda dapat menambahkan logika lain di sini, seperti memberi tahu pengguna bahwa sampah sudah dipilih
       print('Sampah dengan ID $trashId sudah dipilih.');
     }
   }
 
-  // Menghapus sampah dari list yang dipilih
   void removeSelectedTrash(String trashId) {
-    selectedTrashList.removeWhere((trash) => trash.id == trashId);
+    int index = selectedTrashList.indexWhere((trash) => trash.id == trashId);
+
+    if (index != -1) {
+      // Hapus dari selectedTrashList
+      selectedTrashList.removeAt(index);
+
+      // Hapus TextEditingController yang sesuai
+      weightControllers.removeAt(index);
+    }
   }
+
+  // void addSelectedTrash(String trashId) {
+  //   selectedTrashList.add(trashId);
+  //   weightControllers
+  //       .add(TextEditingController()); // tambahkan TextEditingController baru
+  // }
+
+  // // Saat item dihapus dari selectedTrashList
+  // void removeSelectedTrash(String trashId) {
+  //   int index = selectedTrashList.indexOf(trashId);
+  //   if (index != -1) {
+  //     selectedTrashList.removeAt(index);
+  //     weightControllers.removeAt(index); // hapus TextEditingController terkait
+  //   }
+  // }
+  // void addSelectedTrash(String trashId) {
+  //   bool isTrashAlreadySelected =
+  //       selectedTrashList.any((trash) => trash.id == trashId);
+
+  //   if (!isTrashAlreadySelected) {
+  //     var selectedTrash = listTrash.firstWhere((trash) => trash.id == trashId);
+  //     selectedTrashList.add(
+  //       GroupTrash(
+  //         id: selectedTrash.id,
+  //         nama: selectedTrash.nama,
+  //         harga: selectedTrash.harga,
+  //         berat: 0, // Default weight
+  //       ),
+  //     );
+  //   } else {
+  //     // Anda dapat menambahkan logika lain di sini, seperti memberi tahu pengguna bahwa sampah sudah dipilih
+  //     print('Sampah dengan ID $trashId sudah dipilih.');
+  //   }
+  // }
+
+  // // Menghapus sampah dari list yang dipilih
+  // void removeSelectedTrash(String trashId) {
+  //   selectedTrashList.removeWhere((trash) => trash.id == trashId);
+  // }
 
   void updateTrashWeight(String trashId, String weight) {
     var trash = selectedTrashList.firstWhere((trash) => trash.id == trashId);

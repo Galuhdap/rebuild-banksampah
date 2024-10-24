@@ -10,7 +10,6 @@ import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/deposit_trash_controller.dart';
-import 'package:rebuild_bank_sampah/presentation/trash/screen/loading_trash_screen.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_customer_deposit_trash_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_trash_response.dart';
 
@@ -207,6 +206,7 @@ class AddDepositTrashScreen extends StatelessWidget {
                   controller.selectedTrashId.value = suggestion.id;
                   controller.setPriceTrashValue(suggestion.id);
                   controller.addSelectedTrash(suggestion.id);
+                  controller.weightControllers.add(TextEditingController());
                 },
                 suggestionsBoxController: controller.suggestionBoxController,
                 validator: (value) =>
@@ -218,131 +218,6 @@ class AddDepositTrashScreen extends StatelessWidget {
               //     'ID Jenis Sampah yang dipilih: ${controller.selectedTrashId.value}')),
             ],
           ),
-
-          // Column(
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     Text(
-          //       AppConstants.LABEL_TYPE_TRASH,
-          //       style: Get.textTheme.labelLarge!.copyWith(
-          //         fontSize: AppSizes.s12,
-          //       ),
-          //     ),
-          //     AppSizes.s10.height,
-          //     Obx(() {
-          //       return Container(
-          //         padding: AppSizes.symmetricPadding(
-          //             vertical: AppSizes.s5, horizontal: AppSizes.s15),
-          //         decoration: BoxDecoration(
-          //             borderRadius: BorderRadius.circular(AppSizes.s10),
-          //             border: Border.all(
-          //                 color: AppColors.colorSecondary400,
-          //                 width: AppSizes.s1)),
-          //         child: DropdownButton<String>(
-          //           value: controller.selectedTrashId.value,
-          //           menuMaxHeight: AppSizes.setResponsiveWidth(context),
-          //           underline: SizedBox.shrink(),
-          //           icon: Icon(
-          //             Icons.keyboard_arrow_down,
-          //             weight: AppSizes.s20,
-          //             size: AppSizes.s30,
-          //             color: ThemeConfig.neutral0,
-          //           ),
-          //           iconSize: AppSizes.s24,
-          //           elevation: 2,
-          //           isExpanded: true,
-          //           style:
-          //               ThemeConfig.labelMedium.copyWith(color: Colors.black),
-          //           items: controller.listTrash
-          //               .map<DropdownMenuItem<String>>((GroupTrash trash) {
-          //             return DropdownMenuItem<String>(
-          //               value: trash.id,
-          //               child: Text(trash.nama),
-          //             );
-          //           }).toList(),
-          //           onChanged: (Object? value) {
-          //             if (value != null && value is String) {
-          //               controller.setDropdownValue(value);
-          //               // var selectedTrash = controller.listTrash.firstWhere(
-          //               //   (trash) => trash.id == value,
-          //               // );
-
-          //               // if (selectedTrash != null) {
-          //               //   int harga = selectedTrash.harga;
-          //               //   print("Harga: $harga");
-          //               //   // Simpan atau gunakan harga sesuai kebutuhan
-          //               // }
-          //               controller.setPriceTrashValue(value);
-
-          //               // controller.getCommodityChartDaily();
-          //             }
-          //           },
-          //         ),
-          //       );
-          //     }),
-          //   ],
-          // ),
-          // AppSizes.s20.height,
-          // Obx(
-          //   () {
-          //     return Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         Text(
-          //           AppConstants.LABEL_PRICE,
-          //           style: Get.textTheme.labelLarge!.copyWith(
-          //             fontSize: AppSizes.s12,
-          //           ),
-          //         ),
-          //         Text(
-          //           controller.priceTrash.value.toInt().currencyFormatRp,
-          //           style: Get.textTheme.labelLarge!.copyWith(
-          //             fontSize: AppSizes.s12,
-          //           ),
-          //         ),
-          //       ],
-          //     );
-          //   },
-          // ),
-          // AppSizes.s20.height,
-          // InputWidget(
-          //   label: AppConstants.LABEL_WEIGHT,
-          //   hintText: AppConstants.LABEL_WEIGHT,
-          //   controller: controller.weight,
-          //   textInputType: TextInputType.name,
-          //   hintStyle: Get.textTheme.titleMedium!.copyWith(
-          //       color: AppColors.colorSecondary600, fontSize: AppSizes.s12),
-          //   onChanged: (value) {
-          //     if (value.isNotEmpty) {
-          //       double weight = double.tryParse(value) ?? 0.0;
-          //       controller.calculateTotal(weight);
-          //     } else {
-          //       controller.calculateTotal(0.0);
-          //     }
-          //   },
-          // ),
-          // AppSizes.s20.height,
-          // Obx(
-          //   () {
-          //     return Row(
-          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          //       children: [
-          //         Text(
-          //           'Total Rupiah yang didapatkan : ',
-          //           style: Get.textTheme.labelLarge!.copyWith(
-          //             fontSize: AppSizes.s12,
-          //           ),
-          //         ),
-          //         Text(
-          //           controller.totalPriceTrash.value.toInt().currencyFormatRp,
-          //           style: Get.textTheme.labelLarge!.copyWith(
-          //             fontSize: AppSizes.s12,
-          //           ),
-          //         ),
-          //       ],
-          //     );
-          //   },
-          // ),
           AppSizes.s20.height,
           Expanded(
             child: Obx(() {
@@ -381,10 +256,8 @@ class AddDepositTrashScreen extends StatelessWidget {
                               height: 50,
                               child: CustomTextField(
                                 hintText: AppConstants.LABEL_WEIGHT,
-                                controller: TextEditingController(
-                                  text: trash.berat.toString(),
-                                ),
-                                keyboardType: TextInputType.name,
+                                controller: controller.weightControllers[index],
+                                keyboardType: TextInputType.number,
                                 //textInputType: TextInputType.name,
                                 hintStyle: Get.textTheme.titleMedium!.copyWith(
                                     color: AppColors.colorSecondary600,
@@ -394,8 +267,8 @@ class AddDepositTrashScreen extends StatelessWidget {
                                     double weight =
                                         double.tryParse(value) ?? 0.0;
                                     // Update berat di controller
-                                    controller.updateTrashWeight(
-                                        trash.id, value);
+                                    // controller.updateTrashWeight(
+                                    //     trash.id, value);
                                     controller.calculateTotal(weight);
                                   } else {
                                     // Reset jika kosong
@@ -408,6 +281,7 @@ class AddDepositTrashScreen extends StatelessWidget {
                             IconButton(
                               onPressed: () {
                                 controller.removeSelectedTrash(trash.id);
+                                controller.weightControllers.removeAt(index);
                               },
                               icon: Icon(Icons.clear_rounded),
                             ),
@@ -416,32 +290,6 @@ class AddDepositTrashScreen extends StatelessWidget {
                       ],
                     ),
                   );
-
-                  // ListTile(
-                  //   title: Text(trash.nama),
-                  //   subtitle: Text('Rp ${trash.harga}/Kg'),
-                  //   trailing: IconButton(
-                  //     icon: Icon(Icons.delete),
-                  //     onPressed: () {
-                  //       controller.removeSelectedTrash(trash.id);
-                  //     },
-                  //   ),
-                  //   leading: SizedBox(
-                  //     width: 50,
-                  //     child: TextField(
-                  //       decoration: InputDecoration(
-                  //         border: OutlineInputBorder(),
-                  //       ),
-                  //       controller: TextEditingController(
-                  //         text: trash.berat.toString(),
-                  //       ),
-                  //       keyboardType: TextInputType.number,
-                  //       onChanged: (value) {
-                  //         //controller.updateTrashWeight(trash.id, value);
-                  //       },
-                  //     ),
-                  //   ),
-                  // );
                 },
               );
             }),

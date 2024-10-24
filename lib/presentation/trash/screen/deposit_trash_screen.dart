@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/search_component.dart';
 import 'package:rebuild_bank_sampah/core/component/transaction_card_component.dart';
@@ -139,7 +140,12 @@ class _SetorSampahScreenState extends State<SetorSampahScreen> {
                           }).toList();
                           return controller.isloadingDepositTrash.value
                               ? Center(
-                                  child: CircularProgressIndicator(),
+                                  child: SizedBox(
+                                    width: 100,
+                                    height: 100,
+                                    child: Lottie.asset(
+                                        Assets.lottie.loadingLogin),
+                                  ),
                                 )
                               : filteredTrash.isEmpty
                                   ? Container(
@@ -200,68 +206,6 @@ class _SetorSampahScreenState extends State<SetorSampahScreen> {
                                               Get.to(DetailDepositTrashScreen(
                                                 data: data,
                                               ));
-                                              // showModalBottom(
-                                              //   context,
-                                              //   Column(
-                                              //     children: [
-                                              //       AppSizes.s8.height,
-                                              //       Center(
-                                              //         child: Container(
-                                              //           width: AppSizes.s56,
-                                              //           height: AppSizes.s4,
-                                              //           decoration: BoxDecoration(
-                                              //               borderRadius:
-                                              //                   BorderRadius
-                                              //                       .circular(
-                                              //                           AppSizes
-                                              //                               .s8),
-                                              //               color: AppColors
-                                              //                   .colorNeutrals800),
-                                              //         ),
-                                              //       ),
-                                              //       // AppSizes.s30.height,
-                                              //       // UDWidget(
-                                              //       //   onTap: () async {
-                                              //       //     // await controller
-                                              //       //     //     .deleteDepositTrash(
-                                              //       //     //         data.id,
-                                              //       //     //         context);
-                                              //       //     //     showDepositTrashDialog(
-                                              //       //     //         context,
-                                              //       //     //         AppConstants
-                                              //       //     //             .LABEL_EDIT_DEPOSIT_TRASH);
-                                              //       //   },
-                                              //       //   name: AppConstants
-                                              //       //       .LABEL_EDIT_PROFILE,
-                                              //       //   icon: Icons.create_rounded,
-                                              //       // ),
-                                              //       AppSizes.s30.height,
-                                              //       Obx(
-                                              //         () {
-                                              //           return controller
-                                              //                   .isloadingDeleteDepositTrash
-                                              //                   .value
-                                              //               ? Center(
-                                              //                   child:
-                                              //                       CircularProgressIndicator(),
-                                              //                 )
-                                              //               : UDWidget(
-                                              //                   onTap: () async {
-                                              //                     await controller
-                                              //                         .deleteDepositTrash(
-                                              //                             data.id,
-                                              //                             context);
-                                              //                   },
-                                              //                   name: AppConstants
-                                              //                       .LABEL_DELETE,
-                                              //                   icon:
-                                              //                       Icons.delete,
-                                              //                 );
-                                              //         },
-                                              //       ),
-                                              //     ],
-                                              //   ),
-                                              // );
                                             },
                                           );
                                         },

@@ -127,6 +127,8 @@ class DepositTrashDataSources extends ApiService {
           },
         ),
       );
+
+      print(response);
       return Right(PostDepositTrashResponse.fromJson(response.data));
     } catch (e) {
       return Left(Failure(400, 'No data masuk'));

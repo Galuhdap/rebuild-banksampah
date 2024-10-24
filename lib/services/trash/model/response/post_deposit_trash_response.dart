@@ -82,7 +82,7 @@ class Deposit {
     final String id;
     final String userId;
     final String trashId;
-    final int weight;
+    final num weight;
     final int nominal;
     final String dataRaw;
     final DateTime createdAt;
@@ -103,7 +103,7 @@ class Deposit {
         String? id,
         String? userId,
         String? trashId,
-        int? weight,
+        num? weight,
         int? nominal,
         String? dataRaw,
         DateTime? createdAt,

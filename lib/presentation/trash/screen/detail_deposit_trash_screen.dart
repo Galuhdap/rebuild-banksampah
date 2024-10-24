@@ -42,7 +42,7 @@ class DetailDepositTrashScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Dipesan pada Diajukan pada ${data.createdAt.toFormattedDateDayTimeString()}',
+            'Ditimbang Pada ${data.createdAt.toFormattedDateDayTimeString()}',
             style: Get.textTheme.titleSmall!.copyWith(
                 fontSize: AppSizes.s10, color: AppColors.colorNeutrals500),
           ),
@@ -102,7 +102,7 @@ class DetailDepositTrashScreen extends StatelessWidget {
                 var datas = data.deposits[index];
                 return CardDepositTileWidget(
                   title: 'INI NAMA SAMPAH',
-                  quantity: datas.weight.toInt(),
+                  quantity: datas.weight,
                   price: datas.nominal.currencyFormatRp,
                 );
               },
@@ -171,7 +171,7 @@ class CardDepositTileWidget extends StatelessWidget {
   final String title;
   final int? stock;
   final String price;
-  final int? quantity;
+  final num? quantity;
 
   const CardDepositTileWidget({
     super.key,
