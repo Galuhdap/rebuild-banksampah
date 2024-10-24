@@ -103,7 +103,7 @@ class DepositTrashCustomerScreen extends StatelessWidget {
                         ? Center(
                             child: CircularProgressIndicator(),
                           )
-                        : filteredTrash.isEmpty
+                        :  filteredTrash.isEmpty
                             ? Container(
                                 padding: AppSizes.symmetricPadding(
                                     vertical: AppSizes.s150),

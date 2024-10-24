@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:drop_down_search_field/drop_down_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,7 +8,8 @@ import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_message_dialog.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
-import 'package:rebuild_bank_sampah/services/trash/model/request/deposit_trash_request.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/loading_trash_screen.dart';
+import 'package:rebuild_bank_sampah/services/trash/model/request/post_deposit_trash_request.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_customer_deposit_trash_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_deposit_trash_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_trash_response.dart';
@@ -31,9 +34,12 @@ class DepositTrashController extends GetxController {
   RxList<GroupTrash> listTrash = <GroupTrash>[].obs;
   RxList<DepositTrash> listDepositTrash = <DepositTrash>[].obs;
   RxList<Customer> listCustomer = <Customer>[].obs;
+  RxList<GroupTrash> selectedTrashList = <GroupTrash>[].obs;
+  RxList<GroupTrash> selectedTrashListPut = <GroupTrash>[].obs;
   RxBool isloadingCommodity = false.obs;
   RxBool isloadingDepositTrash = false.obs;
   RxBool isloadingAddDepositTrash = false.obs;
+  RxBool isloadingPutDepositTrash = false.obs;
   RxBool isloadingCustomerDepositTrash = false.obs;
   RxBool isloadingDeleteDepositTrash = false.obs;
   RxString selectedTrashId = ''.obs;
@@ -43,8 +49,9 @@ class DepositTrashController extends GetxController {
   RxList<DepositTrash> searchDepositTrashs = <DepositTrash>[].obs;
   RxString selectedCustomerId = ''.obs;
   RxInt activeButtonIndex = 0.obs;
+  RxList<GroupTrash> trashList = <GroupTrash>[].obs;
 
-  // Fungsi untuk mendapatkan suggestions
+
   List<Customer> getSuggestions(String query) {
     return listCustomer
         .where((customer) =>
@@ -58,6 +65,7 @@ class DepositTrashController extends GetxController {
             (trash) => trash.nama.toLowerCase().contains(query.toLowerCase()))
         .toList();
   }
+
 
   @override
   void onInit() {
@@ -169,17 +177,77 @@ class DepositTrashController extends GetxController {
   Future<void> postDepositTrash(BuildContext context) async {
     isloadingAddDepositTrash.value = true;
     try {
-      double? numericValue = double.parse(weight.text);
-      final data = DepositTrashRequest(
+      List<ItemTrsah> itemTrashList = selectedTrashList.map((trash) {
+        return ItemTrsah(
+          trashId: trash.id,
+          weight: trash.berat, // Menggunakan berat dari model GroupTrash
+        );
+      }).toList();
+
+      final data = PostDepositTrashRequest(
         userId: selectedCustomerId.value.toString(),
-        trashId: selectedTrashId.value.toString(),
-        weight: numericValue,
+        ItemTrsahs: itemTrashList,
       );
 
       final response = await depositTrashDataRespository.postDepositTrash(data);
 
       response.fold(
         (failure) {
+          inspect(failure.code);
+          MessageComponent.snackbar(
+            title: '${failure.code}',
+            message: failure.message,
+            isError: true,
+          );
+          Get.back();
+          update();
+        },
+        (response) async {
+          MessageComponent.snackbarTop(
+            title: 'Success',
+            message: 'Product added successfully',
+            isError: false,
+          );
+          Get.to(LoadingTrashScreen());
+          weight.text = '';
+          totalPriceTrash.value = 0;
+          dropdownSearchFieldController.clear();
+          selectedCustomerId.value = '';
+          dropdownTrashController.clear();
+          selectedTrashId.value = '';
+          listTrash.clear();
+          listCustomer.clear();
+          listDepositTrash.clear();
+          await getCustomerDepositTrash();
+          await getDepositTrash();
+          await getTrash();
+
+          update();
+        },
+      );
+
+      isloadingAddDepositTrash.value = false;
+    } catch (e) {
+      print('e:$e');
+      isloadingAddDepositTrash.value = false;
+    }
+  }
+
+  Future<void> putDepositTrash(BuildContext context, String idSummary,
+      String id, List<ItemTrsah> datas) async {
+    isloadingPutDepositTrash.value = true;
+    try {
+      final data = PostDepositTrashRequest(
+        userId: id,
+        ItemTrsahs: datas,
+      );
+
+      final response =
+          await depositTrashDataRespository.putDepositTrash(data, idSummary);
+
+      response.fold(
+        (failure) {
+          inspect(failure.code);
           MessageComponent.snackbar(
             title: '${failure.code}',
             message: failure.message,
@@ -208,32 +276,14 @@ class DepositTrashController extends GetxController {
           await getDepositTrash();
           await getTrash();
 
-          // showDepositTrashSucces(
-          //     context: context,
-          //     icon: Assets.icons.succes.path,
-          //     label: AppConstants.LABEL_DEPOSIT_TRASH_SUCCES,
-          //     firstButton: AppConstants.LABEL_SEE_HISTORY,
-          //     fistOnPressed: () async {
-
-          //       // Get.back();
-          //       // Get.back();
-          //     },
-          //     // secondButton: AppConstants.LABEL_BERANDA,
-          //     // seccondOnPressed: () async {
-          //     //   listDepositTrash.clear();
-          //     //   await getDepositTrash();
-          //     //   Get.offAllNamed(AppRoutes.home);
-          //     // },
-          //     showButton: false);
-
           update();
         },
       );
 
-      isloadingAddDepositTrash.value = false;
+      isloadingPutDepositTrash.value = false;
     } catch (e) {
       print('e:$e');
-      isloadingAddDepositTrash.value = false;
+      isloadingPutDepositTrash.value = false;
     }
   }
 
@@ -289,20 +339,6 @@ class DepositTrashController extends GetxController {
     }
   }
 
-  // void filterSearchTrash() {
-  //   if (searchQuery.value.isEmpty) {
-  //     searchDepositTrashs.assignAll(listDepositTrash);
-  //   } else {
-  //     searchDepositTrashs.assignAll(
-  //       listDepositTrash.where((data) {
-  //         return data.user.username
-  //             .toLowerCase()
-  //             .contains(searchQuery.value.toLowerCase());
-  //       }).toList(),
-  //     );
-  //   }
-  // }
-
   void filterSearchTrash() {
     if (searchQuery.value.isEmpty) {
       List<DepositTrash> filteredOrders = listDepositTrash.where((order) {
@@ -334,4 +370,54 @@ class DepositTrashController extends GetxController {
       );
     }
   }
+
+  void addSelectedTrash(String trashId) {
+    bool isTrashAlreadySelected =
+        selectedTrashList.any((trash) => trash.id == trashId);
+
+    if (!isTrashAlreadySelected) {
+      var selectedTrash = listTrash.firstWhere((trash) => trash.id == trashId);
+      selectedTrashList.add(
+        GroupTrash(
+          id: selectedTrash.id,
+          nama: selectedTrash.nama,
+          harga: selectedTrash.harga,
+          berat: 0, // Default weight
+        ),
+      );
+    } else {
+      // Anda dapat menambahkan logika lain di sini, seperti memberi tahu pengguna bahwa sampah sudah dipilih
+      print('Sampah dengan ID $trashId sudah dipilih.');
+    }
+  }
+
+  // Menghapus sampah dari list yang dipilih
+  void removeSelectedTrash(String trashId) {
+    selectedTrashList.removeWhere((trash) => trash.id == trashId);
+  }
+
+  void updateTrashWeight(String trashId, String weight) {
+    var trash = selectedTrashList.firstWhere((trash) => trash.id == trashId);
+    trash.berat = int.tryParse(weight) ?? 1;
+    selectedTrashList.refresh();
+  }
 }
+
+
+// showDepositTrashSucces(
+//     context: context,
+//     icon: Assets.icons.succes.path,
+//     label: AppConstants.LABEL_DEPOSIT_TRASH_SUCCES,
+//     firstButton: AppConstants.LABEL_SEE_HISTORY,
+//     fistOnPressed: () async {
+
+//       // Get.back();
+//       // Get.back();
+//     },
+//     // secondButton: AppConstants.LABEL_BERANDA,
+//     // seccondOnPressed: () async {
+//     //   listDepositTrash.clear();
+//     //   await getDepositTrash();
+//     //   Get.offAllNamed(AppRoutes.home);
+//     // },
+//     showButton: false);

@@ -70,11 +70,18 @@ dev_dependencies:
   build_runner: ^2.4.11
   flutter_gen_runner: ^5.6.0
 
+android_12:
+    #    image: assets/logo-development.png
+    icon_background_color: "#ffffff"
+    #    image_dark: assets/logo-development.png
+    icon_background_color_dark: "#ffffff"
+
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/icons/launcher.png"
+  image_path: "assets/icons/testing_icon.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

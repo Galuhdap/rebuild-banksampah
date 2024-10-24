@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
+import 'package:rebuild_bank_sampah/core/component/input_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
-import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/deposit_trash_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/screen/loading_trash_screen.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_customer_deposit_trash_response.dart';
@@ -19,7 +19,7 @@ class AddDepositTrashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DepositTrashController controller = Get.find();
+    DepositTrashController controller = Get.put(DepositTrashController());
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -62,7 +62,6 @@ class AddDepositTrashScreen extends StatelessWidget {
                   )
                 : Button.filled(
                     onPressed: () async {
-                      Get.to(LoadingTrashScreen());
                       await controller.postDepositTrash(context);
                     },
                     label: AppConstants.ACTION_DEPOSIT,
@@ -207,6 +206,7 @@ class AddDepositTrashScreen extends StatelessWidget {
                   controller.dropdownTrashController.text = suggestion.nama;
                   controller.selectedTrashId.value = suggestion.id;
                   controller.setPriceTrashValue(suggestion.id);
+                  controller.addSelectedTrash(suggestion.id);
                 },
                 suggestionsBoxController: controller.suggestionBoxController,
                 validator: (value) =>
@@ -282,66 +282,171 @@ class AddDepositTrashScreen extends StatelessWidget {
           //     }),
           //   ],
           // ),
+          // AppSizes.s20.height,
+          // Obx(
+          //   () {
+          //     return Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         Text(
+          //           AppConstants.LABEL_PRICE,
+          //           style: Get.textTheme.labelLarge!.copyWith(
+          //             fontSize: AppSizes.s12,
+          //           ),
+          //         ),
+          //         Text(
+          //           controller.priceTrash.value.toInt().currencyFormatRp,
+          //           style: Get.textTheme.labelLarge!.copyWith(
+          //             fontSize: AppSizes.s12,
+          //           ),
+          //         ),
+          //       ],
+          //     );
+          //   },
+          // ),
+          // AppSizes.s20.height,
+          // InputWidget(
+          //   label: AppConstants.LABEL_WEIGHT,
+          //   hintText: AppConstants.LABEL_WEIGHT,
+          //   controller: controller.weight,
+          //   textInputType: TextInputType.name,
+          //   hintStyle: Get.textTheme.titleMedium!.copyWith(
+          //       color: AppColors.colorSecondary600, fontSize: AppSizes.s12),
+          //   onChanged: (value) {
+          //     if (value.isNotEmpty) {
+          //       double weight = double.tryParse(value) ?? 0.0;
+          //       controller.calculateTotal(weight);
+          //     } else {
+          //       controller.calculateTotal(0.0);
+          //     }
+          //   },
+          // ),
+          // AppSizes.s20.height,
+          // Obx(
+          //   () {
+          //     return Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         Text(
+          //           'Total Rupiah yang didapatkan : ',
+          //           style: Get.textTheme.labelLarge!.copyWith(
+          //             fontSize: AppSizes.s12,
+          //           ),
+          //         ),
+          //         Text(
+          //           controller.totalPriceTrash.value.toInt().currencyFormatRp,
+          //           style: Get.textTheme.labelLarge!.copyWith(
+          //             fontSize: AppSizes.s12,
+          //           ),
+          //         ),
+          //       ],
+          //     );
+          //   },
+          // ),
           AppSizes.s20.height,
-          Obx(
-            () {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    AppConstants.LABEL_PRICE,
-                    style: Get.textTheme.labelLarge!.copyWith(
-                      fontSize: AppSizes.s12,
+          Expanded(
+            child: Obx(() {
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: controller.selectedTrashList.length,
+                itemBuilder: (context, index) {
+                  var trash = controller.selectedTrashList[index];
+                  return Container(
+                    margin: AppSizes.symmetricPadding(vertical: AppSizes.s10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              trash.nama,
+                              style: Get.textTheme.labelLarge!.copyWith(
+                                fontSize: AppSizes.s14,
+                              ),
+                            ),
+                            AppSizes.s12.height,
+                            Text(
+                              '${trash.harga.currencyFormatRp}/Kg',
+                              style: Get.textTheme.bodySmall!.copyWith(
+                                fontSize: AppSizes.s14,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 100,
+                              height: 50,
+                              child: CustomTextField(
+                                hintText: AppConstants.LABEL_WEIGHT,
+                                controller: TextEditingController(
+                                  text: trash.berat.toString(),
+                                ),
+                                keyboardType: TextInputType.name,
+                                //textInputType: TextInputType.name,
+                                hintStyle: Get.textTheme.titleMedium!.copyWith(
+                                    color: AppColors.colorSecondary600,
+                                    fontSize: AppSizes.s12),
+                                onChanged: (value) {
+                                  if (value.isNotEmpty) {
+                                    double weight =
+                                        double.tryParse(value) ?? 0.0;
+                                    // Update berat di controller
+                                    controller.updateTrashWeight(
+                                        trash.id, value);
+                                    controller.calculateTotal(weight);
+                                  } else {
+                                    // Reset jika kosong
+                                    //controller.updateTrashWeight(trash.id, 0.0);
+                                    controller.calculateTotal(0.0);
+                                  }
+                                },
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () {
+                                controller.removeSelectedTrash(trash.id);
+                              },
+                              icon: Icon(Icons.clear_rounded),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
-                  ),
-                  Text(
-                    controller.priceTrash.value.toInt().currencyFormatRp,
-                    style: Get.textTheme.labelLarge!.copyWith(
-                      fontSize: AppSizes.s12,
-                    ),
-                  ),
-                ],
+                  );
+
+                  // ListTile(
+                  //   title: Text(trash.nama),
+                  //   subtitle: Text('Rp ${trash.harga}/Kg'),
+                  //   trailing: IconButton(
+                  //     icon: Icon(Icons.delete),
+                  //     onPressed: () {
+                  //       controller.removeSelectedTrash(trash.id);
+                  //     },
+                  //   ),
+                  //   leading: SizedBox(
+                  //     width: 50,
+                  //     child: TextField(
+                  //       decoration: InputDecoration(
+                  //         border: OutlineInputBorder(),
+                  //       ),
+                  //       controller: TextEditingController(
+                  //         text: trash.berat.toString(),
+                  //       ),
+                  //       keyboardType: TextInputType.number,
+                  //       onChanged: (value) {
+                  //         //controller.updateTrashWeight(trash.id, value);
+                  //       },
+                  //     ),
+                  //   ),
+                  // );
+                },
               );
-            },
-          ),
-          AppSizes.s20.height,
-          InputWidget(
-            label: AppConstants.LABEL_WEIGHT,
-            hintText: AppConstants.LABEL_WEIGHT,
-            controller: controller.weight,
-            textInputType: TextInputType.name,
-            hintStyle: Get.textTheme.titleMedium!.copyWith(
-                color: AppColors.colorSecondary600, fontSize: AppSizes.s12),
-            onChanged: (value) {
-              if (value.isNotEmpty) {
-                double weight = double.tryParse(value) ?? 0.0;
-                controller.calculateTotal(weight);
-              } else {
-                controller.calculateTotal(0.0);
-              }
-            },
-          ),
-          AppSizes.s20.height,
-          Obx(
-            () {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Total Rupiah yang didapatkan : ',
-                    style: Get.textTheme.labelLarge!.copyWith(
-                      fontSize: AppSizes.s12,
-                    ),
-                  ),
-                  Text(
-                    controller.totalPriceTrash.value.toInt().currencyFormatRp,
-                    style: Get.textTheme.labelLarge!.copyWith(
-                      fontSize: AppSizes.s12,
-                    ),
-                  ),
-                ],
-              );
-            },
+            }),
+          ).paddingSymmetric(
+            horizontal: AppSizes.s1,
           ),
           AppSizes.s20.height,
         ],

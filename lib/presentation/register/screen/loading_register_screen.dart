@@ -11,50 +11,55 @@ import 'package:rebuild_bank_sampah/presentation/register/controllers/register_c
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
 class LoadingRegisterScreen extends StatelessWidget {
-  const LoadingRegisterScreen({super.key});
+  final String label;
+  final bool status;
+  const LoadingRegisterScreen(
+      {super.key, required this.label, this.status = false});
 
   @override
   Widget build(BuildContext context) {
     RegisterController controller = Get.find();
-    return Scaffold(
-      body: Obx(
-        () {
-          return controller.isLoadingAddUser.value
-              ? Center(
-                  child: SizedBox(
-                    width: 300,
-                    height: 300,
-                    child: Lottie.asset(Assets.lottie.loadingUniversal),
-                  ),
-                )
-              : Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(Assets.icons.succes.path),
-                      AppSizes.s10.height,
-                      Container(
-                        padding:
-                            AppSizes.symmetricPadding(horizontal: AppSizes.s10),
-                        child: Text(
-                          AppConstants.LABEL_REGISTER_SUCCES,
-                          style: Get.textTheme.labelLarge!.copyWith(
-                            fontSize: AppSizes.s18,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+    return WillPopScope(
+        child: Scaffold(
+          body: Obx(
+            () {
+              return controller.isLoadingAddUser.value
+                  ? Center(
+                      child: SizedBox(
+                        width: 300,
+                        height: 300,
+                        child: Lottie.asset(Assets.lottie.loadingUniversal),
                       ),
-                      AppSizes.s20.height,
-                      Button.filled(
-                          onPressed: () {
-                            Get.offAndToNamed(AppRoutes.register);
-                          },
-                          label: AppConstants.LABEL_BACK)
-                    ],
-                  ).paddingSymmetric(horizontal: AppSizes.s40),
-                );
-        },
-      ),
-    );
+                    )
+                  : Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(Assets.icons.succes.path),
+                          AppSizes.s10.height,
+                          Container(
+                            padding: AppSizes.symmetricPadding(
+                                horizontal: AppSizes.s10),
+                            child: Text(
+                              label,
+                              style: Get.textTheme.labelLarge!.copyWith(
+                                fontSize: AppSizes.s18,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          AppSizes.s20.height,
+                          Button.filled(
+                              onPressed: () {
+                                Get.offAllNamed(AppRoutes.register);
+                              },
+                              label: AppConstants.LABEL_BACK)
+                        ],
+                      ).paddingSymmetric(horizontal: AppSizes.s40),
+                    );
+            },
+          ),
+        ),
+        onWillPop: () async => false);
   }
 }

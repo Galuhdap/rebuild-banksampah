@@ -8,6 +8,8 @@ import 'package:rebuild_bank_sampah/services/profile/repository/profile%20_data_
 import 'package:rebuild_bank_sampah/services/trash/repository/customer_trash_repository.dart';
 import 'package:rebuild_bank_sampah/services/trash/repository/deposit_trash_respository.dart';
 import 'package:rebuild_bank_sampah/services/trash/repository/trash_respository.dart';
+import 'package:rebuild_bank_sampah/services/withdraw/datarepository/withdraw_admin_koprasi_respository.dart';
+import 'package:rebuild_bank_sampah/services/withdraw/datarepository/withdrawa_super_admin_repository.dart';
 
 void initRepositoriesModule(GetIt locator) {
   locator
@@ -28,4 +30,8 @@ void initRepositoriesModule(GetIt locator) {
       () => ProfileDataRepository(locator()));
   locator.registerLazySingleton<OrderAdminDataRepository>(
       () => OrderAdminDataRepository(locator()));
+  locator.registerLazySingleton<WithdrawAdminKoprasiRespository>(
+      () => WithdrawAdminKoprasiRespository(locator()));
+  locator.registerLazySingleton<WithdrawaSuperAdminRepository>(
+      () => WithdrawaSuperAdminRepository(locator()));
 }

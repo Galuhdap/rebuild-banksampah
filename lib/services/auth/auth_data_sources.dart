@@ -4,6 +4,7 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/datasources/failure.da
 import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_utils.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/request/login_request.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/request/register_request.dart';
+import 'package:rebuild_bank_sampah/services/auth/model/response/delete_user_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_login_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_role_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_user_response.dart';
@@ -25,7 +26,7 @@ class AuthDataSource extends ApiService {
     );
   }
 
-  Future<Either<Failure, PosUserResponse>> getUserRegister() async {
+  Future<Either<Failure, GetUserResponse>> getUserRegister() async {
     final prefs = await SharedPreferencesUtils.getAuthToken();
 
     try {
@@ -34,12 +35,12 @@ class AuthDataSource extends ApiService {
         "Authorization": "Bearer ${prefs}",
       });
 
-      return Right(PosUserResponse.fromJson(response));
+      return Right(GetUserResponse.fromJson(response));
     } catch (e) {
       return left(Failure(400, 'Data tidak masuk'));
     }
   }
-  
+
   Future<Either<Failure, GetRoleResponse>> getRoleRegister() async {
     final prefs = await SharedPreferencesUtils.getAuthToken();
 
@@ -69,7 +70,8 @@ class AuthDataSource extends ApiService {
           "role": data.role,
           "identityNumber": data.identityNumber,
           "name": data.name,
-          "address": data.password
+          "address": data.address,
+          "telp": data.telp,
         },
         options: Options(
           headers: {
@@ -79,6 +81,40 @@ class AuthDataSource extends ApiService {
       );
 
       return Right(PostUserRegisterResponse.fromJson(response.data));
+    } catch (e) {
+      return Left(Failure(400, 'No data Tidak masuk'));
+    }
+  }
+
+  Future<Either<Failure, DeleteUserResponse>> forgotPassword(
+      String username, String newPassword) async {
+    try {
+      final response = await Dio().post(
+        NetworkConstants.POST_FORGOT_PASSWORD_URL,
+        data: {"username": username, "newPassword": newPassword},
+      );
+
+      return Right(DeleteUserResponse.fromJson(response.data));
+    } catch (e) {
+      return Left(Failure(400, 'No data Tidak masuk'));
+    }
+  }
+
+  Future<Either<Failure, DeleteUserResponse>> deletUserRegister(
+      String id) async {
+    final prefs = await SharedPreferencesUtils.getAuthToken();
+
+    try {
+      final response = await Dio().delete(
+        NetworkConstants.DELETE_REGISTER_URL(id),
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${prefs}",
+          },
+        ),
+      );
+
+      return Right(DeleteUserResponse.fromJson(response.data));
     } catch (e) {
       return Left(Failure(400, 'No data Tidak masuk'));
     }

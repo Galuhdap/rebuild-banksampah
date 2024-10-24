@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/loading_delete_price_trash.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/loading_price_trash_screen.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/request/price_trash_request.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_trash_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/repository/trash_respository.dart';
@@ -78,6 +80,7 @@ class TrashController extends GetxController {
             message: 'Price Trash added successfully',
             isError: false,
           );
+          Get.to(LoadingPriceTrashScreen());
           listTrash.clear();
           await getTrash();
 
@@ -111,6 +114,7 @@ class TrashController extends GetxController {
             message: 'Price Trash Edit successfully',
             isError: false,
           );
+          Get.to(LoadingPriceTrashScreen());
           listTrash.clear();
           await getTrash();
 
@@ -140,6 +144,7 @@ class TrashController extends GetxController {
             message: 'Hapus Sampah Succes',
             isError: false,
           );
+          Get.to(LoadingDeletePriceTrashScreen());
           listTrash.clear();
           await getTrash();
           // showDepositTrashSucces(

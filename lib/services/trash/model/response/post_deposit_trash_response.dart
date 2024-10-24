@@ -12,7 +12,7 @@ class PostDepositTrashResponse {
     final bool success;
     final int code;
     final String message;
-    final BalanceTrash data;
+    final Data data;
 
     PostDepositTrashResponse({
         required this.success,
@@ -25,7 +25,7 @@ class PostDepositTrashResponse {
         bool? success,
         int? code,
         String? message,
-        BalanceTrash? data,
+        Data? data,
     }) => 
         PostDepositTrashResponse(
             success: success ?? this.success,
@@ -38,7 +38,7 @@ class PostDepositTrashResponse {
         success: json["success"],
         code: json["code"],
         message: json["message"],
-        data: BalanceTrash.fromJson(json["data"]),
+        data: Data.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -49,32 +49,32 @@ class PostDepositTrashResponse {
     };
 }
 
-class BalanceTrash {
+class Data {
     final int updatedBalance;
-    final Deposit deposit;
+    final List<Deposit> deposits;
 
-    BalanceTrash({
+    Data({
         required this.updatedBalance,
-        required this.deposit,
+        required this.deposits,
     });
 
-    BalanceTrash copyWith({
+    Data copyWith({
         int? updatedBalance,
-        Deposit? deposit,
+        List<Deposit>? deposits,
     }) => 
-        BalanceTrash(
+        Data(
             updatedBalance: updatedBalance ?? this.updatedBalance,
-            deposit: deposit ?? this.deposit,
+            deposits: deposits ?? this.deposits,
         );
 
-    factory BalanceTrash.fromJson(Map<String, dynamic> json) => BalanceTrash(
+    factory Data.fromJson(Map<String, dynamic> json) => Data(
         updatedBalance: json["updatedBalance"],
-        deposit: Deposit.fromJson(json["deposit"]),
+        deposits: List<Deposit>.from(json["deposits"].map((x) => Deposit.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
         "updatedBalance": updatedBalance,
-        "deposit": deposit.toJson(),
+        "deposits": List<dynamic>.from(deposits.map((x) => x.toJson())),
     };
 }
 
@@ -82,7 +82,7 @@ class Deposit {
     final String id;
     final String userId;
     final String trashId;
-    final double weight;
+    final int weight;
     final int nominal;
     final String dataRaw;
     final DateTime createdAt;
@@ -103,7 +103,7 @@ class Deposit {
         String? id,
         String? userId,
         String? trashId,
-        double? weight,
+        int? weight,
         int? nominal,
         String? dataRaw,
         DateTime? createdAt,
@@ -124,7 +124,7 @@ class Deposit {
         id: json["id"],
         userId: json["userId"],
         trashId: json["trashId"],
-        weight: json["weight"]?.toDouble(),
+        weight: json["weight"],
         nominal: json["nominal"],
         dataRaw: json["dataRaw"],
         createdAt: DateTime.parse(json["createdAt"]),

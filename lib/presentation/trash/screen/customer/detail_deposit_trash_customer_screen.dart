@@ -88,7 +88,7 @@ class DetailDepositTrashCustomerScreen extends StatelessWidget {
                 var datas = data.deposits[index];
                 return CardDepositTileWidget(
                   title: 'INI NAMA SAMPAH',
-                  quantity: datas.weight,
+                  quantity: datas.weight.toInt(),
                   price: datas.nominal.currencyFormatRp,
                 );
               },
@@ -98,10 +98,7 @@ class DetailDepositTrashCustomerScreen extends StatelessWidget {
       ).paddingAll(AppSizes.s20),
       bottomNavigationBar: Container(
         width: double.infinity,
-        //height: 200,
-        // height: 100,
         padding: const EdgeInsets.all(16.0),
-        //color: AppColors.colorBaseWhite,
         decoration: BoxDecoration(
           color: AppColors.colorBaseWhite,
           boxShadow: [

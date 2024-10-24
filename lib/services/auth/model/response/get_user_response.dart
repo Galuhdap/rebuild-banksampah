@@ -1,40 +1,40 @@
 // To parse this JSON data, do
 //
-//     final posUserResponse = posUserResponseFromJson(jsonString);
+//     final getUserResponse = getUserResponseFromJson(jsonString);
 
 import 'dart:convert';
 
-PosUserResponse posUserResponseFromJson(String str) => PosUserResponse.fromJson(json.decode(str));
+GetUserResponse getUserResponseFromJson(String str) => GetUserResponse.fromJson(json.decode(str));
 
-String posUserResponseToJson(PosUserResponse data) => json.encode(data.toJson());
+String getUserResponseToJson(GetUserResponse data) => json.encode(data.toJson());
 
-class PosUserResponse {
+class GetUserResponse {
     final bool success;
     final int code;
     final String message;
     final List<UserData> data;
 
-    PosUserResponse({
+    GetUserResponse({
         required this.success,
         required this.code,
         required this.message,
         required this.data,
     });
 
-    PosUserResponse copyWith({
+    GetUserResponse copyWith({
         bool? success,
         int? code,
         String? message,
         List<UserData>? data,
     }) => 
-        PosUserResponse(
+        GetUserResponse(
             success: success ?? this.success,
             code: code ?? this.code,
             message: message ?? this.message,
             data: data ?? this.data,
         );
 
-    factory PosUserResponse.fromJson(Map<String, dynamic> json) => PosUserResponse(
+    factory GetUserResponse.fromJson(Map<String, dynamic> json) => GetUserResponse(
         success: json["success"],
         code: json["code"],
         message: json["message"],
@@ -93,29 +93,35 @@ class UserData {
 class Profile {
     final String kdUser;
     final String name;
+    final String telp;
 
     Profile({
         required this.kdUser,
         required this.name,
+        required this.telp,
     });
 
     Profile copyWith({
         String? kdUser,
         String? name,
+        String? telp,
     }) => 
         Profile(
             kdUser: kdUser ?? this.kdUser,
             name: name ?? this.name,
+            telp: telp ?? this.telp,
         );
 
     factory Profile.fromJson(Map<String, dynamic> json) => Profile(
         kdUser: json["kd_User"],
         name: json["name"],
+        telp: json["telp"],
     );
 
     Map<String, dynamic> toJson() => {
         "kd_User": kdUser,
         "name": name,
+        "telp": telp,
     };
 }
 

@@ -7,6 +7,7 @@ class AppConstants {
   static const String LABEL_INPUT_PRICE_PRODUK = "Masukkan Harga";
   static const String LABEL_STOCK_PRODUK = "Stock";
   static const String LABEL_INPUT_STOCK_PRODUK = "Masukkan stok";
+  static const String LABEL_NEW_PASSWORD = "New Password";
   static const String LABEL_PASSWORD = "Password";
   static const String LABEL_NAME = "Nama";
   static const String LABEL_NOKTP = "Verification Card";
@@ -20,6 +21,8 @@ class AppConstants {
   static const String LABEL_PRICE_TRASH = "Harga sampah";
   static const String LABEL_REGISTER_USER = "Register User";
   static const String LABEL_ADD_REGISTER_USER = "Tambah User";
+  static const String LABEL_EDIT_REGISTER_USER = "Edit Tambah User";
+  static const String LABEL_FORGOT_PASS = "Ubah Password";
   static const String LABEL_USERNAME = "Username";
   
   static const String LABEL_DEPOSIT_TRASH = "Setor Sampah";
@@ -43,14 +46,22 @@ class AppConstants {
   static const String LABEL_BASKET = "Keranjang Saya";
 
 
+  static const String LABEL_NAME_COORPT = "Nama Koprasi";
+  static const String LABEL_NAME_ADMIN_COORPT = "Nama Admin Koprasi";
+  static const String INPUT_NAME_ADMIN_COORPT = "Masukkan nama";
+  static const String LABEL_FUNDS_WITHDRAW_COORPT = "Nominal Penarikan";
+  static const String INPUT_FUNDS_WITHDRAW_COORPT = "Masukkan Nominal yang akan ditarik";
+
+
 
   // Input Hint
   static const String HINT_EMAIL = "Masukan Username";
   static const String HINT_PASSWORD = "Masukan Password";
+  static const String HINT_PASSWORD_NEW = "Masukan Password Baru";
   static const String HINT_NAME = "Masukan Nama";
   static const String HINT_NO_KTP = "Masukan Nomor KTP";
   static const String HINT_ALAMAT = "Masukan Alamat";
-  static const String HINT_PHONE_NUMBER = "Phone Number";
+  static const String HINT_PHONE_NUMBER = "Masukan Nomer Telefon";
   static const String HINT_ATAU = "atau";
   static const String HINT_SEARCH = "Masukkan kata kunci";
 
@@ -69,6 +80,9 @@ class AppConstants {
   
   static const String ACTION_COOPERATIVE = "Koprasi";
   static const String ACTION_ORDER = "Pesanan";
+
+  static const String ACTION_WITHDRAW_FUNDS = "Pengajuan Penarikan Dana";
+  static const String ACTION_DETAIL_WITHDRAW_FUNDS = "Detail Pengajuan Dana";
 
   // History
   static const String LABEL_RIWAYAT = "Riwayat";

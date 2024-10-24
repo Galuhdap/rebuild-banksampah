@@ -25,6 +25,7 @@ class HomeScreen extends StatelessWidget {
           onRefresh: () async {
             controller.getBalanceCustomer();
             controller.getSummaryWeigher();
+            controller.getSummaryAdminKoprasi();
           },
           child: ListView(
             // crossAxisAlignment: CrossAxisAlignment.start,
@@ -99,21 +100,36 @@ class HomeScreen extends StatelessWidget {
                                   ? SizedBox(
                                       height: 20,
                                     )
-                                  : controller.isLoadingCustomer.value
-                                      ? Center(
-                                          child: CircularProgressIndicator(),
-                                        )
-                                      : Text(
-                                          (controller.balanceCustomer.value
-                                                      ?.balance ??
-                                                  0)
-                                              .currencyFormatRp,
-                                          style: Get.textTheme.titleLarge!
-                                              .copyWith(
-                                                  fontSize: AppSizes.s24,
-                                                  color:
-                                                      AppColors.colorBaseWhite),
-                                        );
+                                  : controller.role.value == 'ADMIN'
+                                      ? controller.isLoadingAdminKoprasi.value
+                                          ? CircularProgressIndicator()
+                                          : Text(
+                                              (controller.summaryAdminKoprasi
+                                                          .value?.balance ??
+                                                      0)
+                                                  .currencyFormatRp,
+                                              style: Get.textTheme.titleLarge!
+                                                  .copyWith(
+                                                      fontSize: AppSizes.s24,
+                                                      color: AppColors
+                                                          .colorBaseWhite),
+                                            )
+                                      : controller.isLoadingCustomer.value
+                                          ? Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            )
+                                          : Text(
+                                              (controller.balanceCustomer.value
+                                                          ?.balance ??
+                                                      0)
+                                                  .currencyFormatRp,
+                                              style: Get.textTheme.titleLarge!
+                                                  .copyWith(
+                                                      fontSize: AppSizes.s24,
+                                                      color: AppColors
+                                                          .colorBaseWhite),
+                                            );
                         })
                       ],
                     ),
@@ -236,7 +252,7 @@ class HomeScreen extends StatelessWidget {
                                           child: MenuKategoriComponent(
                                             disabel: false,
                                             onTap: () {
-                                            Get.toNamed(AppRoutes.orderSee);
+                                              Get.toNamed(AppRoutes.orderSee);
                                             },
                                             image: Assets.images.received.path,
                                             label: AppConstants.ACTION_ORDER,
@@ -268,14 +284,13 @@ class HomeScreen extends StatelessWidget {
                                             Flexible(
                                               child: MenuKategoriComponent(
                                                 onTap: () {
-                                                  // Get.toNamed(
-                                                  //     AppRoutes.withdrawFunds);
+                                                  Get.toNamed(
+                                                      AppRoutes.withdrawFunds);
                                                 },
                                                 image: Assets
                                                     .images.withdrawal.path,
                                                 label: AppConstants
                                                     .LABEL_WITHDRAW_FUNDS,
-                                                disabel: true,
                                               ),
                                             ),
                                           ],
@@ -336,7 +351,8 @@ class HomeScreen extends StatelessWidget {
                                             Flexible(
                                               child: MenuKategoriComponent(
                                                 onTap: () {
-                                                  //Get.toNamed(AppRoutes.withdrawFunds);
+                                                  Get.toNamed(AppRoutes
+                                                      .withdrawFundAdminKoprasi);
                                                 },
                                                 image: Assets
                                                     .images.withdrawal.path,
@@ -367,7 +383,8 @@ class HomeScreen extends StatelessWidget {
                                             Flexible(
                                               child: MenuKategoriComponent(
                                                 onTap: () {
-                                                  Get.toNamed(AppRoutes.orderAdminKoprasi);
+                                                  Get.toNamed(AppRoutes
+                                                      .orderAdminKoprasi);
                                                 },
                                                 image:
                                                     Assets.images.received.path,

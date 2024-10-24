@@ -15,11 +15,11 @@ class NoProfileWidget extends StatelessWidget {
       child: Stack(
         alignment: Alignment.bottomRight,
         children: [
-          Icon(
-            Icons.account_circle,
-            color: AppColors.colorPrimary300,
-            size: AppSizes.s150,
-          ),
+          // Icon(
+          //   Icons.account_circle,
+          //   color: AppColors.colorPrimary300,
+          //   size: AppSizes.s150,
+          // ),
           Positioned(
             bottom: AppSizes.s15,
             right: AppSizes.s13,

@@ -3,6 +3,7 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/datasources/failure.da
 import 'package:rebuild_bank_sampah/services/auth/auth_data_sources.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/request/login_request.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/request/register_request.dart';
+import 'package:rebuild_bank_sampah/services/auth/model/response/delete_user_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_login_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_role_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_user_response.dart';
@@ -18,7 +19,7 @@ class AuthRepository {
     return source.loginUser(loginRequest);
   }
 
-  Future<Either<Failure, PosUserResponse>> getUserRegister() async {
+  Future<Either<Failure, GetUserResponse>> getUserRegister() async {
     return source.getUserRegister();
   }
 
@@ -29,6 +30,14 @@ class AuthRepository {
 
   Future<Either<Failure, GetRoleResponse>> getRoleRegister() async {
     return source.getRoleRegister();
+  }
+
+  Future<Either<Failure, DeleteUserResponse>> deleteUserRegister(String id) async {
+    return source.deletUserRegister(id);
+  }
+
+  Future<Either<Failure, DeleteUserResponse>> forgotPassword(String userName, String newPassword) async {
+    return source.forgotPassword(userName, newPassword);
   }
 
   // Future<List<SettingEnumeratorResponse?>?> getSettingEnumerator() async {

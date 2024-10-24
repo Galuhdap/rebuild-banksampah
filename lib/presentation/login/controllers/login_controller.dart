@@ -17,7 +17,11 @@ class LoginController extends GetxController {
 
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+
+  final userController = TextEditingController();
+  final newPasswordController = TextEditingController();
   RxBool isloadingLogin = false.obs;
+  RxBool isloadingForgotPassword = false.obs;
 
   Future<void> userLogin() async {
     isloadingLogin.value = true;
@@ -51,6 +55,46 @@ class LoginController extends GetxController {
     } catch (e) {
       print('e:$e');
       isloadingLogin.value = false;
+    }
+  }
+
+  Future<void> forgotPassword() async {
+    isloadingForgotPassword.value = true;
+    try {
+      final response = await authRepository.forgotPassword(
+          userController.text, newPasswordController.text);
+
+      response.fold(
+        (failure) {
+          MessageComponent.snackbar(
+            title: '${failure.code}',
+            message: failure.message,
+            isError: true,
+          );
+          Get.back();
+          update();
+        },
+        (response) async {
+          MessageComponent.snackbarTop(
+            title: 'Success',
+            message: 'Ubah Password Successfully',
+            isError: false,
+          );
+
+         
+          userController.text = '';
+          
+          newPasswordController.text = '';
+          formKey.currentState?.reset();
+
+          update();
+        },
+      );
+
+      isloadingForgotPassword.value = false;
+    } catch (e) {
+      print('e:$e');
+      isloadingForgotPassword.value = false;
     }
   }
 }

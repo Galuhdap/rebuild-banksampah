@@ -38,11 +38,22 @@ class SplashScreen extends StatelessWidget {
             ).paddingSymmetric(horizontal: AppSizes.s100),
           ],
         ),
-        Text(
-          'Hibah Pemberdayaan Desa Binaan\nDRTPM 2024',
-          maxLines: 2,
-          textAlign: TextAlign.center,
-          style: Get.textTheme.titleMedium!.copyWith(fontSize: 15),
+        Column(
+          children: [
+            Text(
+              'Hibah Pemberdayaan Desa Binaan\nDRTPM 2024',
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: Get.textTheme.titleMedium!.copyWith(fontSize: 15),
+            ),
+            AppSizes.s10.height,
+            Text(
+              'V 1.0',
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: Get.textTheme.titleMedium!.copyWith(fontSize: 10),
+            ),
+          ],
         ),
       ],
     ).paddingSymmetric(vertical: AppSizes.s60));

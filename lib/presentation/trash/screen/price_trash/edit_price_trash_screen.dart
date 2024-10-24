@@ -12,7 +12,6 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/trash_controller.dart';
-import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/loading_price_trash_screen.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/request/price_trash_request.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_trash_response.dart';
 
@@ -23,7 +22,7 @@ class EditPriceTrashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TrashController controller = Get.find();
+    TrashController controller = Get.put(TrashController());
     final TextEditingController nameController =
         TextEditingController(text: data!.nama);
     // final TextEditingController weightController =
@@ -63,7 +62,6 @@ class EditPriceTrashScreen extends StatelessWidget {
         ),
         child: Button.filled(
           onPressed: () async {
-            Get.to(LoadingPriceTrashScreen());
             // double? numericValue =
             //     double.parse(weightController.text);
             String inputText =

@@ -5,6 +5,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_utils.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
 import 'package:rebuild_bank_sampah/services/home/datarepository/home_repository.dart';
+import 'package:rebuild_bank_sampah/services/home/model/response/get_admin_koprasi_balanse_response.dart';
 import 'package:rebuild_bank_sampah/services/home/model/response/get_customer_balance_response.dart';
 import 'package:rebuild_bank_sampah/services/home/model/response/get_weigher_summary_response.dart';
 
@@ -12,12 +13,14 @@ class HomeController extends GetxController {
   final HomeRepository repository = locator();
 
   RxList<BalanceCustomer> listBalanceCustomer = <BalanceCustomer>[].obs;
-  Rx<BalanceCustomer?> balanceCustomer = Rx<BalanceCustomer?>(null); 
-  Rx<SummaryWeigher?> summaryWeigher = Rx<SummaryWeigher?>(null); 
+  Rx<BalanceCustomer?> balanceCustomer = Rx<BalanceCustomer?>(null);
+  Rx<SummaryWeigher?> summaryWeigher = Rx<SummaryWeigher?>(null);
+  Rx<SummaryAdminKoprasi?> summaryAdminKoprasi = Rx<SummaryAdminKoprasi?>(null);
   RxString role = ''.obs;
   RxString name = ''.obs;
   RxBool isLoading = false.obs;
   RxBool isLoadingCustomer = false.obs;
+  RxBool isLoadingAdminKoprasi = false.obs;
 
   @override
   void onInit() {
@@ -25,6 +28,7 @@ class HomeController extends GetxController {
     checkUserData();
     getBalanceCustomer();
     getSummaryWeigher();
+    getSummaryAdminKoprasi();
   }
 
   void checkUserData() async {
@@ -60,7 +64,7 @@ class HomeController extends GetxController {
       isLoadingCustomer.value = false;
     }
   }
-  
+
   Future<void> getSummaryWeigher() async {
     isLoadingCustomer.value = true;
     try {
@@ -78,6 +82,26 @@ class HomeController extends GetxController {
     } catch (e) {
       print('e:$e');
       isLoadingCustomer.value = false;
+    }
+  }
+
+  Future<void> getSummaryAdminKoprasi() async {
+    isLoadingAdminKoprasi.value = true;
+    try {
+      final response = await repository.getSummaryAdminKoprasi();
+
+      response.fold(
+        (failure) {
+          inspect(failure.code);
+        },
+        (response) async {
+          summaryAdminKoprasi.value = response.data;
+        },
+      );
+      isLoadingAdminKoprasi.value = false;
+    } catch (e) {
+      print('e:$e');
+      isLoadingAdminKoprasi.value = false;
     }
   }
 }

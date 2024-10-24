@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/datasources/failure.dart';
 import 'package:rebuild_bank_sampah/services/trash/datasources/deposit_trash_data_sources.dart';
-import 'package:rebuild_bank_sampah/services/trash/model/request/deposit_trash_request.dart';
+import 'package:rebuild_bank_sampah/services/trash/model/request/post_deposit_trash_request.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/delete_deposit_trash_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_customer_deposit_trash_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_deposit_trash_response.dart';
@@ -22,8 +22,13 @@ class DepositTrashDataRespository {
   }
 
   Future<Either<Failure, PostDepositTrashResponse>> postDepositTrash(
-      DepositTrashRequest data) async {
+      PostDepositTrashRequest data) async {
     return sources.postDepositTrash(data);
+  }
+
+  Future<Either<Failure, PostDepositTrashResponse>> putDepositTrash(
+      PostDepositTrashRequest data, String idSummary) async {
+    return sources.putDepositTrash(data, idSummary);
   }
 
   Future<Either<Failure, DeleteDepositTrashResponse>> deleteDepositTrash(

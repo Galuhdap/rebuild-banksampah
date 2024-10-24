@@ -8,6 +8,8 @@ import 'package:rebuild_bank_sampah/services/profile/datasources/profile_data_so
 import 'package:rebuild_bank_sampah/services/trash/datasources/customer_deposit_trash_datasources.dart';
 import 'package:rebuild_bank_sampah/services/trash/datasources/deposit_trash_data_sources.dart';
 import 'package:rebuild_bank_sampah/services/trash/datasources/trash_data_sources.dart';
+import 'package:rebuild_bank_sampah/services/withdraw/datasources/withdraw_admin_koprasi_datasources.dart';
+import 'package:rebuild_bank_sampah/services/withdraw/datasources/withdraw_super_admin_datasources.dart';
 
 void initDataSourcesModule(GetIt locator) {
   locator.registerLazySingleton<AuthDataSource>(() => AuthDataSource());
@@ -21,5 +23,10 @@ void initDataSourcesModule(GetIt locator) {
   locator.registerLazySingleton<ProductCustomerDataSources>(
       () => ProductCustomerDataSources());
   locator.registerLazySingleton<ProfileDataSources>(() => ProfileDataSources());
-  locator.registerLazySingleton<OrderAdminDataSources>(() => OrderAdminDataSources());
+  locator.registerLazySingleton<OrderAdminDataSources>(
+      () => OrderAdminDataSources());
+  locator.registerLazySingleton<WithdrawAdminKoprasiDatasources>(
+      () => WithdrawAdminKoprasiDatasources());
+  locator.registerLazySingleton<WithdrawSuperAdminDatasources>(
+      () => WithdrawSuperAdminDatasources());
 }

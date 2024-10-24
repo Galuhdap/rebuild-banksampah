@@ -2,7 +2,10 @@ import 'package:drop_down_search_field/drop_down_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/core/component/message_component.dart';
+import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
+import 'package:rebuild_bank_sampah/presentation/register/screen/loading_delete_register_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/register/screen/loading_register_screen.dart';
 import 'package:rebuild_bank_sampah/services/auth/auth_repository.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/request/register_request.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_role_response.dart';
@@ -22,12 +25,14 @@ class RegisterController extends GetxController {
   final TextEditingController alamatController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController telpController = TextEditingController();
 
   RxString searchQuery = "".obs;
   RxBool isLoadingUser = false.obs;
   RxBool isLoadingRole = false.obs;
   RxBool isLoadingDeleteUser = false.obs;
   RxBool isLoadingAddUser = false.obs;
+  RxBool isLoadingUpdateUser = false.obs;
 
   RxList<UserData> listUserRegister = <UserData>[].obs;
   RxList<UserData> searchUserRegister = <UserData>[].obs;
@@ -91,16 +96,62 @@ class RegisterController extends GetxController {
     isLoadingAddUser.value = true;
     try {
       final data = RegisterRequest(
-        username: usernameController.text,
-        password: passwordController.text,
-        name: nameController.text,
-        identityType: 'KTP',
-        identityNumber: noKtpController.text,
-        address: alamatController.text,
-        role: dropdownSearchFieldController.text,
-      );
+          username: usernameController.text,
+          password: passwordController.text,
+          name: nameController.text,
+          identityType: 'KTP',
+          identityNumber: noKtpController.text,
+          address: alamatController.text,
+          role: dropdownSearchFieldController.text,
+          telp: telpController.text);
 
       final response = await authRepository.postRegister(data);
+
+      response.fold(
+        (failure) {
+          MessageComponent.snackbar(
+            title: '${failure.code}',
+            message: failure.message,
+            isError: true,
+          );
+          update();
+        },
+        (response) async {
+          MessageComponent.snackbarTop(
+            title: 'Success',
+            message: 'User added successfully',
+            isError: false,
+          );
+          Get.to(LoadingRegisterScreen(
+            label: AppConstants.LABEL_REGISTER_SUCCES,
+          ));
+          nameController.text = '';
+          alamatController.text = '';
+          noKtpController.text = '';
+          telpController.text = '';
+          usernameController.text = '';
+          passwordController.text = '';
+          dropdownSearchFieldController.clear();
+          searchUserRegister.clear();
+          listUserRegister.clear();
+          await getUser();
+          await getRole();
+
+          update();
+        },
+      );
+
+      isLoadingAddUser.value = false;
+    } catch (e) {
+      print('e:$e');
+      isLoadingAddUser.value = false;
+    }
+  }
+
+  Future<void> deteleUserRegister(String id) async {
+    isLoadingDeleteUser.value = true;
+    try {
+      final response = await authRepository.deleteUserRegister(id);
 
       response.fold(
         (failure) {
@@ -115,9 +166,12 @@ class RegisterController extends GetxController {
         (response) async {
           MessageComponent.snackbarTop(
             title: 'Success',
-            message: 'User added successfully',
+            message: 'User Delete successfully',
             isError: false,
           );
+          Get.to(LoadingDeleteRegisterScreen(
+            label: 'Sukses Hapus User',
+          ));
           nameController.text = '';
           alamatController.text = '';
           noKtpController.text = '';
@@ -132,10 +186,10 @@ class RegisterController extends GetxController {
         },
       );
 
-      isLoadingAddUser.value = false;
+      isLoadingDeleteUser.value = false;
     } catch (e) {
       print('e:$e');
-      isLoadingAddUser.value = false;
+      isLoadingDeleteUser.value = false;
     }
   }
 

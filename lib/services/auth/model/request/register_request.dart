@@ -6,6 +6,7 @@ class RegisterRequest {
   String identityNumber;
   String name;
   String address;
+  String telp;
 
   RegisterRequest({
     required this.username,
@@ -15,6 +16,7 @@ class RegisterRequest {
     required this.identityNumber,
     required this.name,
     required this.address,
+    required this.telp,
   });
 
   Map<String, dynamic> toJson() => {
@@ -25,5 +27,6 @@ class RegisterRequest {
         "identityNumber": identityNumber,
         "name": name,
         "address": address,
+        "telp": telp,
       };
 }

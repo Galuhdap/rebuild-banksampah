@@ -12,14 +12,13 @@ import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 
 import 'package:rebuild_bank_sampah/presentation/trash/controllers/trash_controller.dart';
-import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/loading_price_trash_screen.dart';
 
 class AddPriceTrashScreen extends StatelessWidget {
   const AddPriceTrashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    TrashController controller = Get.find();
+    TrashController controller = Get.put(TrashController());
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -53,7 +52,7 @@ class AddPriceTrashScreen extends StatelessWidget {
           ),
           child:Button.filled(
                     onPressed: () async {
-                      Get.to(LoadingPriceTrashScreen());
+                      
                       await controller.postDepositTrash(context);
                     },
                     label: AppConstants.ACTION_DEPOSIT,

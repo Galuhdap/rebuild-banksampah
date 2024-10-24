@@ -50,6 +50,16 @@ class $AssetsIconsGen {
   /// File path: assets/icons/home.svg
   SvgGenImage get home => const SvgGenImage('assets/icons/home.svg');
 
+  /// File path: assets/icons/icon.png
+  AssetGenImage get icon => const AssetGenImage('assets/icons/icon.png');
+
+  /// File path: assets/icons/icons.png
+  AssetGenImage get icons => const AssetGenImage('assets/icons/icons.png');
+
+  /// File path: assets/icons/launcher.png
+  AssetGenImage get launcher =>
+      const AssetGenImage('assets/icons/launcher.png');
+
   /// File path: assets/icons/mark.svg
   SvgGenImage get mark => const SvgGenImage('assets/icons/mark.svg');
 
@@ -70,10 +80,13 @@ class $AssetsIconsGen {
   SvgGenImage get succes => const SvgGenImage('assets/icons/succes.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [
+  List<dynamic> get values => [
         checklist,
         history,
         home,
+        icon,
+        icons,
+        launcher,
         mark,
         phQuestion,
         profile,
@@ -85,6 +98,10 @@ class $AssetsIconsGen {
 
 class $AssetsImagesGen {
   const $AssetsImagesGen();
+
+  /// File path: assets/images/avatar_super_admin.jpg
+  AssetGenImage get avatarSuperAdmin =>
+      const AssetGenImage('assets/images/avatar_super_admin.jpg');
 
   /// File path: assets/images/box_kosong.png
   AssetGenImage get boxKosong =>
@@ -149,6 +166,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        avatarSuperAdmin,
         boxKosong,
         emptyData,
         imageProductAdd,
@@ -172,6 +190,19 @@ class $AssetsImagesGen {
 class $AssetsLottieGen {
   const $AssetsLottieGen();
 
+  /// File path: assets/lottie/loading_balance.json
+  String get loadingBalance => 'assets/lottie/loading_balance.json';
+
+  /// File path: assets/lottie/loading_circular.json
+  String get loadingCircular => 'assets/lottie/loading_circular.json';
+
+  /// File path: assets/lottie/loading_login.json
+  String get loadingLogin => 'assets/lottie/loading_login.json';
+
+  /// File path: assets/lottie/loading_money_transfer.json
+  String get loadingMoneyTransfer =>
+      'assets/lottie/loading_money_transfer.json';
+
   /// File path: assets/lottie/loading_sampah.json
   String get loadingSampah => 'assets/lottie/loading_sampah.json';
 
@@ -182,8 +213,15 @@ class $AssetsLottieGen {
   String get loadingUniversal => 'assets/lottie/loading_universal.json';
 
   /// List of all assets
-  List<String> get values =>
-      [loadingSampah, loadingTransaction, loadingUniversal];
+  List<String> get values => [
+        loadingBalance,
+        loadingCircular,
+        loadingLogin,
+        loadingMoneyTransfer,
+        loadingSampah,
+        loadingTransaction,
+        loadingUniversal
+      ];
 }
 
 class Assets {

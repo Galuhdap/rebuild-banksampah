@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/presentation/history/screen/history_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/home/screen/bottom_navigation.dart';
 import 'package:rebuild_bank_sampah/presentation/home/screen/home_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/login/screen/forgot_password_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/login/screen/login_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/order/screen/detail_order_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/order/screen/order_see_admin_koprasi_screen.dart';
@@ -20,6 +21,8 @@ import 'package:rebuild_bank_sampah/presentation/trash/screen/deposit_trash_scre
 import 'package:rebuild_bank_sampah/presentation/splash/screen/splash_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/add_price_trash_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/trash_price_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/withdraw/screen/admin_koprasi/add_withdraw_funst_admin_koprasi.dart';
+import 'package:rebuild_bank_sampah/presentation/withdraw/screen/admin_koprasi/withdraw_funds_admin_koprasi_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/withdraw/screen/withdraw_funds_screen.dart';
 
 
@@ -55,6 +58,10 @@ class AppRoutes {
 
   static const String orderAdminKoprasi = "/order-admin-koprasi";
 
+  static const String withdrawFundAdminKoprasi = "/withdraw-funds-admin-koprasi";
+  static const String addWithdrawFundAdminKoprasi = "/add-withdraw-funds-admin-koprasi";
+  static const String forgotPassword = "/forgot-password";
+
 
 
 
@@ -81,6 +88,9 @@ class AppRoutes {
     GetPage(name: register, page : () => RegisterScreen()),
     GetPage(name: addRegister, page : () => AddRegisterScreen()),
     GetPage(name: orderAdminKoprasi, page : () => OrderSeeAdminKoprasiScreen()),
+    GetPage(name: withdrawFundAdminKoprasi, page : () => WithdrawFundsAdminKoprasiScreen()),
+    GetPage(name: addWithdrawFundAdminKoprasi, page : () => AddWithdrawFunstAdminKoprasi()),
+    GetPage(name: forgotPassword, page : () => ForgotPasswordScreen()),
     //cara menggunakan Binding
     //GetPage(name: login, page : () => LoginScreen(), binding: LoginBinding()),
   ];

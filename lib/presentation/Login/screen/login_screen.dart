@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
+import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/helpers/validation_helper.dart';
 import 'package:rebuild_bank_sampah/presentation/login/controllers/login_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
+import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -22,7 +25,10 @@ class LoginScreen extends StatelessWidget {
               padding: AppSizes.symmetricPadding(
                   horizontal: AppSizes.s24, vertical: AppSizes.s125),
               children: [
-                Assets.images.logobs.image(scale: 3),
+                Center(
+                  child: Assets.images.logoBs.image(scale: 4),
+                ),
+                AppSizes.s40.height,
                 Form(
                   key: controller.formKey,
                   child: Column(
@@ -47,11 +53,32 @@ class LoginScreen extends StatelessWidget {
                     ],
                   ),
                 ),
+                AppSizes.s10.height,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.forgotPassword);
+                      },
+                      child: Text(
+                        'Lupa Password ?',
+                        style: Get.textTheme.labelLarge!.copyWith(
+                            fontSize: AppSizes.s12,
+                            color: AppColors.colorBasePrimary),
+                      ),
+                    ),
+                  ],
+                ),
                 AppSizes.s20.height,
                 Obx(() {
                   return controller.isloadingLogin.value
                       ? Center(
-                          child: CircularProgressIndicator(),
+                          child: SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Lottie.asset(Assets.lottie.loadingLogin),
+                          ),
                         )
                       : Button.filled(
                           onPressed: () {

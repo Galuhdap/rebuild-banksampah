@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_utils.dart';
+import 'package:rebuild_bank_sampah/presentation/home/controllers/home_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 import 'package:rebuild_bank_sampah/presentation/profile/controllers/profile_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/profile/widget/no_profile_widget.dart';
@@ -35,8 +37,18 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          NoProfileWidget(
-            onTap: () {},
+          Container(
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(
+              border: Border.all(
+                  color: AppColors.colorBaseWhite, width: AppSizes.s2),
+              borderRadius: BorderRadius.circular(100),
+              // color: AppColors.colorBasePrimary,
+              image: DecorationImage(
+                image: AssetImage(Assets.images.avatarSuperAdmin.path),
+              ),
+            ),
           ),
           Column(
             children: [
@@ -91,7 +103,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               AppSizes.s20.height,
             ],
-          ).paddingSymmetric(horizontal: AppSizes.s24, vertical: AppSizes.s44)
+          ).paddingSymmetric(horizontal: AppSizes.s24, vertical: AppSizes.s10)
         ],
       ),
     );

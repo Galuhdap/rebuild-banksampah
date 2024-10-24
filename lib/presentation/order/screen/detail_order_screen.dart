@@ -117,12 +117,14 @@ class DetailOrderScreen extends StatelessWidget {
                 ),
               ],
             ),
-            AppSizes.s20.height,
-            Button.outlined(
-              onPressed: () {},
-              label: 'Batalkan Pesanan',
-              borderRadius: AppSizes.s4,
-            )
+            if (data!.status == 'PENDING') ...[
+              AppSizes.s20.height,
+              Button.outlined(
+                onPressed: () {},
+                label: 'Batalkan Pesanan',
+                borderRadius: AppSizes.s4,
+              )
+            ]
           ],
         ),
       ),

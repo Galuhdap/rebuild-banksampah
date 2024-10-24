@@ -1,8 +1,9 @@
-// To parse this JSON data, do
+// To parse this JSON userData, do
 //
 //     final postUserRegisterResponse = postUserRegisterResponseFromJson(jsonString);
 
 import 'dart:convert';
+
 
 PostUserRegisterResponse postUserRegisterResponseFromJson(String str) => PostUserRegisterResponse.fromJson(json.decode(str));
 
@@ -12,7 +13,7 @@ class PostUserRegisterResponse {
     final bool success;
     final int code;
     final String message;
-    final UserData data;
+    final UserDataPost data;
 
     PostUserRegisterResponse({
         required this.success,
@@ -25,7 +26,7 @@ class PostUserRegisterResponse {
         bool? success,
         int? code,
         String? message,
-        UserData? data,
+        UserDataPost? data,
     }) => 
         PostUserRegisterResponse(
             success: success ?? this.success,
@@ -38,7 +39,7 @@ class PostUserRegisterResponse {
         success: json["success"],
         code: json["code"],
         message: json["message"],
-        data: UserData.fromJson(json["data"]),
+        data: UserDataPost.fromJson(json["data"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -49,21 +50,21 @@ class PostUserRegisterResponse {
     };
 }
 
-class UserData {
+class UserDataPost {
     final User user;
 
-    UserData({
+    UserDataPost({
         required this.user,
     });
 
-    UserData copyWith({
+    UserDataPost copyWith({
         User? user,
     }) => 
-        UserData(
+        UserDataPost(
             user: user ?? this.user,
         );
 
-    factory UserData.fromJson(Map<String, dynamic> json) => UserData(
+    factory UserDataPost.fromJson(Map<String, dynamic> json) => UserDataPost(
         user: User.fromJson(json["user"]),
     );
 
@@ -117,12 +118,14 @@ class Profile {
     final String identityType;
     final String identityNumber;
     final String address;
+    final String telp;
     final String name;
 
     Profile({
         required this.identityType,
         required this.identityNumber,
         required this.address,
+        required this.telp,
         required this.name,
     });
 
@@ -130,12 +133,14 @@ class Profile {
         String? identityType,
         String? identityNumber,
         String? address,
+        String? telp,
         String? name,
     }) => 
         Profile(
             identityType: identityType ?? this.identityType,
             identityNumber: identityNumber ?? this.identityNumber,
             address: address ?? this.address,
+            telp: telp ?? this.telp,
             name: name ?? this.name,
         );
 
@@ -143,6 +148,7 @@ class Profile {
         identityType: json["identityType"],
         identityNumber: json["identityNumber"],
         address: json["address"],
+        telp: json["telp"],
         name: json["name"],
     );
 
@@ -150,6 +156,7 @@ class Profile {
         "identityType": identityType,
         "identityNumber": identityNumber,
         "address": address,
+        "telp": telp,
         "name": name,
     };
 }
