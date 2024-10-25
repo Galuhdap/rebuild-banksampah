@@ -21,10 +21,10 @@ class DetailDepositTrashCustomerScreen extends StatelessWidget {
     CustomerDepositTrashController controller =
         Get.put(CustomerDepositTrashController());
 
-    String totalWeight = data.deposits
-        .map((deposit) => deposit.weight)
-        .reduce((a, b) => a + b)
-        .toString();
+    // String totalWeight = data.deposits
+    //     .map((deposit) => deposit.weight)
+    //     .reduce((a, b) => a + b)
+    //     .toString();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -88,9 +88,7 @@ class DetailDepositTrashCustomerScreen extends StatelessWidget {
               itemBuilder: (BuildContext context, index) {
                 var datas = data.deposits[index];
                 return CardDepositTileWidget(
-                  title: datas.trashName != null
-                      ? toBeginningOfSentenceCase(datas.trashName!)
-                      : 'loding...',
+                  title: toBeginningOfSentenceCase(datas.trashName),
                   quantity: datas.weight,
                   price: datas.nominal.currencyFormatRp,
                 );
@@ -127,10 +125,29 @@ class DetailDepositTrashCustomerScreen extends StatelessWidget {
                 ),
                 AppSizes.s20.width,
                 Text(
-                  '${totalWeight} Kg',
+                  '${data.summaryWeight} Kg',
                   style: Get.textTheme.titleLarge!.copyWith(
                       fontSize: AppSizes.s17,
                       color: AppColors.colorBasePrimary),
+                ),
+              ],
+            ),
+            AppSizes.s10.height,
+             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total Nominal :',
+                  style: Get.textTheme.titleLarge!.copyWith(
+                    fontSize: AppSizes.s15,
+                  ),
+                ),
+                AppSizes.s20.width,
+                Text(
+                  data.summaryNominal.currencyFormatRp,
+                  style: Get.textTheme.titleLarge!.copyWith(
+                      fontSize: AppSizes.s17,
+                      color: AppColors.colorBaseBlack),
                 ),
               ],
             ),

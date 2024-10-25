@@ -109,10 +109,10 @@ class RegisterController extends GetxController {
       final response = await authRepository.postRegister(data);
 
       response.fold(
-        (failure) {
+        (response) {
           MessageComponent.snackbar(
-            title: '${failure.code}',
-            message: failure.message,
+            title: '${response.code}',
+            message: response.message,
             isError: true,
           );
           update();

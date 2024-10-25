@@ -280,6 +280,7 @@ class DepositTrashController extends GetxController {
           listTrash.clear();
           listCustomer.clear();
           listDepositTrash.clear();
+          selectedTrashList.clear();
           await getCustomerDepositTrash();
           await getDepositTrash();
           await getTrash();

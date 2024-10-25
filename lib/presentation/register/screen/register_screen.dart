@@ -62,90 +62,100 @@ class RegisterScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                body: Column(
-                  children: [
-                    SearchComponent(
-                      controller: controller.searchRegisterUser,
-                      onTap: () {},
-                      onChanged: (value) {
-                        controller.searchQuery.value = value;
-                        controller.filterSearchTrash();
-                      },
-                    ),
-                    Obx(
-                      () {
-                        return controller.isLoadingUser.value
-                            ? Center(
-                                child: SizedBox(
-                                  width: 300,
-                                  height: 300,
-                                  child: Lottie.asset(
-                                      Assets.lottie.loadingCircular),
-                                ),
-                              )
-                            : controller.listUserRegister.isEmpty
-                                ? Container(
-                                    padding: AppSizes.symmetricPadding(
-                                        vertical: AppSizes.s150),
-                                    child: Center(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          Assets.images.emptyData
-                                              .image(scale: 4),
-                                          Text(
-                                            'Data Kosong',
-                                            style: Get.textTheme.titleLarge!
-                                                .copyWith(
-                                                    fontSize: AppSizes.s18),
-                                          ),
-                                          Text(
-                                            'Tidak ada data yang bisa ditampilkan sekarang.',
-                                            style: Get.textTheme.titleLarge!
-                                                .copyWith(
-                                                    fontSize: AppSizes.s12,
-                                                    fontWeight:
-                                                        FontWeight.w400),
-                                          ),
-                                        ],
+                body: RefreshIndicator(
+                  onRefresh: () async {
+                    controller.listUserRegister.clear();
+                    controller.listRoleUser.clear();
+                    await controller.getUser();
+                    await controller.getRole();
+                  },
+                  child: Column(
+                    children: [
+                      SearchComponent(
+                        controller: controller.searchRegisterUser,
+                        onTap: () {},
+                        onChanged: (value) {
+                          controller.searchQuery.value = value;
+                          controller.filterSearchTrash();
+                        },
+                      ),
+                      Obx(
+                        () {
+                          return controller.isLoadingUser.value
+                              ? Center(
+                                  child: SizedBox(
+                                    width: 100,
+                                    height: 100,
+                                    child: Lottie.asset(
+                                        Assets.lottie.loadingLogin),
+                                  ),
+                                )
+                              : controller.listUserRegister.isEmpty
+                                  ? Container(
+                                      padding: AppSizes.symmetricPadding(
+                                          vertical: AppSizes.s150),
+                                      child: Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Assets.images.emptyData
+                                                .image(scale: 4),
+                                            Text(
+                                              'Data Kosong',
+                                              style: Get.textTheme.titleLarge!
+                                                  .copyWith(
+                                                      fontSize: AppSizes.s18),
+                                            ),
+                                            Text(
+                                              'Tidak ada data yang bisa ditampilkan sekarang.',
+                                              style: Get.textTheme.titleLarge!
+                                                  .copyWith(
+                                                      fontSize: AppSizes.s12,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  )
-                                : Expanded(
-                                    child: ListView.builder(
-                                      itemCount: controller
-                                              .searchQuery.isNotEmpty
-                                          ? controller.searchUserRegister.length
-                                          : controller.listUserRegister.length,
-                                      itemBuilder:
-                                          (BuildContext context, index) {
-                                        var data =
+                                    )
+                                  : Expanded(
+                                      child: ListView.builder(
+                                        itemCount:
                                             controller.searchQuery.isNotEmpty
                                                 ? controller
-                                                    .searchUserRegister[index]
+                                                    .searchUserRegister.length
                                                 : controller
-                                                    .listUserRegister[index];
-                                        return CardUserRegisterWidget(
-                                          name: data.username,
-                                          username: data.profile.telp,
-                                          role: data.role.name,
-                                          id: data.id,
-                                          controller: controller,
-                                          onTapEdit: () {
-                                            Get.to(EditRegisterScreen(
-                                              datas: data,
-                                            ));
-                                          },
-                                        );
-                                      },
-                                    ),
-                                  );
-                      },
-                    ),
-                  ],
-                ).paddingSymmetric(
-                  horizontal: AppSizes.s16,
+                                                    .listUserRegister.length,
+                                        itemBuilder:
+                                            (BuildContext context, index) {
+                                          var data =
+                                              controller.searchQuery.isNotEmpty
+                                                  ? controller
+                                                      .searchUserRegister[index]
+                                                  : controller
+                                                      .listUserRegister[index];
+                                          return CardUserRegisterWidget(
+                                            name: data.username,
+                                            username: data.profile.telp,
+                                            role: data.role.name,
+                                            id: data.id,
+                                            controller: controller,
+                                            onTapEdit: () {
+                                              Get.to(EditRegisterScreen(
+                                                datas: data,
+                                              ));
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    );
+                        },
+                      ),
+                    ],
+                  ).paddingSymmetric(
+                    horizontal: AppSizes.s16,
+                  ),
                 )),
           );
         });

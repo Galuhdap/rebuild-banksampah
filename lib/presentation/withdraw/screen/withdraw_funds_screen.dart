@@ -52,156 +52,173 @@ class WithdrawFundsScreen extends StatelessWidget {
                 ),
               ),
             ),
-            body: Column(
-              children: [
-                SearchComponent(
-                  controller: controller.searchWithdraw,
-                  onTap: () {},
-                  onChanged: (value) {
-                    controller.searchQuery.value = value;
-                    controller.filterSearch();
-                  },
-                ),
-                Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Divider(
-                      color: AppColors.colorNeutrals100,
-                      thickness: 1,
-                    ),
-                    Obx(
-                      () {
-                        return Row(
-                          children: [
-                            Flexible(
-                              child: MenuButtonWidget(
-                                label: AppConstants.ACTION_PENDING,
-                                onTap: () {
-                                  controller.setActiveButton(0);
-                                },
-                                isActive:
-                                    controller.activeButtonIndex.value == 0,
-                              ),
-                            ),
-                            AppSizes.s20.width,
-                            Flexible(
-                              child: MenuButtonWidget(
-                                label: AppConstants.ACTION_SUKSES,
-                                onTap: () {
-                                  controller.setActiveButton(1);
-                                },
-                                isActive:
-                                    controller.activeButtonIndex.value == 1,
-                              ),
-                            ),
-                            AppSizes.s20.width,
-                            Flexible(
-                              child: MenuButtonWidget(
-                                label: AppConstants.ACTION_CENCEL,
-                                onTap: () {
-                                  controller.setActiveButton(2);
-                                },
-                                isActive:
-                                    controller.activeButtonIndex.value == 2,
-                              ),
-                            ),
-                            
-                          ],
-                        ).paddingSymmetric(horizontal: AppSizes.s44);
-                      },
-                    ),
-                  ],
-                ),
-                AppSizes.s20.height,
-                Obx(() {
-                  List<DataWithdrawAdminKoprasi> filteredOrders =
-                      controller.listWithdrawSuperKoprasi.where((order) {
-                    if (controller.activeButtonIndex.value == 0) {
-                      return order.status == 'PENDING';
-                    } else if (controller.activeButtonIndex.value == 1) {
-                      return order.status == 'DONE';
-                    } else {
-                      return order.status == 'CANCEL';
-                    }
-                  }).toList();
-                  return controller.isLoadingGetData.value
-                      ? Center(
-                          child: SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: Lottie.asset(Assets.lottie.loadingLogin),
-                          ),
-                        )
-                      : filteredOrders.isEmpty
-                          ? Container(
-                              padding: AppSizes.symmetricPadding(
-                                  vertical: AppSizes.s150),
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Assets.images.emptyData.image(scale: 4),
-                                    Text(
-                                      'Data Kosong',
-                                      style: Get.textTheme.titleLarge!
-                                          .copyWith(fontSize: AppSizes.s18),
-                                    ),
-                                    Text(
-                                      'Tidak ada pesanan untuk status ini.',
-                                      style: Get.textTheme.titleLarge!.copyWith(
-                                          fontSize: AppSizes.s12,
-                                          fontWeight: FontWeight.w400),
-                                    ),
-                                  ],
+            body: RefreshIndicator(
+              onRefresh: () async {
+                controller.listWithdrawSuperKoprasi.clear();
+                await controller.getWithdarawSuperadmini();
+              },
+              child: Column(
+                children: [
+                  SearchComponent(
+                    controller: controller.searchWithdraw,
+                    onTap: () {},
+                    onChanged: (value) {
+                      controller.searchQuery.value = value;
+                      controller.filterSearch();
+                    },
+                  ),
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Divider(
+                        color: AppColors.colorNeutrals100,
+                        thickness: 1,
+                      ),
+                      Obx(
+                        () {
+                          return Row(
+                            children: [
+                              Flexible(
+                                child: MenuButtonWidget(
+                                  label: AppConstants.ACTION_PENDING,
+                                  onTap: () {
+                                    controller.setActiveButton(0);
+                                  },
+                                  isActive:
+                                      controller.activeButtonIndex.value == 0,
                                 ),
                               ),
-                            )
-                          : Expanded(
-                              child: ListView.builder(
-                                itemCount: controller.searchQuery.isNotEmpty
-                                    ? controller
-                                        .searchListWithdrawSuperKoprasi.length
-                                    : filteredOrders.length,
-                                itemBuilder: (BuildContext context, index) {
-                                  var order = controller.searchQuery.isNotEmpty
-                                      ? controller
-                                          .searchListWithdrawSuperKoprasi[index]
-                                      : filteredOrders[index];
-                                  return TransactionCardComponent(
-                                    kode: order.nameCoop,
-                                    label: order.nameAdmin,
-                                    date: order.createdAt
-                                        .toFormattedDateDayTimeString(),
-                                    amount: order.nominal.currencyFormatRp,
-                                    status: order.status,
-                                    isStatus: false,
-                                    onTap: () {
-                                      Get.to(DetailWithdrawFundsScreen(
-                                        data: order,
-                                      ));
-                                      // showDepositTrashSucces(
-                                      //     context: context,
-                                      //     icon: Assets.icons.question.path,
-                                      //     label: AppConstants
-                                      //         .LABEL_WITHDRAW_FUNDS_QUESTION,
-                                      //     firstButton: AppConstants.ACTION_NO,
-                                      //     fistOnPressed: () {
-                                      //       Get.back();
-                                      //     },
-                                      //     secondButton: AppConstants.ACTION_YES,
-                                      //     seccondOnPressed: () {
-                                      //       // controller.setActive(false);
-                                      //       Get.back();
-                                      //     },
-                                      //     showButton: true);
-                                    },
-                                  );
-                                },
+                              AppSizes.s20.width,
+                              Flexible(
+                                child: MenuButtonWidget(
+                                  label: AppConstants.ACTION_SUKSES,
+                                  onTap: () {
+                                    controller.setActiveButton(1);
+                                  },
+                                  isActive:
+                                      controller.activeButtonIndex.value == 1,
+                                ),
                               ),
-                            );
-                }),
-              ],
-            ).paddingSymmetric(horizontal: AppSizes.s20),
+                              AppSizes.s20.width,
+                              Flexible(
+                                child: MenuButtonWidget(
+                                  label: AppConstants.ACTION_CENCEL,
+                                  onTap: () {
+                                    controller.setActiveButton(2);
+                                  },
+                                  isActive:
+                                      controller.activeButtonIndex.value == 2,
+                                ),
+                              ),
+                            ],
+                          ).paddingSymmetric(horizontal: AppSizes.s44);
+                        },
+                      ),
+                    ],
+                  ),
+                  AppSizes.s20.height,
+                  Obx(() {
+                    List<DataWithdrawAdminKoprasi> filteredOrders =
+                        controller.listWithdrawSuperKoprasi.where((order) {
+                      if (controller.activeButtonIndex.value == 0) {
+                        return order.status == 'PENDING';
+                      } else if (controller.activeButtonIndex.value == 1) {
+                        return order.status == 'DONE';
+                      } else {
+                        return order.status == 'CANCEL';
+                      }
+                    }).toList();
+                    return controller.isLoadingGetData.value
+                        ? Center(
+                            child: SizedBox(
+                              width: 100,
+                              height: 100,
+                              child: Lottie.asset(Assets.lottie.loadingLogin),
+                            ),
+                          )
+                        : filteredOrders.isEmpty
+                            ? Container(
+                                padding: AppSizes.symmetricPadding(
+                                    vertical: AppSizes.s150),
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: [
+                                      Assets.images.emptyData.image(scale: 4),
+                                      Text(
+                                        'Data Kosong',
+                                        style: Get.textTheme.titleLarge!
+                                            .copyWith(fontSize: AppSizes.s18),
+                                      ),
+                                      Text(
+                                        'Tidak ada pesanan untuk status ini.',
+                                        style: Get.textTheme.titleLarge!
+                                            .copyWith(
+                                                fontSize: AppSizes.s12,
+                                                fontWeight: FontWeight.w400),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : Expanded(
+                                child: ListView.builder(
+                                  itemCount: controller.searchQuery.isNotEmpty
+                                      ? controller
+                                          .searchListWithdrawSuperKoprasi.length
+                                      : filteredOrders.length,
+                                  itemBuilder: (BuildContext context, index) {
+                                    var order = controller
+                                            .searchQuery.isNotEmpty
+                                        ? controller
+                                                .searchListWithdrawSuperKoprasi[
+                                            index]
+                                        : filteredOrders[index];
+                                    return TransactionCardComponent(
+                                      kode: order.nameCoop,
+                                      label: order.nameAdmin,
+                                      date: order.createdAt
+                                          .toFormattedDateDayTimeString(),
+                                      amount: order.nominal.currencyFormatRp,
+                                      status: order.status,
+                                      isStatus: false,
+                                      statusColor:
+                                          controller.activeButtonIndex.value ==
+                                                  0
+                                              ? AppColors.colorWarning300
+                                              : controller.activeButtonIndex
+                                                          .value ==
+                                                      1
+                                                  ? AppColors.colorPrimary800
+                                                  : AppColors.colorBaseError,
+                                      onTap: () {
+                                        Get.to(DetailWithdrawFundsScreen(
+                                          data: order,
+                                        ));
+                                        // showDepositTrashSucces(
+                                        //     context: context,
+                                        //     icon: Assets.icons.question.path,
+                                        //     label: AppConstants
+                                        //         .LABEL_WITHDRAW_FUNDS_QUESTION,
+                                        //     firstButton: AppConstants.ACTION_NO,
+                                        //     fistOnPressed: () {
+                                        //       Get.back();
+                                        //     },
+                                        //     secondButton: AppConstants.ACTION_YES,
+                                        //     seccondOnPressed: () {
+                                        //       // controller.setActive(false);
+                                        //       Get.back();
+                                        //     },
+                                        //     showButton: true);
+                                      },
+                                    );
+                                  },
+                                ),
+                              );
+                  }),
+                ],
+              ).paddingSymmetric(horizontal: AppSizes.s20),
+            ),
           ),
         );
       },

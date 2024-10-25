@@ -64,76 +64,82 @@ class TrashPriceScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              body: Column(
-                children: [
-                  SearchComponent(
-                    controller: controller.searchTrash,
-                    onTap: () {},
-                    onChanged: (value) {
-                      controller.searchQuery.value = value;
-                      controller.filterSearchTrash();
-                    },
-                  ),
-                  Obx(
-                    () {
-                      return controller.isloadingTrash.value
-                          ? Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : controller.listTrash.isEmpty
-                              ? Container(
-                                  padding: AppSizes.symmetricPadding(
-                                      vertical: AppSizes.s150),
-                                  child: Center(
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Assets.images.emptyData.image(scale: 4),
-                                        Text(
-                                          'Data Kosong',
-                                          style: Get.textTheme.titleLarge!
-                                              .copyWith(fontSize: AppSizes.s18),
-                                        ),
-                                        Text(
-                                          'Tidak ada data yang bisa ditampilkan sekarang.',
-                                          style: Get.textTheme.titleLarge!
-                                              .copyWith(
-                                                  fontSize: AppSizes.s12,
-                                                  fontWeight: FontWeight.w400),
-                                        ),
-                                      ],
+              body: RefreshIndicator(
+                 onRefresh: () async{
+                  controller.listTrash.clear();
+                  await controller.getTrash();
+                },
+                child: Column(
+                  children: [
+                    SearchComponent(
+                      controller: controller.searchTrash,
+                      onTap: () {},
+                      onChanged: (value) {
+                        controller.searchQuery.value = value;
+                        controller.filterSearchTrash();
+                      },
+                    ),
+                    Obx(
+                      () {
+                        return controller.isloadingTrash.value
+                            ? Center(
+                                child: CircularProgressIndicator(),
+                              )
+                            : controller.listTrash.isEmpty
+                                ? Container(
+                                    padding: AppSizes.symmetricPadding(
+                                        vertical: AppSizes.s150),
+                                    child: Center(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        children: [
+                                          Assets.images.emptyData.image(scale: 4),
+                                          Text(
+                                            'Data Kosong',
+                                            style: Get.textTheme.titleLarge!
+                                                .copyWith(fontSize: AppSizes.s18),
+                                          ),
+                                          Text(
+                                            'Tidak ada data yang bisa ditampilkan sekarang.',
+                                            style: Get.textTheme.titleLarge!
+                                                .copyWith(
+                                                    fontSize: AppSizes.s12,
+                                                    fontWeight: FontWeight.w400),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                )
-                              : Expanded(
-                                  child: ListView.builder(
-                                    itemCount: controller.searchQuery.isNotEmpty
-                                        ? controller.searchListTrash.length
-                                        : controller.listTrash.length,
-                                    itemBuilder: (BuildContext context, index) {
-                                      var data = controller
-                                              .searchQuery.isNotEmpty
-                                          ? controller.searchListTrash[index]
-                                          : controller.listTrash[index];
-                                      return PriceTrashWidget(
-                                        name: data.nama,
-                                        price: data.harga.currencyFormatRp,
-                                        controller: controller,
-                                        id: data.id,
-                                        ontap: () async {
-                                          Get.to(EditPriceTrashScreen(
-                                            data: data,
-                                            id: data.id,
-                                          ));
-                                        },
-                                      );
-                                    },
-                                  ),
-                                );
-                    },
-                  ),
-                ],
-              ).paddingSymmetric(horizontal: AppSizes.s16)),
+                                  )
+                                : Expanded(
+                                    child: ListView.builder(
+                                      itemCount: controller.searchQuery.isNotEmpty
+                                          ? controller.searchListTrash.length
+                                          : controller.listTrash.length,
+                                      itemBuilder: (BuildContext context, index) {
+                                        var data = controller
+                                                .searchQuery.isNotEmpty
+                                            ? controller.searchListTrash[index]
+                                            : controller.listTrash[index];
+                                        return PriceTrashWidget(
+                                          name: data.nama,
+                                          price: data.harga.currencyFormatRp,
+                                          controller: controller,
+                                          id: data.id,
+                                          ontap: () async {
+                                            Get.to(EditPriceTrashScreen(
+                                              data: data,
+                                              id: data.id,
+                                            ));
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  );
+                      },
+                    ),
+                  ],
+                ).paddingSymmetric(horizontal: AppSizes.s16),
+              )),
         );
       },
     );

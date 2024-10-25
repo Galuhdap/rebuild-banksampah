@@ -120,19 +120,21 @@ class AddProductScreen extends StatelessWidget {
               ),
             ),
             AppSizes.s40.height,
-            controller.isLoadingAddProduct.value
-                ? Center(
-                    child: SizedBox(
-                      width: 100,
-                      height: 100,
-                      child: Lottie.asset(Assets.lottie.loadingLogin),
-                    ),
-                  )
-                : Button.filled(
-                    onPressed: () async {
-                      await controller.postProduct();
-                    },
-                    label: 'Simpan'),
+            Obx(() {
+              return controller.isLoadingAddProduct.value
+                  ? Center(
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: Lottie.asset(Assets.lottie.loadingLogin),
+                      ),
+                    )
+                  : Button.filled(
+                      onPressed: () async {
+                        await controller.postProduct();
+                      },
+                      label: 'Simpan');
+            })
           ],
         ).paddingSymmetric(
           horizontal: AppSizes.s20,

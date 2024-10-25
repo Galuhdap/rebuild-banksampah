@@ -135,7 +135,7 @@ class DetailWithdrawFundsScreen extends StatelessWidget {
                 onPressed: () async {
                   final datas = PostUpdateStatusWithdrawRequest(
                     id: data.id,
-                    status: 'CENCEL',
+                    status: 'CANCEL',
                   );
                   await controller.postUpdateStatusWithdraw(context, datas);
                 },

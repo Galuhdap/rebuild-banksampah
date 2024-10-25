@@ -22,10 +22,10 @@ class DetailTrashSuperAdminScreen extends StatelessWidget {
     DepositTrashSuperAdminController controller =
         Get.put(DepositTrashSuperAdminController());
 
-    String totalWeight = data.deposits
-        .map((deposit) => deposit.weight)
-        .reduce((a, b) => a + b)
-        .toString();
+    // String totalWeight = data.deposits
+    //     .map((deposit) => deposit.weight)
+    //     .reduce((a, b) => a + b)
+    //     .toString();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -89,7 +89,7 @@ class DetailTrashSuperAdminScreen extends StatelessWidget {
               itemBuilder: (BuildContext context, index) {
                 var datas = data.deposits[index];
                 return CardDepositTileWidget(
-                  title: toBeginningOfSentenceCase(datas.trashName!),
+                  title: toBeginningOfSentenceCase(datas.trashName),
                   quantity: datas.weight,
                   price: datas.nominal.currencyFormatRp,
                 );
@@ -126,10 +126,29 @@ class DetailTrashSuperAdminScreen extends StatelessWidget {
                 ),
                 AppSizes.s20.width,
                 Text(
-                  '${totalWeight} Kg',
+                  '${data.summaryWeight} Kg',
                   style: Get.textTheme.titleLarge!.copyWith(
                       fontSize: AppSizes.s17,
                       color: AppColors.colorBasePrimary),
+                ),
+              ],
+            ),
+            AppSizes.s10.height,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total Nominal :',
+                  style: Get.textTheme.titleLarge!.copyWith(
+                    fontSize: AppSizes.s15,
+                  ),
+                ),
+                AppSizes.s20.width,
+                Text(
+                  data.summaryNominal.currencyFormatRp,
+                  style: Get.textTheme.titleLarge!.copyWith(
+                      fontSize: AppSizes.s17,
+                      color: AppColors.colorBaseBlack),
                 ),
               ],
             ),

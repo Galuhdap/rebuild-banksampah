@@ -20,6 +20,9 @@ class CheckoutScreen extends StatelessWidget {
     final ShoppingController controllers = Get.put(ShoppingController());
     //final BasketController controllerBasket = Get.find();
     ProfileController controllerProfile = Get.put(ProfileController());
+    // final List<int> productIds = Get.arguments['productIds'];
+    // final List<int> quantities = Get.arguments['quantities'];
+    // final int total = Get.arguments['total'];
     return GetBuilder<CheckoutController>(
       init: CheckoutController(),
       builder: (controller) {
@@ -40,7 +43,7 @@ class CheckoutScreen extends StatelessWidget {
               ),
             ),
           ),
-          body: Column(
+          body: ListView(
             children: [
               AppSizes.s12.height,
               Container(
@@ -93,51 +96,52 @@ class CheckoutScreen extends StatelessWidget {
                 ),
               ),
               AppSizes.s12.height,
-              Expanded(
-                child: Container(
-                  padding: AppSizes.onlyPadding(
-                    right: AppSizes.s20,
-                    left: AppSizes.s20,
-                    top: AppSizes.s20,
-                  ),
-                  color: AppColors.colorBaseWhite,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Pesanan Anda',
-                        style: Get.textTheme.titleLarge!.copyWith(
-                          fontSize: AppSizes.s17,
-                        ),
+              Container(
+                padding: AppSizes.onlyPadding(
+                  right: AppSizes.s20,
+                  left: AppSizes.s20,
+                  top: AppSizes.s20,
+                ),
+                color: AppColors.colorBaseWhite,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Pesanan Anda',
+                      style: Get.textTheme.titleLarge!.copyWith(
+                        fontSize: AppSizes.s17,
                       ),
-                      AppSizes.s16.height,
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: controllers.listProductBasket.length,
-                          itemBuilder: (BuildContext context, index) {
-                            var data = controllers.listProductBasket[index];
-                            print('Cek ${data.id.toString()}');
-                            return Obx(
-                              () {
-                                return CardTile(
-                                  title: data.name,
-                                  showOrder: false,
-                                  quantity: controller.quantities[index] ?? 1,
-                                  price: data.price.currencyFormatRp,
-                                  productBasket: false,
-                                  imageUrl: data.image,
-                                  onTap: () {
-                                    //controller.changeStatus(index);
-                                  },
-                                  showCheckout: true,
-                                );
+                    ),
+                    AppSizes.s16.height,
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: controllers.listProductBasket.length,
+                      //itemCount: productIds.length,
+                      itemBuilder: (BuildContext context, index) {
+                        var data = controllers.listProductBasket[index];
+                        // var data = controllers.listProductBasket.firstWhere(
+                        //   (product) => product.id == productIds[index],
+                        // );
+                        return Obx(
+                          () {
+                            return CardTile(
+                              title: data.name,
+                              showOrder: false,
+                              quantity: controller.quantities[index] ?? 1,
+                              price: data.price.currencyFormatRp,
+                              productBasket: false,
+                              imageUrl: data.image,
+                              onTap: () {
+                                //controller.changeStatus(index);
                               },
+                              showCheckout: true,
                             );
                           },
-                        ),
-                      )
-                    ],
-                  ),
+                        );
+                      },
+                    )
+                  ],
                 ),
               ),
             ],

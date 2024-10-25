@@ -16,7 +16,7 @@ class LoadingAdminKoprasi extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WithdrawFunstAdminKoprasiController controller = Get.find();
+    WithdrawFunstAdminKoprasiController controller = Get.put(WithdrawFunstAdminKoprasiController());
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(

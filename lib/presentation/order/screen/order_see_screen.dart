@@ -52,153 +52,159 @@ class OrderSeeScreen extends StatelessWidget {
                 ),
               ),
             ),
-            body: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SearchComponent(
-                  controller: controller.searchOrderSeeAdmin,
-                  onTap: () {},
-                  onChanged: (value) {
-                    controller.searchQuery.value = value;
-                    controller.filterSearchTrash();
-                  },
-                ).paddingSymmetric(horizontal: AppSizes.s16),
-                Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    Divider(
-                      color: AppColors.colorNeutrals100,
-                      thickness: 1,
-                    ),
-                    Obx(() {
-                      return Row(
-                        children: [
-                          Flexible(
-                            child: MenuButtonWidget(
-                              label: AppConstants.ACTION_PENDING,
-                              onTap: () {
-                                controller.searchOrderSeeAdmin.clear();
-                                controller.searchQuery.value = '';
-                                controller.setActiveButton(0);
-                              },
-                              isActive: controller.activeButtonIndex.value == 0,
+            body: RefreshIndicator(
+              onRefresh: () async {
+                controller.listOrderCustomer.clear();
+                controller.getOrderSeeAdmin();();
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SearchComponent(
+                    controller: controller.searchOrderSeeAdmin,
+                    onTap: () {},
+                    onChanged: (value) {
+                      controller.searchQuery.value = value;
+                      controller.filterSearchTrash();
+                    },
+                  ).paddingSymmetric(horizontal: AppSizes.s16),
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Divider(
+                        color: AppColors.colorNeutrals100,
+                        thickness: 1,
+                      ),
+                      Obx(() {
+                        return Row(
+                          children: [
+                            Flexible(
+                              child: MenuButtonWidget(
+                                label: AppConstants.ACTION_PENDING,
+                                onTap: () {
+                                  controller.searchOrderSeeAdmin.clear();
+                                  controller.searchQuery.value = '';
+                                  controller.setActiveButton(0);
+                                },
+                                isActive: controller.activeButtonIndex.value == 0,
+                              ),
                             ),
-                          ),
-                          AppSizes.s30.width,
-                          Flexible(
-                            child: MenuButtonWidget(
-                              label: AppConstants.ACTION_FINISH,
-                              onTap: () {
-                                controller.searchOrderSeeAdmin.clear();
-                                controller.searchQuery.value = '';
-                                controller.setActiveButton(1);
-                              },
-                              isActive: controller.activeButtonIndex.value == 1,
+                            AppSizes.s30.width,
+                            Flexible(
+                              child: MenuButtonWidget(
+                                label: AppConstants.ACTION_FINISH,
+                                onTap: () {
+                                  controller.searchOrderSeeAdmin.clear();
+                                  controller.searchQuery.value = '';
+                                  controller.setActiveButton(1);
+                                },
+                                isActive: controller.activeButtonIndex.value == 1,
+                              ),
                             ),
-                          ),
-                          AppSizes.s30.width,
-                          Flexible(
-                            child: MenuButtonWidget(
-                              label: AppConstants.ACTION_CENCEL,
-                              onTap: () {
-                                controller.searchOrderSeeAdmin.clear();
-                                controller.searchQuery.value = '';
-                                controller.setActiveButton(2);
-                              },
-                              isActive: controller.activeButtonIndex.value == 2,
+                            AppSizes.s30.width,
+                            Flexible(
+                              child: MenuButtonWidget(
+                                label: AppConstants.ACTION_CENCEL,
+                                onTap: () {
+                                  controller.searchOrderSeeAdmin.clear();
+                                  controller.searchQuery.value = '';
+                                  controller.setActiveButton(2);
+                                },
+                                isActive: controller.activeButtonIndex.value == 2,
+                              ),
                             ),
-                          ),
-                        ],
-                      ).paddingSymmetric(horizontal: AppSizes.s44);
-                    })
-                  ],
-                ),
-                AppSizes.s5.height,
-                Obx(
-                  () {
-                    List<OrderCustomer> filteredOrders =
-                        controller.listOrderCustomer.where((order) {
-                      if (controller.activeButtonIndex.value == 0) {
-                        return order.status == 'PENDING';
-                      } else if (controller.activeButtonIndex.value == 1) {
-                        return order.status == 'DONE';
-                      } else {
-                        return order.status == 'CANCEL';
-                      }
-                    }).toList();
-                    return controller.isLoadingOrder.value
-                        ? Center(
-                          child: SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: Lottie.asset(Assets.lottie.loadingLogin),
-                          ),
-                        )
-                        : filteredOrders.isEmpty
-                            ? Container(
-                                padding: AppSizes.symmetricPadding(
-                                    vertical: AppSizes.s150),
-                                child: Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Assets.images.emptyData.image(scale: 4),
-                                      Text(
-                                        'Data Kosong',
-                                        style: Get.textTheme.titleLarge!
-                                            .copyWith(fontSize: AppSizes.s18),
-                                      ),
-                                      Text(
-                                        'Tidak ada pesanan untuk status ini.',
-                                        style: Get.textTheme.titleLarge!
-                                            .copyWith(
-                                                fontSize: AppSizes.s12,
-                                                fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
+                          ],
+                        ).paddingSymmetric(horizontal: AppSizes.s44);
+                      })
+                    ],
+                  ),
+                  AppSizes.s5.height,
+                  Obx(
+                    () {
+                      List<OrderCustomer> filteredOrders =
+                          controller.listOrderCustomer.where((order) {
+                        if (controller.activeButtonIndex.value == 0) {
+                          return order.status == 'PENDING';
+                        } else if (controller.activeButtonIndex.value == 1) {
+                          return order.status == 'DONE';
+                        } else {
+                          return order.status == 'CANCEL';
+                        }
+                      }).toList();
+                      return controller.isLoadingOrder.value
+                          ? Center(
+                            child: SizedBox(
+                              width: 100,
+                              height: 100,
+                              child: Lottie.asset(Assets.lottie.loadingLogin),
+                            ),
+                          )
+                          : filteredOrders.isEmpty
+                              ? Container(
+                                  padding: AppSizes.symmetricPadding(
+                                      vertical: AppSizes.s150),
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        Assets.images.emptyData.image(scale: 4),
+                                        Text(
+                                          'Data Kosong',
+                                          style: Get.textTheme.titleLarge!
+                                              .copyWith(fontSize: AppSizes.s18),
+                                        ),
+                                        Text(
+                                          'Tidak ada pesanan untuk status ini.',
+                                          style: Get.textTheme.titleLarge!
+                                              .copyWith(
+                                                  fontSize: AppSizes.s12,
+                                                  fontWeight: FontWeight.w400),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                ),
-                              )
-                            : Expanded(
-                                child: ListView.builder(
-                                  padding:
-                                      AppSizes.onlyPadding(top: AppSizes.s15),
-                                  itemCount: controller.searchQuery.isNotEmpty
-                                      ? controller
-                                          .searchListOrderCustomer.length
-                                      : filteredOrders.length,
-                                  itemBuilder: (BuildContext context, index) {
-                                    OrderCustomer order =
-                                        controller.searchQuery.isNotEmpty
-                                            ? controller
-                                                .searchListOrderCustomer[index]
-                                            : filteredOrders[index];
-                                    return CardOrderItem(
-                                      date: order.createdAt
-                                          .toFormattedDateDayTimeString(),
-                                      price: order.totalPrice.currencyFormatRp,
-                                      invoice: order.orderCode,
-                                      statusColor:
-                                          controller.activeButtonIndex.value ==
-                                                  0
-                                              ? AppColors.colorWarning300
-                                              : controller.activeButtonIndex
-                                                          .value ==
-                                                      1
-                                                  ? AppColors.colorPrimary800
-                                                  : AppColors.colorBaseError,
-                                      onTap: () {
-                                        Get.to(DetailOrderScreen(
-                                          data: order,
-                                        ));
-                                      },
-                                    );
-                                  },
-                                ),
-                              );
-                  },
-                ),
-              ],
+                                )
+                              : Expanded(
+                                  child: ListView.builder(
+                                    padding:
+                                        AppSizes.onlyPadding(top: AppSizes.s15),
+                                    itemCount: controller.searchQuery.isNotEmpty
+                                        ? controller
+                                            .searchListOrderCustomer.length
+                                        : filteredOrders.length,
+                                    itemBuilder: (BuildContext context, index) {
+                                      OrderCustomer order =
+                                          controller.searchQuery.isNotEmpty
+                                              ? controller
+                                                  .searchListOrderCustomer[index]
+                                              : filteredOrders[index];
+                                      return CardOrderItem(
+                                        date: order.createdAt
+                                            .toFormattedDateDayTimeString(),
+                                        price: order.totalPrice.currencyFormatRp,
+                                        invoice: order.orderCode,
+                                        statusColor:
+                                            controller.activeButtonIndex.value ==
+                                                    0
+                                                ? AppColors.colorWarning300
+                                                : controller.activeButtonIndex
+                                                            .value ==
+                                                        1
+                                                    ? AppColors.colorPrimary800
+                                                    : AppColors.colorBaseError,
+                                        onTap: () {
+                                          Get.to(DetailOrderScreen(
+                                            data: order,
+                                          ));
+                                        },
+                                      );
+                                    },
+                                  ),
+                                );
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         );

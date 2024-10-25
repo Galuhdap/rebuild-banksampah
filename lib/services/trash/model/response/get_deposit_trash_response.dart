@@ -59,6 +59,8 @@ class DepositTrash {
   final DateTime createdAt;
   final DateTime updatedAt;
   final User user;
+  final double summaryWeight;
+  final int summaryNominal;
   final List<Deposit> deposits;
 
   DepositTrash({
@@ -67,6 +69,8 @@ class DepositTrash {
     required this.createdAt,
     required this.updatedAt,
     required this.user,
+    required this.summaryWeight,
+    required this.summaryNominal,
     required this.deposits,
   });
 
@@ -76,6 +80,8 @@ class DepositTrash {
     DateTime? createdAt,
     DateTime? updatedAt,
     User? user,
+    double? summaryWeight,
+    int? summaryNominal,
     List<Deposit>? deposits,
   }) =>
       DepositTrash(
@@ -84,6 +90,8 @@ class DepositTrash {
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
         user: user ?? this.user,
+        summaryWeight: summaryWeight ?? this.summaryWeight,
+        summaryNominal: summaryNominal ?? this.summaryNominal,
         deposits: deposits ?? this.deposits,
       );
 
@@ -93,6 +101,8 @@ class DepositTrash {
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         user: User.fromJson(json["user"]),
+        summaryWeight: json["summaryWeight"]?.toDouble(),
+        summaryNominal: json["summaryNominal"],
         deposits: List<Deposit>.from(
             json["deposits"].map((x) => Deposit.fromJson(x))),
       );
@@ -103,6 +113,8 @@ class DepositTrash {
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "user": user.toJson(),
+        "summaryWeight": summaryWeight,
+        "summaryNominal": summaryNominal,
         "deposits": List<dynamic>.from(deposits.map((x) => x.toJson())),
       };
 }
@@ -111,8 +123,8 @@ class Deposit {
   final String id;
   final String userId;
   final String trashId;
-  final String? trashName;
-  final num weight;
+  final String trashName;
+  final double weight;
   final int nominal;
   final String dataRaw;
   final DateTime createdAt;
@@ -122,7 +134,7 @@ class Deposit {
     required this.id,
     required this.userId,
     required this.trashId,
-     this.trashName,
+    required this.trashName,
     required this.weight,
     required this.nominal,
     required this.dataRaw,
@@ -135,7 +147,7 @@ class Deposit {
     String? userId,
     String? trashId,
     String? trashName,
-    int? weight,
+    double? weight,
     int? nominal,
     String? dataRaw,
     DateTime? createdAt,
@@ -158,7 +170,7 @@ class Deposit {
         userId: json["userId"],
         trashId: json["trashId"],
         trashName: json["trashName"],
-        weight: json["weight"],
+        weight: json["weight"]?.toDouble(),
         nominal: json["nominal"],
         dataRaw: json["dataRaw"],
         createdAt: DateTime.parse(json["createdAt"]),

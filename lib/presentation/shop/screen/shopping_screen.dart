@@ -83,9 +83,12 @@ class ShoppingScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     SearchComponent(
-                      controller: TextEditingController(),
+                      controller: controller.searchProduct,
                       onTap: () {},
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        controller.searchQuery.value = value;
+                        controller.filterSearchTrash();
+                      },
                     ),
                     Obx(() {
                       return controller.isLoadingProduct.value
@@ -98,9 +101,14 @@ class ShoppingScreen extends StatelessWidget {
                             )
                           : Expanded(
                               child: ListView.builder(
-                                itemCount: controller.listProduct.length,
+                                itemCount: controller.searchQuery.isEmpty
+                                    ? controller.listProduct.length
+                                    : controller.searchListProduct.length,
                                 itemBuilder: (BuildContext context, index) {
-                                  var data = controller.listProduct[index];
+                                  var data = controller.searchQuery.isEmpty
+                                      ? controller.listProduct[index]
+                                      : controller.searchListProduct[index];
+                                  //var data = controller.listProduct[index];
                                   final isInBasket = controller
                                       .listProductBasket
                                       .any((basketProduct) =>

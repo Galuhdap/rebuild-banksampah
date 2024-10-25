@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
-import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/date_ext.dart';
@@ -19,10 +18,10 @@ class DetailDepositTrashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //DepositTrashController controller = Get.find();
 
-    String totalWeight = data.deposits
-        .map((deposit) => deposit.weight)
-        .reduce((a, b) => a + b)
-        .toString();
+    // String totalWeight = data.deposits
+    //     .map((deposit) => deposit.weight)
+    //     .reduce((a, b) => a + b)
+    //     .toString();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -102,7 +101,7 @@ class DetailDepositTrashScreen extends StatelessWidget {
               itemBuilder: (BuildContext context, index) {
                 var datas = data.deposits[index];
                 return CardDepositTileWidget(
-                  title: toBeginningOfSentenceCase(datas.trashName!),
+                  title: toBeginningOfSentenceCase(datas.trashName),
                   quantity: datas.weight,
                   price: datas.nominal.currencyFormatRp,
                 );
@@ -142,10 +141,29 @@ class DetailDepositTrashScreen extends StatelessWidget {
                 ),
                 AppSizes.s20.width,
                 Text(
-                  '${totalWeight} Kg',
+                  '${data.summaryWeight} Kg',
                   style: Get.textTheme.titleLarge!.copyWith(
                       fontSize: AppSizes.s17,
                       color: AppColors.colorBasePrimary),
+                ),
+              ],
+            ),
+            AppSizes.s10.height,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Total Nominal :',
+                  style: Get.textTheme.titleLarge!.copyWith(
+                    fontSize: AppSizes.s15,
+                  ),
+                ),
+                AppSizes.s20.width,
+                Text(
+                  data.summaryNominal.currencyFormatRp,
+                  style: Get.textTheme.titleLarge!.copyWith(
+                      fontSize: AppSizes.s17,
+                      color: AppColors.colorBaseBlack),
                 ),
               ],
             ),
@@ -153,8 +171,9 @@ class DetailDepositTrashScreen extends StatelessWidget {
               AppSizes.s20.height,
               Button.filled(
                 onPressed: () async {
-                  Get.to(EditDepositTrashScreen(data: data,));
-             
+                  Get.to(EditDepositTrashScreen(
+                    data: data,
+                  ));
                 },
                 label: 'Update Berat Sampah',
                 borderRadius: AppSizes.s4,

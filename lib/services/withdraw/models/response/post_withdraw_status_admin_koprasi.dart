@@ -50,36 +50,60 @@ class PostWithdrawResponse {
 }
 
 class Data {
+    final String id;
+    final String nameAdmin;
+    final String nameCoop;
+    final int nominal;
     final String status;
-    final num balanceTrash;
-    final int adminBalance;
+    final DateTime createdAt;
+    final DateTime updatedAt;
 
     Data({
+        required this.id,
+        required this.nameAdmin,
+        required this.nameCoop,
+        required this.nominal,
         required this.status,
-        required this.balanceTrash,
-        required this.adminBalance,
+        required this.createdAt,
+        required this.updatedAt,
     });
 
     Data copyWith({
+        String? id,
+        String? nameAdmin,
+        String? nameCoop,
+        int? nominal,
         String? status,
-        num? balanceTrash,
-        int? adminBalance,
+        DateTime? createdAt,
+        DateTime? updatedAt,
     }) => 
         Data(
+            id: id ?? this.id,
+            nameAdmin: nameAdmin ?? this.nameAdmin,
+            nameCoop: nameCoop ?? this.nameCoop,
+            nominal: nominal ?? this.nominal,
             status: status ?? this.status,
-            balanceTrash: balanceTrash ?? this.balanceTrash,
-            adminBalance: adminBalance ?? this.adminBalance,
+            createdAt: createdAt ?? this.createdAt,
+            updatedAt: updatedAt ?? this.updatedAt,
         );
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
+        id: json["id"],
+        nameAdmin: json["name_admin"],
+        nameCoop: json["name_coop"],
+        nominal: json["nominal"],
         status: json["status"],
-        balanceTrash: json["balanceTrash"],
-        adminBalance: json["adminBalance"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
     );
 
     Map<String, dynamic> toJson() => {
+        "id": id,
+        "name_admin": nameAdmin,
+        "name_coop": nameCoop,
+        "nominal": nominal,
         "status": status,
-        "balanceTrash": balanceTrash,
-        "adminBalance": adminBalance,
+        "createdAt": createdAt.toIso8601String(),
+        "updatedAt": updatedAt.toIso8601String(),
     };
 }

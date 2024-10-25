@@ -190,17 +190,27 @@ class _SetorSampahScreenState extends State<SetorSampahScreen> {
                                               ? controller
                                                   .searchDepositTrashs[index]
                                               : filteredTrash[index];
-                                          String totalWeight = data.deposits
-                                              .map((deposit) => deposit.weight)
-                                              .reduce((a, b) => a + b)
-                                              .toString();
+                                          // String totalWeight = data.deposits
+                                          //     .map((deposit) => deposit.weight)
+                                          //     .reduce((a, b) => a + b)
+                                          //     .toString();
                                           return TransactionCardComponent(
                                             kode: data.user.profile.kdUser,
                                             label: data.user.profile.name,
                                             date: data.createdAt
                                                 .toDateddmmmyyyyFormattedString(),
-                                            amount: '${totalWeight} Kg',
+                                            amount: '${data.summaryWeight} Kg',
                                             //amount: '${data.weight} Kg',
+                                            statusColor: controller
+                                                        .activeButtonIndex
+                                                        .value ==
+                                                    0
+                                                ? AppColors.colorWarning300
+                                                : controller.activeButtonIndex
+                                                            .value ==
+                                                        1
+                                                    ? AppColors.colorPrimary800
+                                                    : AppColors.colorBaseError,
                                             isStatus: false,
                                             onTap: () {
                                               Get.to(DetailDepositTrashScreen(

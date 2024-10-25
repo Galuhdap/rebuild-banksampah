@@ -9,7 +9,6 @@ import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_dialog.dart';
-import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_message_dialog.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/product/controllers/product_controller.dart';
@@ -68,109 +67,115 @@ class ProductScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              body: Column(
-                children: [
-                  SearchComponent(
-                    controller: controller.searchProduct,
-                    onTap: () {},
-                    onChanged: (value) {
-                      controller.searchQuery.value = value;
-                      controller.filterSearchTrash();
-                    },
-                  ),
-                  Obx(
-                    () {
-                      return controller.isLoadingProduct.value
-                          ? Center(
-                              child: SizedBox(
-                                width: 100,
-                                height: 100,
-                                child: Lottie.asset(Assets.lottie.loadingLogin),
-                              ),
-                            )
-                          : Expanded(
-                              child: ListView.builder(
-                                itemCount: controller.searchQuery.isEmpty
-                                    ? controller.listProduct.length
-                                    : controller.searchListProduct.length,
-                                itemBuilder: (BuildContext context, index) {
-                                  var data = controller.searchQuery.isEmpty
-                                      ? controller.listProduct[index]
-                                      : controller.searchListProduct[index];
-                                  return CardProduct(
-                                    onTap: () {
-                                      showModalBottom(
-                                        context,
-                                        Column(
-                                          children: [
-                                            AppSizes.s8.height,
-                                            Center(
-                                              child: Container(
-                                                width: AppSizes.s56,
-                                                height: AppSizes.s4,
-                                                decoration: BoxDecoration(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            AppSizes.s8),
-                                                    color: AppColors
-                                                        .colorNeutrals800),
+              body: RefreshIndicator(
+                onRefresh: () async {
+                  controller.listProduct.clear();
+                  controller.getProduct();
+                },
+                child: Column(
+                  children: [
+                    SearchComponent(
+                      controller: controller.searchProduct,
+                      onTap: () {},
+                      onChanged: (value) {
+                        controller.searchQuery.value = value;
+                        controller.filterSearchTrash();
+                      },
+                    ),
+                    Obx(
+                      () {
+                        return controller.isLoadingProduct.value
+                            ? Center(
+                                child: SizedBox(
+                                  width: 100,
+                                  height: 100,
+                                  child: Lottie.asset(Assets.lottie.loadingLogin),
+                                ),
+                              )
+                            : Expanded(
+                                child: ListView.builder(
+                                  itemCount: controller.searchQuery.isEmpty
+                                      ? controller.listProduct.length
+                                      : controller.searchListProduct.length,
+                                  itemBuilder: (BuildContext context, index) {
+                                    var data = controller.searchQuery.isEmpty
+                                        ? controller.listProduct[index]
+                                        : controller.searchListProduct[index];
+                                    return CardProduct(
+                                      onTap: () {
+                                        showModalBottom(
+                                          context,
+                                          Column(
+                                            children: [
+                                              AppSizes.s8.height,
+                                              Center(
+                                                child: Container(
+                                                  width: AppSizes.s56,
+                                                  height: AppSizes.s4,
+                                                  decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              AppSizes.s8),
+                                                      color: AppColors
+                                                          .colorNeutrals800),
+                                                ),
                                               ),
-                                            ),
-                                            AppSizes.s30.height,
-                                            UDWidget(
-                                              onTap: () {
-                                                Get.to(EditProductScreen(
-                                                    datas: data));
-                                              },
-                                              name: AppConstants
-                                                  .LABEL_EDIT_PROFILE,
-                                              icon: Icons.create_rounded,
-                                            ),
-                                            AppSizes.s30.height,
-                                            // UDWidget(
-                                            //   onTap: () async {
-                                            //     showDepositTrashSucces(
-                                            //         context: context,
-                                            //         icon: Assets
-                                            //             .icons.phQuestion.path,
-                                            //         label: AppConstants
-                                            //             .LABEL_DELETE_QUESTION,
-                                            //         firstButton:
-                                            //             AppConstants.LABEL_NO,
-                                            //         fistOnPressed: () async {
-                                            //           Get.back();
-                                            //           Get.back();
-                                            //           //Get.toNamed(AppRoutes.priceTrash);
-                                            //         },
-                                            //         secondButton:
-                                            //             AppConstants.LABEL_YES,
-                                            //         seccondOnPressed: () async {
-                                            //           // listTrash.clear();
-                                            //           // await getTrash();
-
-                                            //           // await controller
-                                            //           //     .deteleUserRegister(id);
-                                            //         },
-                                            //         showButton: true);
-                                            //   },
-                                            //   name: AppConstants.LABEL_DELETE,
-                                            //   icon: Icons.delete,
-                                            // ),
-                                          ],
-                                        ),
-                                      );
-                                    },
-                                    data: data,
-                                  );
-                                },
-                              ),
-                            );
-                    },
-                  ),
-                ],
-              ).paddingSymmetric(
-                horizontal: AppSizes.s20,
-                vertical: AppSizes.s12,
+                                              AppSizes.s30.height,
+                                              UDWidget(
+                                                onTap: () {
+                                                  Get.to(EditProductScreen(
+                                                      datas: data));
+                                                },
+                                                name: AppConstants
+                                                    .LABEL_EDIT_PROFILE,
+                                                icon: Icons.create_rounded,
+                                              ),
+                                              AppSizes.s30.height,
+                                              // UDWidget(
+                                              //   onTap: () async {
+                                              //     showDepositTrashSucces(
+                                              //         context: context,
+                                              //         icon: Assets
+                                              //             .icons.phQuestion.path,
+                                              //         label: AppConstants
+                                              //             .LABEL_DELETE_QUESTION,
+                                              //         firstButton:
+                                              //             AppConstants.LABEL_NO,
+                                              //         fistOnPressed: () async {
+                                              //           Get.back();
+                                              //           Get.back();
+                                              //           //Get.toNamed(AppRoutes.priceTrash);
+                                              //         },
+                                              //         secondButton:
+                                              //             AppConstants.LABEL_YES,
+                                              //         seccondOnPressed: () async {
+                                              //           // listTrash.clear();
+                                              //           // await getTrash();
+                
+                                              //           // await controller
+                                              //           //     .deteleUserRegister(id);
+                                              //         },
+                                              //         showButton: true);
+                                              //   },
+                                              //   name: AppConstants.LABEL_DELETE,
+                                              //   icon: Icons.delete,
+                                              // ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      data: data,
+                                    );
+                                  },
+                                ),
+                              );
+                      },
+                    ),
+                  ],
+                ).paddingSymmetric(
+                  horizontal: AppSizes.s20,
+                  vertical: AppSizes.s12,
+                ),
               ),
             ),
           );

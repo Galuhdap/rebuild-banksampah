@@ -11,6 +11,7 @@ class TransactionCardComponent extends StatelessWidget {
   final String amount;
   final String? status;
   final bool isStatus;
+  final Color statusColor;
   final VoidCallback? onTap;
 
   const TransactionCardComponent({
@@ -18,6 +19,7 @@ class TransactionCardComponent extends StatelessWidget {
     required this.kode,
     required this.label,
     required this.date,
+    required this.statusColor,
     required this.amount,
     this.isStatus = true,
     this.status = 'Sukses',
@@ -63,13 +65,13 @@ class TransactionCardComponent extends StatelessWidget {
                         amount,
                         style: Get.textTheme.titleMedium!.copyWith(
                             fontSize: AppSizes.s16,
-                            color: AppColors.colorPrimary800),
+                            color: statusColor),
                       ),
                     ],
                   ),
                   AppSizes.s12.height,
                   Text(
-                    'Diajukan pada ${date}',
+                    'DiTimbang pada ${date}',
                     style: Get.textTheme.labelMedium!.copyWith(
                       color: AppColors.colorNeutrals500,
                       fontSize: 10

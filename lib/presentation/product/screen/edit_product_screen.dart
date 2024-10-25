@@ -5,6 +5,7 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
@@ -141,30 +142,40 @@ class EditProductScreen extends StatelessWidget {
                   ),
                 ),
                 AppSizes.s40.height,
-                Button.filled(
-                    onPressed: () async {
-                      File? selectedImageFile;
-                      if (controller.selectedImage.value != null) {
-                        selectedImageFile =
-                            File(controller.selectedImage.value!.path);
-                      } else {
-                        selectedImageFile =
-                            null; // Tidak ada gambar yang dipilih
-                      }
-                      String inputText = priceController.text
-                          .replaceAll(RegExp(r'[^0-9]'), '');
-                      var data = ProductRequest(
-                        name: nameProductController.text,
-                        price: int.parse(inputText),
-                        stock: int.parse(stockController.text),
-                        image: selectedImageFile,
-                      );
-                      await controller.putProduct(
-                        data,
-                        datas.id,
-                      );
-                    },
-                    label: 'Simpan'),
+                Obx(() {
+                  return controller.isLoadingEditProduct.value
+                      ? Center(
+                          child: SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Lottie.asset(Assets.lottie.loadingLogin),
+                          ),
+                        )
+                      : Button.filled(
+                          onPressed: () async {
+                            File? selectedImageFile;
+                            if (controller.selectedImage.value != null) {
+                              selectedImageFile =
+                                  File(controller.selectedImage.value!.path);
+                            } else {
+                              selectedImageFile =
+                                  null; // Tidak ada gambar yang dipilih
+                            }
+                            String inputText = priceController.text
+                                .replaceAll(RegExp(r'[^0-9]'), '');
+                            var data = ProductRequest(
+                              name: nameProductController.text,
+                              price: int.parse(inputText),
+                              stock: int.parse(stockController.text),
+                              image: selectedImageFile,
+                            );
+                            await controller.putProduct(
+                              data,
+                              datas.id,
+                            );
+                          },
+                          label: 'Simpan');
+                })
               ],
             ).paddingSymmetric(
               horizontal: AppSizes.s20,

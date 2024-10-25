@@ -13,5 +13,5 @@ extension DateFormatddmmmyyyyExtension on DateTime {
 }
 
 extension DateFormatyyyymmddMonthDayExtension on DateTime {
-  String toFormattedDateDayTimeString() => DateFormat('d MMMM yyyy, HH:mm').format(this);
+  String toFormattedDateDayTimeString() => DateFormat('d MMMM yyyy').format(this);
 }

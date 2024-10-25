@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
+import 'package:rebuild_bank_sampah/presentation/withdraw/screen/admin_koprasi/loading_admin_koprasi.dart';
 import 'package:rebuild_bank_sampah/presentation/withdraw/screen/admin_koprasi/loading_status_withdraw_admin_koprasi.dart';
 import 'package:rebuild_bank_sampah/services/withdraw/datarepository/withdraw_admin_koprasi_respository.dart';
 import 'package:rebuild_bank_sampah/services/withdraw/models/request/status_withdraw_super_admin.dart';
@@ -72,7 +73,7 @@ class WithdrawFunstAdminKoprasiController extends GetxController {
       String inputText = fundsController.text.replaceAll(RegExp(r'[^0-9]'), '');
       final data = WithdrawAdminKoprasiRequest(
         nameAdmin: nemeController.text,
-        nameCoop: name ,
+        nameCoop: name,
         nominal: int.parse(inputText),
       );
 
@@ -94,6 +95,9 @@ class WithdrawFunstAdminKoprasiController extends GetxController {
             message: 'Pengajuan successfully',
             isError: false,
           );
+          Get.to(LoadingAdminKoprasi(
+            label: 'Penagajuan Penarikan Dana Berhasil',
+          ));
           listWithdrawAdminKoprasi.clear();
           await getWithdarawAdminKoprasi();
 

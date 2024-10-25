@@ -13,7 +13,6 @@ import 'package:rebuild_bank_sampah/presentation/home/controllers/home_controlle
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 import 'package:rebuild_bank_sampah/presentation/profile/controllers/profile_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/withdraw/controllers/withdraw_funst_admin_koprasi_controller.dart';
-import 'package:rebuild_bank_sampah/presentation/withdraw/screen/admin_koprasi/loading_admin_koprasi.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
 class AddWithdrawFunstAdminKoprasi extends StatelessWidget {
@@ -64,9 +63,6 @@ class AddWithdrawFunstAdminKoprasi extends StatelessWidget {
           children: [
             Button.filled(
               onPressed: () async {
-                Get.to(LoadingAdminKoprasi(
-                  label: 'Penagajuan Penarikan Dana Berhasil',
-                ));
                 await controller.postWithdrawAdminKoprasi(
                     controllerProfile.profile.value!.name);
               },

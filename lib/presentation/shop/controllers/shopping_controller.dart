@@ -11,8 +11,10 @@ class ShoppingController extends GetxController {
   final ProductCustomerDataRepository source = locator();
 
   RxList<Product> listProduct = <Product>[].obs;
+  RxList<Product> searchListProduct = <Product>[].obs;
   List<Product> listProductBasket = [];
   RxBool isLoadingProduct = false.obs;
+  final TextEditingController searchProduct = TextEditingController();
 
   // RxInt activeIndex = (-1).obs;
   RxList<int> activeIndices = <int>[].obs;
@@ -21,6 +23,7 @@ class ShoppingController extends GetxController {
   RxInt total = 0.obs;
   RxBool favorite = false.obs;
   RxBool isCheckStock = false.obs;
+  RxString searchQuery = "".obs;
 
   @override
   void onInit() {
@@ -74,7 +77,7 @@ class ShoppingController extends GetxController {
           // );
 
           // Dapatkan nilai stock dari SQLite
-         // final stock = sqliteData.isNotEmpty ? sqliteData['stock'] : 0;
+          // final stock = sqliteData.isNotEmpty ? sqliteData['stock'] : 0;
 
           // Buat Product dari data API dan tambahkan field stock
           return Product.fromJson({
@@ -103,7 +106,7 @@ class ShoppingController extends GetxController {
         },
         (response) async {
           listProduct.addAll(response.data);
-          
+
           update();
         },
       );
@@ -113,8 +116,6 @@ class ShoppingController extends GetxController {
       isLoadingProduct.value = false;
     }
   }
-  
- 
 
   void changeStatus(int index) {
     if (activeIndices.contains(index)) {
@@ -138,8 +139,6 @@ class ShoppingController extends GetxController {
       quantities[index] = quantities[index]! - 1;
     }
   }
-
- 
 
   Future deleteKeranjang({required String idfav, required int index}) async {
     final product = listProductBasket[index];
@@ -165,4 +164,17 @@ class ShoppingController extends GetxController {
     update();
   }
 
+  void filterSearchTrash() {
+    if (searchQuery.value.isEmpty) {
+      searchListProduct.assignAll(listProduct);
+    } else {
+      searchListProduct.assignAll(
+        listProduct.where((data) {
+          return data.name
+              .toLowerCase()
+              .contains(searchQuery.value.toLowerCase());
+        }).toList(),
+      );
+    }
+  }
 }
