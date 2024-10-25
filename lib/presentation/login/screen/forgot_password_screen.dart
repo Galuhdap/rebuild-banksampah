@@ -7,7 +7,6 @@ import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/helpers/validation_helper.dart';
 import 'package:rebuild_bank_sampah/presentation/login/controllers/login_controller.dart';
-import 'package:rebuild_bank_sampah/presentation/login/screen/loading_forgot_password_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
 
 class ForgotPasswordScreen extends StatelessWidget {
@@ -38,9 +37,7 @@ class ForgotPasswordScreen extends StatelessWidget {
             //   status: controller.isLoadingAddUser.value,
             //   label: AppConstants.LABEL_REGISTER_SUCCES,
             // ));
-            Get.to(LoadingForgotPasswordScreen(
-              label: 'Password Telah Di Ubah',
-            ));
+           
             await controller.forgotPassword();
             // if (controller.formKey.currentState!.validate()) {
 

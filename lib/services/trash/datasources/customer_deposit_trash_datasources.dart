@@ -6,8 +6,10 @@ import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_ut
 import 'package:rebuild_bank_sampah/services/lib/api_services.dart';
 import 'package:rebuild_bank_sampah/services/lib/network_constants.dart';
 import 'package:rebuild_bank_sampah/services/order/model/request/post_update_status_request.dart';
+import 'package:rebuild_bank_sampah/services/trash/model/request/post_deposit_trash_request.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/customer/get_deposit_trash_update_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_deposit_trash_response.dart';
+import 'package:rebuild_bank_sampah/services/trash/model/response/post_deposit_trash_response.dart';
 
 class CustomerDepositTrashDatasources extends ApiService {
   var token;
@@ -26,12 +28,29 @@ class CustomerDepositTrashDatasources extends ApiService {
 
       return Right(DepositTrashResponse.fromJson(response));
     } catch (e) {
-      return left(Failure(400, 'dataaaaa Tidak masuk'));
+      return left(Failure(400, e.toString()));
     }
   }
 
-  Future<Either<Failure, GetDepositTrashUpdateResponse>> postDepositStatusCustomer(
-      PostUpdateStatusRequest data) async {
+  Future<Either<Failure, DepositTrashResponse>> getSuperAdminDeposit() async {
+    final prefs = await SharedPreferencesUtils.getAuthToken();
+
+    try {
+      final response = await get(
+          NetworkConstants.GET_SUPER_ADMIN_DEPOSIT_TRASH_URL,
+          header: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer ${prefs}",
+          });
+
+      return Right(DepositTrashResponse.fromJson(response));
+    } catch (e) {
+      return left(Failure(400, e.toString()));
+    }
+  }
+
+  Future<Either<Failure, GetDepositTrashUpdateResponse>>
+      postDepositStatusCustomer(PostUpdateStatusRequest data) async {
     final prefs = await SharedPreferencesUtils.getAuthToken();
 
     try {
@@ -49,7 +68,32 @@ class CustomerDepositTrashDatasources extends ApiService {
       );
       return Right(GetDepositTrashUpdateResponse.fromJson(response.data));
     } catch (e) {
-      return Left(Failure(400, 'No data masuk'));
+      return Left(Failure(400, e.toString()));
+    }
+  }
+
+      Future<Either<Failure, PostDepositTrashResponse>> putDepositTrash(
+      PostDepositTrashRequest data, String idSummary) async {
+    final prefs = await SharedPreferencesUtils.getAuthToken();
+
+    try {
+      final response = await Dio().put(
+        NetworkConstants.PUT_DEPOSIT_SUPER_ADMIN_TRASH_URL(idSummary),
+        data: {
+          'userId': data.userId,
+          'items': data.ItemTrsahs,
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${prefs}",
+          },
+        ),
+      );
+
+      print(response);
+      return Right(PostDepositTrashResponse.fromJson(response.data));
+    } catch (e) {
+      return Left(Failure(400, e.toString()));
     }
   }
 }

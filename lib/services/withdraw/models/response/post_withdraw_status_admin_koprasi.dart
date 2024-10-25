@@ -51,7 +51,7 @@ class PostWithdrawResponse {
 
 class Data {
     final String status;
-    final int balanceTrash;
+    final num balanceTrash;
     final int adminBalance;
 
     Data({
@@ -62,7 +62,7 @@ class Data {
 
     Data copyWith({
         String? status,
-        int? balanceTrash,
+        num? balanceTrash,
         int? adminBalance,
     }) => 
         Data(

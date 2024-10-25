@@ -57,6 +57,7 @@ class DepositTrashController extends GetxController {
   RxList<GroupTrash> trashList = <GroupTrash>[].obs;
 
   final textEditingControllers = <int, TextEditingController>{};
+  final List<TextEditingController> controllers = [];
 
 //   void updateTrashWeight(int trashId, String weight) {
 //   // Set berat sampah berdasarkan trashId
@@ -89,6 +90,14 @@ class DepositTrashController extends GetxController {
     getTrash();
     getDepositTrash();
     getCustomerDepositTrash();
+  }
+
+  void initializeControllers(List<Deposit> deposits) {
+    if (controllers.isEmpty) {
+      for (var trash in deposits) {
+        controllers.add(TextEditingController(text: trash.weight.toString()));
+      }
+    }
   }
 
   void setActiveButton(int index) {

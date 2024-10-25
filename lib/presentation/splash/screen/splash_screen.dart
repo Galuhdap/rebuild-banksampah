@@ -22,11 +22,14 @@ class SplashScreen extends StatelessWidget {
               child: Assets.images.logoBs.image(scale: 4),
             ),
             AppSizes.s20.height,
-            // Text(
-            //   'UJI COBA APLIKASI KARUNG BERKAH',
-            //   textAlign: TextAlign.center,
-            //   style: Get.textTheme.titleMedium!.copyWith(fontSize: 20),
-            // ),
+            Text(
+              '"Kabudaya Jinurunge Bersedekah"',
+              textAlign: TextAlign.center,
+              style: Get.textTheme.titleMedium!.copyWith(
+                fontSize: 15,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
             AppSizes.s20.height,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -44,14 +47,14 @@ class SplashScreen extends StatelessWidget {
               'Hibah Pemberdayaan Desa Binaan\nDRTPM 2024',
               maxLines: 2,
               textAlign: TextAlign.center,
-              style: Get.textTheme.titleMedium!.copyWith(fontSize: 15),
+              style: Get.textTheme.titleMedium!.copyWith(fontSize: 15, fontWeight: FontWeight.bold),
             ),
             AppSizes.s10.height,
             Text(
               'V 1.0',
               maxLines: 2,
               textAlign: TextAlign.center,
-              style: Get.textTheme.titleMedium!.copyWith(fontSize: 10),
+              style: Get.textTheme.titleMedium!.copyWith(fontSize: 12),
             ),
           ],
         ),

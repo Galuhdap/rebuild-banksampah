@@ -17,7 +17,8 @@ class DetailWithdrawFundsAdminKoprasiScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WithdrawFunstAdminKoprasiController controller = Get.put(WithdrawFunstAdminKoprasiController());
+    WithdrawFunstAdminKoprasiController controller =
+        Get.put(WithdrawFunstAdminKoprasiController());
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -121,12 +122,11 @@ class DetailWithdrawFundsAdminKoprasiScreen extends StatelessWidget {
               AppSizes.s20.height,
               Button.outlined(
                 onPressed: () async {
-                
                   final datas = PostUpdateStatusWithdrawRequest(
                     id: data.id,
-                    status: 'DONE',
+                    status: 'CENCEL',
                   );
-                 // await controller.postUpdateStatusWithdraw(context, datas);
+                  await controller.postUpdateStatusWithdraw(context, datas);
                 },
                 label: 'Batalkan Penarikan',
                 borderRadius: AppSizes.s4,

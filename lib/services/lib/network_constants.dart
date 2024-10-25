@@ -15,6 +15,10 @@ class NetworkConstants {
     return BASE_URL + "api/super/users/$id";
   }
 
+  static String UPDATE_REGISTER_URL(String id) {
+    return BASE_URL + "api/super/users/$id";
+  }
+
   //trash
   static const String GET_TRASH_URL = BASE_URL + "api/weigher/trash";
   static const String GET_TRASH_SUPER_URL = BASE_URL + "api/super/trash";
@@ -24,12 +28,19 @@ class NetworkConstants {
       BASE_URL + "api/weigher/users";
   static const String POST_DEPOSIT_TRASH_URL =
       BASE_URL + "api/weigher/trash/deposit";
+  static const String GET_SUPER_ADMIN_DEPOSIT_TRASH_URL =
+      BASE_URL + "api/super/trash/deposit";
+
   static String DELETE_DEPOSIT_TRASH_URL(String id) {
     return BASE_URL + "api/weigher/trash/deposit/$id";
   }
 
   static String PUT_DEPOSIT_TRASH_URL(String id) {
     return BASE_URL + "api/weigher/trash/deposit/$id";
+  }
+
+  static String PUT_DEPOSIT_SUPER_ADMIN_TRASH_URL(String id) {
+    return BASE_URL + "api/super/trash/deposit/$id";
   }
 
   static String DELETE_PRICE_TRASH_URL(String id) {
@@ -72,6 +83,7 @@ class NetworkConstants {
   static String PUT_PRODUCT_URL(String id) {
     return BASE_URL + "api/admin/products/$id";
   }
+
   static String DELETE_PRODUCT_URL(String id) {
     return BASE_URL + "api/admin/products/$id";
   }
@@ -98,4 +110,9 @@ class NetworkConstants {
   static const String POST_WITHDRAW_URL = BASE_URL + "api/admin/withdraw";
   static const String POST_STATUS_WITHDRAW_URL =
       BASE_URL + "api/super/update-withdraw";
+  static const String POST_STATUS_ADMIN_WITHDRAW_URL =
+      BASE_URL + "api/admin/update-withdraw";
+
+  static const String POST_STATUS_CUSTOMER_ORDER_URL =
+      BASE_URL + "api/customer/transaction/update-status";
 }

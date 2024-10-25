@@ -22,4 +22,9 @@ class OrderAdminDataRepository {
       PostUpdateStatusRequest data) async {
     return sources.postOrderStatusAdmin(data);
   }
+
+  Future<Either<Failure, GetOrderAdminStatusResponse>> postOrderStatusCustomer(
+      PostUpdateStatusRequest data) async {
+    return sources.postOrderStatusCustomer(data);
+  }
 }

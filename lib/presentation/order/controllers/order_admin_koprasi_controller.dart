@@ -38,21 +38,6 @@ class OrderAdminKoprasiController extends GetxController {
         },
         (response) async {
           listOrder.addAll(response.data);
-          // if (listOrder.isNotEmpty) {
-          //   switch (listOrder.first.status) {
-          //     case 'PENDING':
-          //       setActiveButton(0);
-          //       break;
-          //     case 'DONE':
-          //       setActiveButton(1);
-          //       break;
-          //     case 'CANCEL':
-          //       setActiveButton(2);
-          //       break;
-          //     default:
-          //       break;
-          //   }
-          // }
           update();
         },
       );

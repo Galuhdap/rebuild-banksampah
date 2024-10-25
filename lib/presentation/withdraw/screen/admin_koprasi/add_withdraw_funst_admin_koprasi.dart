@@ -23,7 +23,8 @@ class AddWithdrawFunstAdminKoprasi extends StatelessWidget {
   Widget build(BuildContext context) {
     ProfileController controllerProfile = Get.put(ProfileController());
     HomeController controllerHome = Get.put(HomeController());
-    WithdrawFunstAdminKoprasiController controller = Get.put(WithdrawFunstAdminKoprasiController());
+    WithdrawFunstAdminKoprasiController controller =
+        Get.put(WithdrawFunstAdminKoprasiController());
 
     return Scaffold(
       appBar: AppBar(
@@ -63,8 +64,11 @@ class AddWithdrawFunstAdminKoprasi extends StatelessWidget {
           children: [
             Button.filled(
               onPressed: () async {
-                Get.to(LoadingAdminKoprasi(label: 'Penagajuan Penarikan Dana Berhasil',));
-                await controller.postWithdrawAdminKoprasi(controllerProfile.profile.value!.name);
+                Get.to(LoadingAdminKoprasi(
+                  label: 'Penagajuan Penarikan Dana Berhasil',
+                ));
+                await controller.postWithdrawAdminKoprasi(
+                    controllerProfile.profile.value!.name);
               },
               label: 'Ajukan',
             )
@@ -84,18 +88,22 @@ class AddWithdrawFunstAdminKoprasi extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Text(
-                (controllerHome.summaryAdminKoprasi.value?.balance ?? 0)
-                    .currencyFormatRp,
-                style: Get.textTheme.bodyLarge!.copyWith(
-                    fontSize: AppSizes.s14, color: AppColors.colorBasePrimary),
-              ),
+              Obx(() {
+                return Text(
+                  (controllerHome.summaryAdminKoprasi.value?.balance ?? 0)
+                      .currencyFormatRp,
+                  style: Get.textTheme.bodyLarge!.copyWith(
+                      fontSize: AppSizes.s14,
+                      color: AppColors.colorBasePrimary),
+                );
+              })
             ],
           ),
           AppSizes.s20.height,
           InputWidget(
             label: AppConstants.LABEL_NAME_COORPT,
-            controller: TextEditingController(text: controllerProfile.profile.value!.name),
+            controller: TextEditingController(
+                text: controllerProfile.profile.value!.name),
             readOnly: true,
           ),
           AppSizes.s20.height,

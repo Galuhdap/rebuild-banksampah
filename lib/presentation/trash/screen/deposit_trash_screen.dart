@@ -42,7 +42,7 @@ class _SetorSampahScreenState extends State<SetorSampahScreen> {
             child: Scaffold(
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
-                    Get.put(DepositTrashController());
+                    // Get.put(DepositTrashController());
                     Get.toNamed(AppRoutes.addTrashDeposit);
                   },
                   backgroundColor: AppColors.colorBasePrimary,

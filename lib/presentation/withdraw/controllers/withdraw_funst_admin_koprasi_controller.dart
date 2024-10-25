@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
+import 'package:rebuild_bank_sampah/presentation/withdraw/screen/admin_koprasi/loading_status_withdraw_admin_koprasi.dart';
 import 'package:rebuild_bank_sampah/services/withdraw/datarepository/withdraw_admin_koprasi_respository.dart';
+import 'package:rebuild_bank_sampah/services/withdraw/models/request/status_withdraw_super_admin.dart';
 import 'package:rebuild_bank_sampah/services/withdraw/models/request/withdraw_admin_koprasi_request.dart';
 import 'package:rebuild_bank_sampah/services/withdraw/models/response/get_withdraw_admin_koprasi_response.dart';
 
@@ -23,6 +25,7 @@ class WithdrawFunstAdminKoprasiController extends GetxController {
       <DataWithdrawAdminKoprasi>[].obs;
   RxBool isLoadingGetWithdrawAdminKopraso = false.obs;
   RxBool isLoadingAddtWithdrawAdminKopraso = false.obs;
+  RxBool isLoadingUpdateStatus = false.obs;
 
   RxInt activeButtonIndex = 0.obs;
   RxString searchQuery = "".obs;
@@ -68,8 +71,8 @@ class WithdrawFunstAdminKoprasiController extends GetxController {
       // double? numericValue = double.parse(weightController.text);
       String inputText = fundsController.text.replaceAll(RegExp(r'[^0-9]'), '');
       final data = WithdrawAdminKoprasiRequest(
-        nameAdmin: name,
-        nameCoop: nemeController.text,
+        nameAdmin: nemeController.text,
+        nameCoop: name ,
         nominal: int.parse(inputText),
       );
 
@@ -102,6 +105,51 @@ class WithdrawFunstAdminKoprasiController extends GetxController {
     } catch (e) {
       print('e:$e');
       isLoadingAddtWithdrawAdminKopraso.value = false;
+    }
+  }
+
+  Future<void> postUpdateStatusWithdraw(
+      BuildContext context, PostUpdateStatusWithdrawRequest datas) async {
+    isLoadingUpdateStatus.value = true;
+    try {
+      final data = PostUpdateStatusWithdrawRequest(
+        id: datas.id,
+        status: datas.status,
+      );
+
+      final response = await repository.postWithdrawStatusAdminKoprasi(data);
+
+      response.fold(
+        (failure) {
+          MessageComponent.snackbar(
+            title: '${failure.code}',
+            message: failure.message,
+            isError: true,
+          );
+
+          update();
+        },
+        (response) async {
+          MessageComponent.snackbarTop(
+            title: 'Success',
+            message: 'Pengajuan successfully',
+            isError: false,
+          );
+          Get.to(LoadingStatusAdminKoprasi(
+            label: 'Penagajuan Penarikan Dana Dibatlkan',
+          ));
+
+          searchListWithdrawAdminKoprasi.clear();
+          listWithdrawAdminKoprasi.clear();
+          await getWithdarawAdminKoprasi();
+          update();
+        },
+      );
+
+      isLoadingUpdateStatus.value = false;
+    } catch (e) {
+      print('e:$e');
+      isLoadingUpdateStatus.value = false;
     }
   }
 

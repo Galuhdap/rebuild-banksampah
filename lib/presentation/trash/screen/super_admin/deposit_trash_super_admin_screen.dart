@@ -9,19 +9,19 @@ import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/date_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
-import 'package:rebuild_bank_sampah/presentation/trash/controllers/customer_deposit_trash_controller.dart';
-import 'package:rebuild_bank_sampah/presentation/trash/screen/customer/detail_deposit_trash_customer_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/controllers/deposit_trash_super_admin_controller.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/super_admin/detail_trash_super_admin_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/withdraw/widget/menu_button_widget.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_deposit_trash_response.dart';
 
-class DepositTrashCustomerScreen extends StatelessWidget {
-  const DepositTrashCustomerScreen({super.key});
+class DepositTrashSuperAdminScreen extends StatelessWidget {
+  const DepositTrashSuperAdminScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<CustomerDepositTrashController>(
-        init: CustomerDepositTrashController(),
+    return GetBuilder<DepositTrashSuperAdminController>(
+        init: DepositTrashSuperAdminController(),
         builder: (controller) {
           return WillPopScope(
             onWillPop: () async {
@@ -163,14 +163,14 @@ class DepositTrashCustomerScreen extends StatelessWidget {
                                           .toString();
                                       return TransactionCardComponent(
                                           kode: data.user.profile.kdUser,
-                                          label: data.status,
+                                          label: data.user.profile.name,
                                           date: data.createdAt
                                               .toDateddmmmyyyyFormattedString(),
                                           amount: '${totalWeight} Kg',
                                           isStatus: false,
                                           onTap: () {
                                             Get.to(
-                                              DetailDepositTrashCustomerScreen(
+                                              DetailTrashSuperAdminScreen(
                                                 data: data,
                                               ),
                                             );

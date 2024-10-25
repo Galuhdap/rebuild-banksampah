@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/menu_category_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
@@ -16,7 +17,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(ProfileController());
+    final controllers = Get.put(ProfileController());
     return GetBuilder<HomeController>(
       init: HomeController(),
       builder: (controller) {
@@ -50,12 +51,16 @@ class HomeScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Obx(() {
-                          return Text(
-                            'Hi, ${controller.name.value}',
-                            style: Get.textTheme.titleLarge!.copyWith(
-                                fontSize: AppSizes.s16,
-                                color: AppColors.colorBaseWhite),
-                          );
+                          if (controllers.profile.value != null) {
+                            return Text(
+                              'Hi, ${controllers.profile.value!.name}',
+                              style: Get.textTheme.titleLarge!.copyWith(
+                                  fontSize: AppSizes.s16,
+                                  color: AppColors.colorBaseWhite),
+                            );
+                          } else {
+                            return CircularProgressIndicator();
+                          }
                         }),
                         AppSizes.s10.height,
                         Obx(() {
@@ -102,7 +107,14 @@ class HomeScreen extends StatelessWidget {
                                     )
                                   : controller.role.value == 'ADMIN'
                                       ? controller.isLoadingAdminKoprasi.value
-                                          ? CircularProgressIndicator()
+                                          ? Center(
+                                              child: SizedBox(
+                                                width: 50,
+                                                height: 50,
+                                                child: Lottie.asset(
+                                                    Assets.lottie.loadingLogin),
+                                              ),
+                                            )
                                           : Text(
                                               (controller.summaryAdminKoprasi
                                                           .value?.balance ??
@@ -116,8 +128,12 @@ class HomeScreen extends StatelessWidget {
                                             )
                                       : controller.isLoadingCustomer.value
                                           ? Center(
-                                              child:
-                                                  CircularProgressIndicator(),
+                                              child: SizedBox(
+                                                width: 50,
+                                                height: 50,
+                                                child: Lottie.asset(
+                                                    Assets.lottie.loadingLogin),
+                                              ),
                                             )
                                           : Text(
                                               (controller.balanceCustomer.value
@@ -160,7 +176,11 @@ class HomeScreen extends StatelessWidget {
                 () {
                   return controller.isLoading.value
                       ? Center(
-                          child: CircularProgressIndicator(),
+                          child: SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Lottie.asset(Assets.lottie.loadingLogin),
+                          ),
                         )
                       : controller.role.value == 'WEIGHER'
                           ? Column(
@@ -328,6 +348,33 @@ class HomeScreen extends StatelessWidget {
                                             ),
                                           ],
                                         ),
+                                        AppSizes.s17.height,
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Flexible(
+                                              child: MenuKategoriComponent(
+                                                onTap: () {
+                                                  Get.toNamed(AppRoutes
+                                                      .depositTrashSuperAdmin);
+                                                },
+                                                image:
+                                                    Assets.images.recycle.path,
+                                                label: AppConstants
+                                                    .LABEL_DEPOSIT_TRASH,
+                                              ),
+                                            ),
+                                            AppSizes.s20.width,
+                                            Flexible(
+                                              child: Container(
+                                                width: double.infinity,
+                                                height: 20,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        AppSizes.s20.height,
                                       ],
                                     )
                                   : Column(

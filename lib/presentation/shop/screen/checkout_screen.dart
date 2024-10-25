@@ -17,9 +17,9 @@ class CheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ShoppingController controllers = Get.find();
+    final ShoppingController controllers = Get.put(ShoppingController());
     //final BasketController controllerBasket = Get.find();
-    ProfileController controllerProfile = Get.find();
+    ProfileController controllerProfile = Get.put(ProfileController());
     return GetBuilder<CheckoutController>(
       init: CheckoutController(),
       builder: (controller) {
@@ -64,13 +64,18 @@ class CheckoutScreen extends StatelessWidget {
                       }
                     }),
                     AppSizes.s16.height,
-                    InputWidget(
-                      label: AppConstants.LABEL_PHONE_NUMBER,
-                      hintText: AppConstants.LABEL_PHONE_NUMBER,
-                      controller: TextEditingController(),
-                      textInputType: TextInputType.name,
-                      readOnly: true,
-                    ),
+                    Obx(() {
+                      if (controllerProfile.profile.value != null) {
+                        return InputWidget(
+                          label: AppConstants.LABEL_PHONE_NUMBER,
+                          controller: TextEditingController(
+                              text: controllerProfile.profile.value!.telp),
+                          readOnly: true,
+                        );
+                      } else {
+                        return CircularProgressIndicator();
+                      }
+                    }),
                     AppSizes.s16.height,
                     Obx(() {
                       if (controllerProfile.profile.value != null) {
@@ -180,7 +185,6 @@ class CheckoutScreen extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () async {
-                    Get.to(LoadingShopScreen());
                     await controller.postBuyProduct(context);
                     await controller.removeItem();
                     // showDepositTrashSucces(

@@ -64,4 +64,27 @@ class OrderAdminDataSources extends ApiService {
       return Left(Failure(400, 'No data masuk'));
     }
   }
+
+  Future<Either<Failure, GetOrderAdminStatusResponse>> postOrderStatusCustomer(
+      PostUpdateStatusRequest data) async {
+    final prefs = await SharedPreferencesUtils.getAuthToken();
+
+    try {
+      final response = await Dio().put(
+        NetworkConstants.POST_STATUS_CUSTOMER_ORDER_URL,
+        data: {
+          "transactionId": data.transactionId,
+          "status": data.status,
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${prefs}",
+          },
+        ),
+      );
+      return Right(GetOrderAdminStatusResponse.fromJson(response.data));
+    } catch (e) {
+      return Left(Failure(400, 'No data masuk'));
+    }
+  }
 }

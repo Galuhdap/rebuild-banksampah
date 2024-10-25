@@ -21,14 +21,12 @@ import 'package:rebuild_bank_sampah/presentation/trash/screen/deposit_trash_scre
 import 'package:rebuild_bank_sampah/presentation/splash/screen/splash_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/add_price_trash_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/trash_price_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/super_admin/deposit_trash_super_admin_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/withdraw/screen/admin_koprasi/add_withdraw_funst_admin_koprasi.dart';
 import 'package:rebuild_bank_sampah/presentation/withdraw/screen/admin_koprasi/withdraw_funds_admin_koprasi_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/withdraw/screen/withdraw_funds_screen.dart';
 
-
-
 class AppRoutes {
-
   static const String main = "/";
 
   static const String bottomNavigation = "/bottom-navigation";
@@ -58,41 +56,49 @@ class AppRoutes {
 
   static const String orderAdminKoprasi = "/order-admin-koprasi";
 
-  static const String withdrawFundAdminKoprasi = "/withdraw-funds-admin-koprasi";
-  static const String addWithdrawFundAdminKoprasi = "/add-withdraw-funds-admin-koprasi";
+  static const String withdrawFundAdminKoprasi =
+      "/withdraw-funds-admin-koprasi";
+  static const String addWithdrawFundAdminKoprasi =
+      "/add-withdraw-funds-admin-koprasi";
   static const String forgotPassword = "/forgot-password";
 
-
-
+  static const String depositTrashSuperAdmin = "/deposit-trash-super-admin";
 
   static final routes = [
-    GetPage(name: login, page : () => LoginScreen()),
-    GetPage(name: bottomNavigation, page : () => BottomNavigation()),
-    GetPage(name: splash, page : () => SplashScreen()),
-    GetPage(name: home, page : () => HomeScreen()),
-    GetPage(name: history, page : () => HistoryScreen()),
-    GetPage(name: profile, page : () => ProfileScreen()),
-    GetPage(name: setorSampah, page : () => SetorSampahScreen()),
-    GetPage(name: withdrawFunds, page : () => WithdrawFundsScreen()),
-    GetPage(name: shop, page : () => ShoppingScreen()),
-    GetPage(name: basket, page : () => BasketScreen()),
-    GetPage(name: checkout, page : () => CheckoutScreen()),
-    GetPage(name: orderSee, page : () => OrderSeeScreen()),
-    GetPage(name: detailOrder, page : () => DetailOrderScreen()),
-    GetPage(name: shopAdmin, page : () => ProductScreen()),
-    GetPage(name: addProduct, page : () => AddProductScreen()),
-    GetPage(name: addTrashDeposit, page : () => AddDepositTrashScreen()),
-    GetPage(name: customerTrashDeposit, page : () => DepositTrashCustomerScreen()),
-    GetPage(name: priceTrash, page : () => TrashPriceScreen()),
-    GetPage(name: addTrashSuper, page : () => AddPriceTrashScreen()),
-    GetPage(name: register, page : () => RegisterScreen()),
-    GetPage(name: addRegister, page : () => AddRegisterScreen()),
-    GetPage(name: orderAdminKoprasi, page : () => OrderSeeAdminKoprasiScreen()),
-    GetPage(name: withdrawFundAdminKoprasi, page : () => WithdrawFundsAdminKoprasiScreen()),
-    GetPage(name: addWithdrawFundAdminKoprasi, page : () => AddWithdrawFunstAdminKoprasi()),
-    GetPage(name: forgotPassword, page : () => ForgotPasswordScreen()),
+    GetPage(name: login, page: () => LoginScreen()),
+    GetPage(name: bottomNavigation, page: () => BottomNavigation()),
+    GetPage(name: splash, page: () => SplashScreen()),
+    GetPage(name: home, page: () => HomeScreen()),
+    GetPage(name: history, page: () => HistoryScreen()),
+    GetPage(name: profile, page: () => ProfileScreen()),
+    GetPage(name: setorSampah, page: () => SetorSampahScreen()),
+    GetPage(name: withdrawFunds, page: () => WithdrawFundsScreen()),
+    GetPage(name: shop, page: () => ShoppingScreen()),
+    GetPage(name: basket, page: () => BasketScreen()),
+    GetPage(name: checkout, page: () => CheckoutScreen()),
+    GetPage(name: orderSee, page: () => OrderSeeScreen()),
+    GetPage(name: detailOrder, page: () => DetailOrderScreen()),
+    GetPage(name: shopAdmin, page: () => ProductScreen()),
+    GetPage(name: addProduct, page: () => AddProductScreen()),
+    GetPage(name: addTrashDeposit, page: () => AddDepositTrashScreen()),
+    GetPage(
+        name: customerTrashDeposit, page: () => DepositTrashCustomerScreen()),
+    GetPage(name: priceTrash, page: () => TrashPriceScreen()),
+    GetPage(name: addTrashSuper, page: () => AddPriceTrashScreen()),
+    GetPage(name: register, page: () => RegisterScreen()),
+    GetPage(name: addRegister, page: () => AddRegisterScreen()),
+    GetPage(name: orderAdminKoprasi, page: () => OrderSeeAdminKoprasiScreen()),
+    GetPage(
+        name: withdrawFundAdminKoprasi,
+        page: () => WithdrawFundsAdminKoprasiScreen()),
+    GetPage(
+        name: addWithdrawFundAdminKoprasi,
+        page: () => AddWithdrawFunstAdminKoprasi()),
+    GetPage(name: forgotPassword, page: () => ForgotPasswordScreen()),
+    GetPage(
+        name: depositTrashSuperAdmin,
+        page: () => DepositTrashSuperAdminScreen()),
     //cara menggunakan Binding
     //GetPage(name: login, page : () => LoginScreen(), binding: LoginBinding()),
   ];
-
 }

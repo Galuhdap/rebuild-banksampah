@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
 import 'package:rebuild_bank_sampah/core/component/input_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
@@ -18,7 +20,8 @@ class EditDepositTrashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DepositTrashController controller = Get.put(DepositTrashController());
-    List<TextEditingController> controllers = [];
+    //List<TextEditingController> controllers = [];
+    controller.initializeControllers(data.deposits);
 
     return Scaffold(
       appBar: AppBar(
@@ -64,8 +67,8 @@ class EditDepositTrashScreen extends StatelessWidget {
                     onPressed: () async {
                       List<ItemTrsah> datas = [];
 
-                      for (int i = 0; i < controllers.length; i++) {
-                        String weightText = controllers[i].text;
+                      for (int i = 0; i < controller.controllers.length; i++) {
+                        String weightText = controller.controllers[i].text;
                         double weight =
                             double.tryParse(weightText) ?? 0.0; // Parsing berat
 
@@ -85,100 +88,105 @@ class EditDepositTrashScreen extends StatelessWidget {
                     label: AppConstants.ACTION_DEPOSIT,
                   );
           })),
-      body: ListView(children: [
-        AppSizes.s10.height,
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Nasabah',
-              style: Get.textTheme.labelLarge!.copyWith(
-                fontSize: AppSizes.s12,
+      body: ListView(
+        children: [
+          AppSizes.s10.height,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Nasabah',
+                style: Get.textTheme.labelLarge!.copyWith(
+                  fontSize: AppSizes.s12,
+                ),
               ),
-            ),
-            AppSizes.s10.height,
-            Text(
-              data.user.profile.name,
-              style: Get.textTheme.labelLarge!.copyWith(
-                fontSize: AppSizes.s16,
+              AppSizes.s10.height,
+              Text(
+                data.user.profile.name,
+                style: Get.textTheme.labelLarge!.copyWith(
+                  fontSize: AppSizes.s16,
+                ),
               ),
-            ),
-            AppSizes.s20.height,
-            Expanded(
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: data.deposits.length,
-                itemBuilder: (context, index) {
-                  var trash = data.deposits[index];
-                  TextEditingController controllerWeight =
-                      TextEditingController(text: trash.weight.toString());
-                  controllers.add(controllerWeight);
-                  return Container(
-                    margin: AppSizes.symmetricPadding(vertical: AppSizes.s10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'sddasd',
-                              style: Get.textTheme.labelLarge!.copyWith(
-                                fontSize: AppSizes.s14,
+              AppSizes.s20.height,
+              SizedBox(
+                width: double.infinity,
+                height: AppSizes.setResponsiveHeight(context) * 0.5,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: data.deposits.length,
+                  itemBuilder: (context, index) {
+                    var trash = data.deposits[index];
+                    // TextEditingController controllerWeight =
+                    //     TextEditingController(text: trash.weight.toString());
+                    // controllers.add(controllerWeight);
+                    return Container(
+                      margin: AppSizes.symmetricPadding(vertical: AppSizes.s10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                toBeginningOfSentenceCase(trash.trashName!),
+                                style: Get.textTheme.labelLarge!.copyWith(
+                                  fontSize: AppSizes.s14,
+                                ),
                               ),
-                            ),
-                            AppSizes.s12.height,
-                            Text(
-                              '${trash.nominal.currencyFormatRp}/Kg',
-                              style: Get.textTheme.bodySmall!.copyWith(
-                                fontSize: AppSizes.s14,
+                              AppSizes.s12.height,
+                              Text(
+                                '${trash.nominal.currencyFormatRp}/Kg',
+                                style: Get.textTheme.bodySmall!.copyWith(
+                                  fontSize: AppSizes.s14,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 100,
-                              height: 50,
-                              child: CustomTextField(
-                                hintText: AppConstants.LABEL_WEIGHT,
-                                controller: controllers[index],
-                                keyboardType: TextInputType.name,
-                                //textInputType: TextInputType.name,
-                                hintStyle: Get.textTheme.titleMedium!.copyWith(
-                                    color: AppColors.colorSecondary600,
-                                    fontSize: AppSizes.s12),
-                                onChanged: (value) {
-                                  if (value.isNotEmpty) {
-                                    double weight =
-                                        double.tryParse(value) ?? 0.0;
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                width: 100,
+                                height: 50,
+                                child: CustomTextField(
+                                  hintText: AppConstants.LABEL_WEIGHT,
+                                  controller:  controller.controllers[index],
+                                  keyboardType: TextInputType.number,
+                                  //textInputType: TextInputType.name,
+                                  hintStyle: Get.textTheme.titleMedium!
+                                      .copyWith(
+                                          color: AppColors.colorSecondary600,
+                                          fontSize: AppSizes.s12),
+                                  onChanged: (value) {
+                                    if (value.isNotEmpty) {
+                                      double weight =
+                                          double.tryParse(value) ?? 0.0;
 
-                                    controller.calculateTotal(weight);
-                                  } else {
-                                    // Reset jika kosong
-                                    //controller.updateTrashWeight(trash.id, 0.0);
-                                    controller.calculateTotal(0.0);
-                                  }
-                                },
+                                      controller.calculateTotal(weight);
+                                    } else {
+                                      // Reset jika kosong
+                                      //controller.updateTrashWeight(trash.id, 0.0);
+                                      controller.calculateTotal(0.0);
+                                    }
+                                  },
+                                ),
                               ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                  );
-                },
+                            ],
+                          )
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ).paddingSymmetric(
+                horizontal: AppSizes.s1,
               ),
-            ).paddingSymmetric(
-              horizontal: AppSizes.s1,
-            ),
-            AppSizes.s20.height,
-          ],
-        ).paddingSymmetric(
-          horizontal: AppSizes.s16,
-        ),
-      ]),
+              AppSizes.s20.height,
+            ],
+          ).paddingSymmetric(
+            horizontal: AppSizes.s16,
+          ),
+        ],
+      ),
     );
   }
 }

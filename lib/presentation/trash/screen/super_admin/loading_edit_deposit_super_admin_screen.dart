@@ -7,30 +7,26 @@ import 'package:rebuild_bank_sampah/core/component/button_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
-import 'package:rebuild_bank_sampah/presentation/login/controllers/login_controller.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/controllers/deposit_trash_super_admin_controller.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
-class LoadingForgotPasswordScreen extends StatelessWidget {
-  final String label;
-  const LoadingForgotPasswordScreen({
-    super.key,
-    required this.label,
-  });
+class LoadingUpdateSuperAdminTrashScreen extends StatelessWidget {
+  const LoadingUpdateSuperAdminTrashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    LoginController controller = Get.put(LoginController());
+    DepositTrashSuperAdminController controller = Get.put(DepositTrashSuperAdminController());
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
         body: Obx(
           () {
-            return controller.isloadingForgotPassword.value
+            return controller.isloadingPutDepositTrash.value
                 ? Center(
                     child: SizedBox(
                       width: 300,
                       height: 300,
-                      child: Lottie.asset(Assets.lottie.loadingUniversal),
+                      child: Lottie.asset(Assets.lottie.loadingSampah),
                     ),
                   )
                 : Center(
@@ -43,7 +39,7 @@ class LoadingForgotPasswordScreen extends StatelessWidget {
                           padding:
                               AppSizes.symmetricPadding(horizontal: AppSizes.s10),
                           child: Text(
-                            label,
+                            'Ubah Berat Sampah Sukses',
                             style: Get.textTheme.labelLarge!.copyWith(
                               fontSize: AppSizes.s18,
                             ),
@@ -53,10 +49,9 @@ class LoadingForgotPasswordScreen extends StatelessWidget {
                         AppSizes.s20.height,
                         Button.filled(
                             onPressed: () {
-                              Get.delete<LoginController>();
-                              Get.offAllNamed(AppRoutes.login);
+                              Get.offAllNamed(AppRoutes.depositTrashSuperAdmin);
                             },
-                            label: AppConstants.LABEL_BACK)
+                            label: AppConstants.LABEL_SEE_HISTORY)
                       ],
                     ).paddingSymmetric(horizontal: AppSizes.s40),
                   );

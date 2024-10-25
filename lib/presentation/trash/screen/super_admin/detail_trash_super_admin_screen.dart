@@ -8,18 +8,19 @@ import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/date_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
-import 'package:rebuild_bank_sampah/presentation/trash/controllers/customer_deposit_trash_controller.dart';
-import 'package:rebuild_bank_sampah/services/order/model/request/post_update_status_request.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/controllers/deposit_trash_super_admin_controller.dart';
+
+import 'package:rebuild_bank_sampah/presentation/trash/screen/super_admin/edit_deposit_trash_super_admin_screen.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_deposit_trash_response.dart';
 
-class DetailDepositTrashCustomerScreen extends StatelessWidget {
+class DetailTrashSuperAdminScreen extends StatelessWidget {
   final DepositTrash data;
-  const DetailDepositTrashCustomerScreen({super.key, required this.data});
+  const DetailTrashSuperAdminScreen({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
-    CustomerDepositTrashController controller =
-        Get.put(CustomerDepositTrashController());
+    DepositTrashSuperAdminController controller =
+        Get.put(DepositTrashSuperAdminController());
 
     String totalWeight = data.deposits
         .map((deposit) => deposit.weight)
@@ -88,9 +89,7 @@ class DetailDepositTrashCustomerScreen extends StatelessWidget {
               itemBuilder: (BuildContext context, index) {
                 var datas = data.deposits[index];
                 return CardDepositTileWidget(
-                  title: datas.trashName != null
-                      ? toBeginningOfSentenceCase(datas.trashName!)
-                      : 'loding...',
+                  title: toBeginningOfSentenceCase(datas.trashName!),
                   quantity: datas.weight,
                   price: datas.nominal.currencyFormatRp,
                 );
@@ -134,21 +133,22 @@ class DetailDepositTrashCustomerScreen extends StatelessWidget {
                 ),
               ],
             ),
-            if (data.status == 'PENDING') ...[
-              AppSizes.s20.height,
-              Button.filled(
-                onPressed: () async {
-                  final datum = PostUpdateStatusRequest(
-                    transactionId: data.summaryId,
-                    status: 'DONE',
-                  );
-                  await controller.postUpdateStatusDeposit(context, datum);
-                },
-                label: 'Setujui Penimbangan',
-                borderRadius: AppSizes.s4,
-              ),
-              AppSizes.s12.height,
-            ],
+            AppSizes.s20.height,
+            Button.filled(
+              onPressed: () async {
+                Get.to(EditDepositTrashSuperAdminScreen(
+                  data: data,
+                ));
+                // final datum = PostUpdateStatusRequest(
+                //   transactionId: data.summaryId,
+                //   status: 'DONE',
+                // );
+                // await controller.postUpdateStatusDeposit(context, datum);
+              },
+              label: 'Ubah Penimbangan',
+              borderRadius: AppSizes.s4,
+            ),
+            AppSizes.s12.height,
           ],
         ),
       ),

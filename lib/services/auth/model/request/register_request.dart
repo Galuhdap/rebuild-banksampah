@@ -1,22 +1,22 @@
 class RegisterRequest {
-  String username;
-  String password;
-  String identityType;
-  String role;
-  String identityNumber;
-  String name;
-  String address;
-  String telp;
+  String? username;
+  String? password;
+  String? identityType;
+  String? role;
+  String? identityNumber;
+  String? name;
+  String? address;
+  String? telp;
 
   RegisterRequest({
-    required this.username,
-    required this.password,
-    required this.identityType,
-    required this.role,
-    required this.identityNumber,
-    required this.name,
-    required this.address,
-    required this.telp,
+    this.username,
+    this.password,
+    this.identityType,
+    this.role,
+    this.identityNumber,
+    this.name,
+    this.address,
+    this.telp,
   });
 
   Map<String, dynamic> toJson() => {

@@ -2,6 +2,8 @@ import 'package:drop_down_search_field/drop_down_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:lottie/lottie.dart';
+import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
 import 'package:rebuild_bank_sampah/core/component/input_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
@@ -52,11 +54,11 @@ class AddDepositTrashScreen extends StatelessWidget {
           ),
           child: Obx(() {
             return controller.isloadingAddDepositTrash.value
-                ? Container(
-                    width: 50,
-                    height: 50,
-                    child: Center(
-                      child: CircularProgressIndicator(),
+                ? Center(
+                    child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: Lottie.asset(Assets.lottie.loadingLogin),
                     ),
                   )
                 : Button.filled(
@@ -219,81 +221,112 @@ class AddDepositTrashScreen extends StatelessWidget {
             ],
           ),
           AppSizes.s20.height,
-          Expanded(
-            child: Obx(() {
-              return ListView.builder(
-                shrinkWrap: true,
-                itemCount: controller.selectedTrashList.length,
-                itemBuilder: (context, index) {
-                  var trash = controller.selectedTrashList[index];
-                  return Container(
-                    margin: AppSizes.symmetricPadding(vertical: AppSizes.s10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              trash.nama,
-                              style: Get.textTheme.labelLarge!.copyWith(
-                                fontSize: AppSizes.s14,
+          Obx(() {
+            return controller.selectedTrashList.isEmpty
+                ? Container(
+                    padding: AppSizes.symmetricPadding(vertical: AppSizes.s150),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Assets.images.emptyData.image(scale: 4),
+                          Text(
+                            'Data Kosong',
+                            style: Get.textTheme.titleLarge!
+                                .copyWith(fontSize: AppSizes.s18),
+                          ),
+                          Text(
+                            'Tidak ada data yang bisa ditampilkan sekarang.',
+                            style: Get.textTheme.titleLarge!.copyWith(
+                                fontSize: AppSizes.s12,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : SizedBox(
+                    width: double.infinity,
+                    height: AppSizes.setResponsiveHeight(context) * 0.5,
+                    
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: controller.selectedTrashList.length,
+                      itemBuilder: (context, index) {
+                        var trash = controller.selectedTrashList[index];
+                        return Container(
+                          margin:
+                              AppSizes.symmetricPadding(vertical: AppSizes.s10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    trash.nama,
+                                    style: Get.textTheme.labelLarge!.copyWith(
+                                      fontSize: AppSizes.s14,
+                                    ),
+                                  ),
+                                  AppSizes.s12.height,
+                                  Text(
+                                    '${trash.harga.currencyFormatRp}/Kg',
+                                    style: Get.textTheme.bodySmall!.copyWith(
+                                      fontSize: AppSizes.s14,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            AppSizes.s12.height,
-                            Text(
-                              '${trash.harga.currencyFormatRp}/Kg',
-                              style: Get.textTheme.bodySmall!.copyWith(
-                                fontSize: AppSizes.s14,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 100,
-                              height: 50,
-                              child: CustomTextField(
-                                hintText: AppConstants.LABEL_WEIGHT,
-                                controller: controller.weightControllers[index],
-                                keyboardType: TextInputType.number,
-                                //textInputType: TextInputType.name,
-                                hintStyle: Get.textTheme.titleMedium!.copyWith(
-                                    color: AppColors.colorSecondary600,
-                                    fontSize: AppSizes.s12),
-                                onChanged: (value) {
-                                  if (value.isNotEmpty) {
-                                    double weight =
-                                        double.tryParse(value) ?? 0.0;
-                                    // Update berat di controller
-                                    // controller.updateTrashWeight(
-                                    //     trash.id, value);
-                                    controller.calculateTotal(weight);
-                                  } else {
-                                    // Reset jika kosong
-                                    //controller.updateTrashWeight(trash.id, 0.0);
-                                    controller.calculateTotal(0.0);
-                                  }
-                                },
-                              ),
-                            ),
-                            IconButton(
-                              onPressed: () {
-                                controller.removeSelectedTrash(trash.id);
-                                controller.weightControllers.removeAt(index);
-                              },
-                              icon: Icon(Icons.clear_rounded),
-                            ),
-                          ],
-                        )
-                      ],
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 100,
+                                    height: 50,
+                                    child: CustomTextField(
+                                      hintText: AppConstants.LABEL_WEIGHT,
+                                      controller:
+                                          controller.weightControllers[index],
+                                      keyboardType: TextInputType.number,
+                                      //textInputType: TextInputType.name,
+                                      hintStyle: Get.textTheme.titleMedium!
+                                          .copyWith(
+                                              color:
+                                                  AppColors.colorSecondary600,
+                                              fontSize: AppSizes.s12),
+                                      onChanged: (value) {
+                                        if (value.isNotEmpty) {
+                                          double weight =
+                                              double.tryParse(value) ?? 0.0;
+                                          // Update berat di controller
+                                          // controller.updateTrashWeight(
+                                          //     trash.id, value);
+                                          controller.calculateTotal(weight);
+                                        } else {
+                                          // Reset jika kosong
+                                          //controller.updateTrashWeight(trash.id, 0.0);
+                                          controller.calculateTotal(0.0);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      controller.removeSelectedTrash(trash.id);
+                                      controller.weightControllers
+                                          .removeAt(index);
+                                    },
+                                    icon: Icon(Icons.clear_rounded),
+                                  ),
+                                ],
+                              )
+                            ],
+                          ),
+                        );
+                      },
                     ),
                   );
-                },
-              );
-            }),
-          ).paddingSymmetric(
+          }).paddingSymmetric(
             horizontal: AppSizes.s1,
           ),
           AppSizes.s20.height,

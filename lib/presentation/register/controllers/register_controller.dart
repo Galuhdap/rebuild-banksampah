@@ -5,6 +5,7 @@ import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
 import 'package:rebuild_bank_sampah/presentation/register/screen/loading_delete_register_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/register/screen/loading_edit_register_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/register/screen/loading_register_screen.dart';
 import 'package:rebuild_bank_sampah/services/auth/auth_repository.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/request/register_request.dart';
@@ -145,6 +146,54 @@ class RegisterController extends GetxController {
     } catch (e) {
       print('e:$e');
       isLoadingAddUser.value = false;
+    }
+  }
+
+  Future<void> editRegister(RegisterRequest data, String id) async {
+    isLoadingUpdateUser.value = true;
+    try {
+
+
+      final response = await authRepository.updateRegister(data, id);
+
+      response.fold(
+        (failure) {
+          MessageComponent.snackbar(
+            title: '${failure.code}',
+            message: failure.message,
+            isError: true,
+          );
+          update();
+        },
+        (response) async {
+          MessageComponent.snackbarTop(
+            title: 'Success',
+            message: 'User edit successfully',
+            isError: false,
+          );
+          Get.to(LoadingEditRegisterScreen(
+            label: 'Edit Data Berhasil',
+          ));
+          nameController.text = '';
+          alamatController.text = '';
+          noKtpController.text = '';
+          telpController.text = '';
+          usernameController.text = '';
+          passwordController.text = '';
+          dropdownSearchFieldController.clear();
+          searchUserRegister.clear();
+          listUserRegister.clear();
+          await getUser();
+          await getRole();
+
+          update();
+        },
+      );
+
+      isLoadingUpdateUser.value = false;
+    } catch (e) {
+      print('e:$e');
+      isLoadingUpdateUser.value = false;
     }
   }
 

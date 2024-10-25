@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/search_component.dart';
 import 'package:rebuild_bank_sampah/core/component/transaction_card_component.dart';
@@ -140,7 +141,11 @@ class WithdrawFundsAdminKoprasiScreen extends StatelessWidget {
                   }).toList();
                   return controller.isLoadingGetWithdrawAdminKopraso.value
                       ? Center(
-                          child: CircularProgressIndicator(),
+                          child: SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Lottie.asset(Assets.lottie.loadingLogin),
+                          ),
                         )
                       : filteredOrders.isEmpty
                           ? Container(

@@ -4,6 +4,7 @@ import 'package:currency_text_input_formatter/currency_text_input_formatter.dart
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
@@ -121,7 +122,11 @@ class AddProductScreen extends StatelessWidget {
             AppSizes.s40.height,
             controller.isLoadingAddProduct.value
                 ? Center(
-                    child: CircularProgressIndicator(),
+                    child: SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: Lottie.asset(Assets.lottie.loadingLogin),
+                    ),
                   )
                 : Button.filled(
                     onPressed: () async {

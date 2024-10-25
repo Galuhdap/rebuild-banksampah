@@ -23,7 +23,7 @@ class WithdrawSuperAdminDatasources extends ApiService {
 
       return Right(GetWithdarawAdminKoprasiResponse.fromJson(response));
     } catch (e) {
-      return left(Failure(400, 'datarr Tidak masuk'));
+      return left(Failure(400, e.toString()));
     }
   }
 
@@ -46,7 +46,7 @@ class WithdrawSuperAdminDatasources extends ApiService {
       );
       return Right(PostWithdrawResponse.fromJson(response.data));
     } catch (e) {
-      return Left(Failure(400, 'No data masuk'));
+      return Left(Failure(400, e.toString()));
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_utils.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
+import 'package:rebuild_bank_sampah/presentation/shop/screen/loading_shop_screen.dart';
 import 'package:rebuild_bank_sampah/services/lib/sql_lite_db_services.dart';
 import 'package:rebuild_bank_sampah/services/product/model/request/post_product_buy_request.dart';
 import 'package:rebuild_bank_sampah/services/product/repository/product_customer_data_repository.dart';
@@ -88,6 +89,7 @@ class CheckoutController extends GetxController {
             message: 'Transaction successfully',
             isError: false,
           );
+          Get.to(LoadingShopScreen());
           // showDepositTrashSucces(
           //   context: context,
           //   icon: Assets.icons.mark.path,

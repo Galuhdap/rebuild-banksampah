@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/search_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
@@ -127,8 +128,12 @@ class OrderSeeScreen extends StatelessWidget {
                     }).toList();
                     return controller.isLoadingOrder.value
                         ? Center(
-                            child: CircularProgressIndicator(),
-                          )
+                          child: SizedBox(
+                            width: 100,
+                            height: 100,
+                            child: Lottie.asset(Assets.lottie.loadingLogin),
+                          ),
+                        )
                         : filteredOrders.isEmpty
                             ? Container(
                                 padding: AppSizes.symmetricPadding(

@@ -94,34 +94,40 @@ class Profile {
     final String kdUser;
     final String name;
     final String telp;
+    final String address;
 
     Profile({
         required this.kdUser,
         required this.name,
         required this.telp,
+        required this.address,
     });
 
     Profile copyWith({
         String? kdUser,
         String? name,
         String? telp,
+        String? address,
     }) => 
         Profile(
             kdUser: kdUser ?? this.kdUser,
             name: name ?? this.name,
             telp: telp ?? this.telp,
+            address: address ?? this.address,
         );
 
     factory Profile.fromJson(Map<String, dynamic> json) => Profile(
         kdUser: json["kd_User"],
         name: json["name"],
         telp: json["telp"],
+        address: json["address"],
     );
 
     Map<String, dynamic> toJson() => {
         "kd_User": kdUser,
         "name": name,
         "telp": telp,
+        "address": address,
     };
 }
 

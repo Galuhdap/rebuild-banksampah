@@ -16,45 +16,48 @@ class LoadingDepositTrashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CustomerDepositTrashController controller = Get.find();
-    return Scaffold(
-      body: Obx(
-        () {
-          return controller.isPostLoadingDeposit.value
-              ? Center(
-                  child: SizedBox(
-                    width: 300,
-                    height: 300,
-                    child: Lottie.asset(Assets.lottie.loadingSampah),
-                  ),
-                )
-              : Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(Assets.icons.succes.path),
-                      AppSizes.s10.height,
-                      Container(
-                        padding:
-                            AppSizes.symmetricPadding(horizontal: AppSizes.s10),
-                        child: Text(
-                          label,
-                          style: Get.textTheme.labelLarge!.copyWith(
-                            fontSize: AppSizes.s18,
+    CustomerDepositTrashController controller = Get.put(CustomerDepositTrashController());
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: Obx(
+          () {
+            return controller.isPostLoadingDeposit.value
+                ? Center(
+                    child: SizedBox(
+                      width: 300,
+                      height: 300,
+                      child: Lottie.asset(Assets.lottie.loadingSampah),
+                    ),
+                  )
+                : Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(Assets.icons.succes.path),
+                        AppSizes.s10.height,
+                        Container(
+                          padding:
+                              AppSizes.symmetricPadding(horizontal: AppSizes.s10),
+                          child: Text(
+                            label,
+                            style: Get.textTheme.labelLarge!.copyWith(
+                              fontSize: AppSizes.s18,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
-                          textAlign: TextAlign.center,
                         ),
-                      ),
-                      AppSizes.s20.height,
-                      Button.filled(
-                          onPressed: () {
-                            Get.offAllNamed(AppRoutes.customerTrashDeposit);
-                          },
-                          label: AppConstants.LABEL_SEE_HISTORY)
-                    ],
-                  ).paddingSymmetric(horizontal: AppSizes.s40),
-                );
-        },
+                        AppSizes.s20.height,
+                        Button.filled(
+                            onPressed: () {
+                              Get.offAllNamed(AppRoutes.customerTrashDeposit);
+                            },
+                            label: AppConstants.LABEL_SEE_HISTORY)
+                      ],
+                    ).paddingSymmetric(horizontal: AppSizes.s40),
+                  );
+          },
+        ),
       ),
     );
   }

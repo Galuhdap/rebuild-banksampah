@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
-import 'package:rebuild_bank_sampah/presentation/trash/screen/customer/loading_deposit_trash_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/super_admin/loading_edit_deposit_super_admin_screen.dart';
 import 'package:rebuild_bank_sampah/services/home/datarepository/home_repository.dart';
-import 'package:rebuild_bank_sampah/services/order/model/request/post_update_status_request.dart';
+import 'package:rebuild_bank_sampah/services/trash/model/request/post_deposit_trash_request.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_deposit_trash_response.dart';
 import 'package:rebuild_bank_sampah/services/trash/repository/customer_trash_repository.dart';
 
-class CustomerDepositTrashController extends GetxController {
+class DepositTrashSuperAdminController extends GetxController {
   final CustomerTrashRepository trashRepository = locator();
   final HomeRepository repository = locator();
 
@@ -23,14 +23,32 @@ class CustomerDepositTrashController extends GetxController {
   RxString id = ''.obs;
   RxBool isLoadingCustomer = false.obs;
   RxInt activeButtonIndex = 0.obs;
+  RxBool isloadingPutDepositTrash = false.obs;
 
   final TextEditingController searchDepositTrash = TextEditingController();
+  final List<TextEditingController> controllers = [];
+
+  //var weights = <double>[].obs; // RxList untuk menyimpan berat
 
   @override
   void onInit() {
     super.onInit();
     getDepositTrash();
   }
+
+  void initializeControllers(List<Deposit> deposits) {
+    if (controllers.isEmpty) {
+      for (var trash in deposits) {
+        controllers.add(TextEditingController(text: trash.weight.toString()));
+      }
+    }
+  }
+
+  // void initializeWeights(List<Deposit> deposits) {
+  //   if (weights.isEmpty) {
+  //     weights.assignAll(deposits.map((e) => e.weight.toDouble()));
+  //   }
+  // }
 
   void setActiveButton(int index) {
     activeButtonIndex.value = index;
@@ -39,7 +57,7 @@ class CustomerDepositTrashController extends GetxController {
   Future<void> getDepositTrash() async {
     isloadingDepositTrash.value = true;
     try {
-      final response = await trashRepository.getCustomerDeposit();
+      final response = await trashRepository.getSuperAdminDeposit();
 
       response.fold(
         (failure) {
@@ -56,47 +74,49 @@ class CustomerDepositTrashController extends GetxController {
     }
   }
 
-  Future<void> postUpdateStatusDeposit(
-      BuildContext context, PostUpdateStatusRequest datas) async {
-    isPostLoadingDeposit.value = true;
+  Future<void> putDepositTrash(BuildContext context, String idSummary,
+      String id, List<ItemTrsah> datas) async {
+    isloadingPutDepositTrash.value = true;
     try {
-      final data = PostUpdateStatusRequest(
-        transactionId: datas.transactionId,
-        status: datas.status,
+      final data = PostDepositTrashRequest(
+        userId: id,
+        ItemTrsahs: datas,
       );
 
-      final response = await trashRepository.getDepositStatus(data);
+      // print(data);
+
+      final response = await trashRepository.putDepositTrash(data, idSummary);
 
       response.fold(
         (failure) {
+          inspect(failure.code);
           MessageComponent.snackbar(
             title: '${failure.code}',
             message: failure.message,
             isError: true,
           );
-          Get.back();
+
           update();
         },
         (response) async {
           MessageComponent.snackbarTop(
             title: 'Success',
-            message: 'Pesanan successfully',
+            message: 'Product added successfully',
             isError: false,
           );
-          Get.to(LoadingDepositTrashScreen(
-            label: 'Berat Sampah Telah Disetujui',
-          ));
+          Get.to(LoadingUpdateSuperAdminTrashScreen());
           listDepositTrash.clear();
           searchDepositTrashs.clear();
           await getDepositTrash();
+
           update();
         },
       );
 
-      isPostLoadingDeposit.value = false;
+      isloadingPutDepositTrash.value = false;
     } catch (e) {
       print('e:$e');
-      isPostLoadingDeposit.value = false;
+      isloadingPutDepositTrash.value = false;
     }
   }
 

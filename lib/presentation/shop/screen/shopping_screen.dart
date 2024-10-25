@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/card_tile_component.dart';
 import 'package:rebuild_bank_sampah/core/component/search_component.dart';
@@ -8,6 +9,8 @@ import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
+import 'package:rebuild_bank_sampah/presentation/home/controllers/home_controller.dart';
+import 'package:rebuild_bank_sampah/presentation/shop/controllers/basket_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/shop/controllers/shopping_controller.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 
@@ -16,108 +19,130 @@ class ShoppingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final contollerHome = Get.put(HomeController());
     return GetBuilder<ShoppingController>(
       init: ShoppingController(),
       builder: (controller) {
-        return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                AppConstants.LABEL_COOPERATIVE,
-                style:
-                    Get.textTheme.titleLarge!.copyWith(fontSize: AppSizes.s18),
-              ),
-              leading: IconButton(
-                onPressed: () {
-                  Get.offAndToNamed(AppRoutes.home);
-                },
-                icon: Icon(
-                  Icons.arrow_back_rounded,
-                  color: AppColors.colorBaseBlack,
-                ),
-              ),
-              actions: [
-                IconButton(
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.basket);
-                  },
-                  icon: Badge(
-                    label: Text(controller.listProductBasket.length.toString()),
-                    textStyle: TextStyle(fontSize: AppSizes.s15),
+        return WillPopScope(
+          onWillPop: () async {
+            // Kondisi yang diinginkan saat tombol back ditekan
+            bool shouldNavigate = true; // Sesuaikan kondisinya
 
-                    //padding: AppSizes.allPadding(AppSizes.s10),
-                    // padding: AppSizes.symmetricPadding(
-                    //     vertical: AppSizes.s15, horizontal: AppSizes.s10),
-                    backgroundColor: AppColors.colorBasePrimary,
-                    child: SvgPicture.asset(
-                      Assets.icons.shop.path,
-                      width: 35,
-                      height: 35,
+            if (shouldNavigate) {
+              // Navigasi ke halaman home menggunakan Get.offAndToNamed
+              Get.offAllNamed(AppRoutes.home);
+              return false; // Mencegah pop langsung, kita kontrol manual navigasinya
+            }
+          },
+          child: Scaffold(
+              appBar: AppBar(
+                title: Text(
+                  AppConstants.LABEL_COOPERATIVE,
+                  style: Get.textTheme.titleLarge!
+                      .copyWith(fontSize: AppSizes.s18),
+                ),
+                leading: IconButton(
+                  onPressed: () {
+                    Get.offAndToNamed(AppRoutes.home);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back_rounded,
+                    color: AppColors.colorBaseBlack,
+                  ),
+                ),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      //controller.userBalance.value = contollerHome.balanceCustomer.value!.balance ?? 0;
+                      Get.put(BasketController());
+                      Get.toNamed(AppRoutes.basket);
+                    },
+                    icon: Badge(
+                      label:
+                          Text(controller.listProductBasket.length.toString()),
+                      textStyle: TextStyle(fontSize: AppSizes.s15),
+
+                      //padding: AppSizes.allPadding(AppSizes.s10),
+                      // padding: AppSizes.symmetricPadding(
+                      //     vertical: AppSizes.s15, horizontal: AppSizes.s10),
+                      backgroundColor: AppColors.colorBasePrimary,
+                      child: SvgPicture.asset(
+                        Assets.icons.shop.path,
+                        width: 35,
+                        height: 35,
+                      ),
                     ),
-                  ),
-                ).paddingOnly(right: AppSizes.s10)
-              ],
-            ),
-            body: RefreshIndicator(
-              onRefresh: () async {
-                controller.listProduct.clear();
-                controller.getProductCustomer();
-              },
-              child: Column(
-                children: [
-                  SearchComponent(
-                    controller: TextEditingController(),
-                    onTap: () {},
-                    onChanged: (value) {},
-                  ),
-                  Obx(() {
-                    return controller.isLoadingProduct.value
-                        ? Center(
-                            child: CircularProgressIndicator(),
-                          )
-                        : Expanded(
-                            child: ListView.builder(
-                              itemCount: controller.listProduct.length,
-                              itemBuilder: (BuildContext context, index) {
-                                var data = controller.listProduct[index];
-                                final isInBasket = controller.listProductBasket
-                                    .any((basketProduct) =>
-                                        basketProduct.id == data.id);
-                                return Obx(
-                                  () {
-                                    return CardTile(
-                                      title: data.name,
-                                      stock: data.stock,
-                                      price: data.price.currencyFormatRp,
-                                      imageUrl: data.image,
-                                      productBasket: isInBasket,
-                                      quantity:
-                                          controller.quantities[index] ?? 0,
-                                      onTap: isInBasket
-                                          ? null
-                                          : () {
-                                              controller.changeStatus(index);
-                                              controller.insert(
-                                                  idfav: data.id,
-                                                  stock: controller
-                                                          .quantities[index] ??
-                                                      0);
-                                            },
-                                      isActive: controller.activeIndices
-                                          .contains(index),
-                                      // onTapMin: () =>
-                                      //     controller.changeQuantityMin(index),
-                                      // onTapPlus: () =>
-                                      //     controller.changeQuantityAdd(index),Í
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          );
-                  })
+                  ).paddingOnly(right: AppSizes.s10)
                 ],
-              ).paddingSymmetric(horizontal: AppSizes.s20),
-            ));
+              ),
+              body: RefreshIndicator(
+                onRefresh: () async {
+                  controller.listProduct.clear();
+                  controller.getProductCustomer();
+                },
+                child: Column(
+                  children: [
+                    SearchComponent(
+                      controller: TextEditingController(),
+                      onTap: () {},
+                      onChanged: (value) {},
+                    ),
+                    Obx(() {
+                      return controller.isLoadingProduct.value
+                          ? Center(
+                              child: SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: Lottie.asset(Assets.lottie.loadingLogin),
+                              ),
+                            )
+                          : Expanded(
+                              child: ListView.builder(
+                                itemCount: controller.listProduct.length,
+                                itemBuilder: (BuildContext context, index) {
+                                  var data = controller.listProduct[index];
+                                  final isInBasket = controller
+                                      .listProductBasket
+                                      .any((basketProduct) =>
+                                          basketProduct.id == data.id);
+                                  return Obx(
+                                    () {
+                                      return CardTile(
+                                        title: data.name,
+                                        stock: data.stock,
+                                        price: data.price.currencyFormatRp,
+                                        imageUrl: data.image,
+                                        productBasket: isInBasket,
+                                        quantity:
+                                            controller.quantities[index] ?? 0,
+                                        onTap: isInBasket
+                                            ? null
+                                            : () {
+                                                controller.changeStatus(index);
+                                                controller.insert(
+                                                    idfav: data.id,
+                                                    stock:
+                                                        controller.quantities[
+                                                                index] ??
+                                                            0);
+                                              },
+                                        isActive: controller.activeIndices
+                                            .contains(index),
+                                        // onTapMin: () =>
+                                        //     controller.changeQuantityMin(index),
+                                        // onTapPlus: () =>
+                                        //     controller.changeQuantityAdd(index),Í
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                            );
+                    })
+                  ],
+                ).paddingSymmetric(horizontal: AppSizes.s20),
+              )),
+        );
       },
     );
   }

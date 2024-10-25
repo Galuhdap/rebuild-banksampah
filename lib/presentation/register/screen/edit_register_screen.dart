@@ -1,7 +1,6 @@
-import 'package:drop_down_search_field/drop_down_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
@@ -9,10 +8,8 @@ import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/helpers/validation_helper.dart';
 import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart';
-import 'package:rebuild_bank_sampah/presentation/profile/widget/no_profile_widget.dart';
 import 'package:rebuild_bank_sampah/presentation/register/controllers/register_controller.dart';
-import 'package:rebuild_bank_sampah/presentation/register/screen/loading_register_screen.dart';
-import 'package:rebuild_bank_sampah/services/auth/model/response/get_role_response.dart';
+import 'package:rebuild_bank_sampah/services/auth/model/request/register_request.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_user_response.dart';
 
 class EditRegisterScreen extends StatelessWidget {
@@ -21,13 +18,16 @@ class EditRegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    RegisterController controller = Get.find();
+    RegisterController controller = Get.put(RegisterController());
     final TextEditingController nameController =
         TextEditingController(text: datas.profile.name);
+    final TextEditingController usernameController =
+        TextEditingController(text: datas.username);
     // final TextEditingController noKtpController = TextEditingController(text: datas.);
     final TextEditingController alamatController =
-        TextEditingController(text: datas.profile.name);
-    final TextEditingController telpController = TextEditingController();
+        TextEditingController(text: datas.profile.address);
+    final TextEditingController telpController =
+        TextEditingController(text: datas.profile.telp);
     return Scaffold(
       bottomNavigationBar: Container(
         padding: AppSizes.symmetricPadding(
@@ -46,16 +46,20 @@ class EditRegisterScreen extends StatelessWidget {
         ),
         child: Button.filled(
           onPressed: () async {
-            Get.to(LoadingRegisterScreen(
-              status: controller.isLoadingAddUser.value,
-              label: AppConstants.LABEL_REGISTER_SUCCES,
-            ));
-            await controller.postDepositTrash(context);
+            final data = RegisterRequest(
+              username: usernameController.text,
+              name: nameController.text,
+              address: alamatController.text,
+              //role: dropdownSearchFieldController.text,
+              telp: telpController.text,
+            );
+
+            await controller.editRegister(data, datas.id);
             // if (controller.formKey.currentState!.validate()) {
 
             // }
           },
-          label: "Editxs User",
+          label: "Edit User",
         ),
       ),
       appBar: AppBar(
@@ -75,82 +79,28 @@ class EditRegisterScreen extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          NoProfileWidget(
-            onTap: () {},
+          Container(
+            width: 150,
+            height: 150,
+            decoration: BoxDecoration(
+              border: Border.all(
+                  color: AppColors.colorBaseWhite, width: AppSizes.s2),
+              borderRadius: BorderRadius.circular(100),
+              // color: AppColors.colorBasePrimary,
+              image: DecorationImage(
+                image: AssetImage(Assets.images.avatarSuperAdmin.path),
+              ),
+            ),
           ),
           Column(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Role',
-                    style: Get.textTheme.labelLarge!.copyWith(
-                      fontSize: AppSizes.s12,
-                    ),
-                  ),
-                  AppSizes.s10.height,
-                  DropDownSearchFormField(
-                    textFieldConfiguration: TextFieldConfiguration(
-                      decoration: InputDecoration(
-                        hintText: 'Pilih Role',
-                        suffixIcon: Icon(Iconsax.arrow_down_1),
-                        hintStyle: Get.textTheme.titleMedium!.copyWith(
-                            color: AppColors.colorSecondary600,
-                            fontSize: AppSizes.s15),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSizes.s10),
-                          borderSide: BorderSide(
-                            color: AppColors.colorSecondary400,
-                            width: AppSizes.s1,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSizes.s10),
-                          borderSide: BorderSide(
-                              color: AppColors.colorSecondary400,
-                              width: AppSizes.s2),
-                        ),
-                      ),
-                      style: TextStyle(
-                        fontSize: AppSizes.s16,
-                        color: Colors.black,
-                      ),
-                      controller: controller.dropdownSearchFieldController,
-                    ),
-                    suggestionsCallback: (pattern) {
-                      return controller.getSuggestions(pattern);
-                    },
-                    itemBuilder: (context, RoleData suggestion) {
-                      return ListTile(
-                        title: Text(
-                          suggestion.name,
-                          style: TextStyle(
-                            fontSize: AppSizes.s16,
-                            color: Colors.black,
-                          ),
-                        ),
-                      );
-                    },
-                    itemSeparatorBuilder: (context, index) {
-                      return const Divider();
-                    },
-                    transitionBuilder: (context, suggestionsBox, controller) {
-                      return suggestionsBox;
-                    },
-                    onSuggestionSelected: (RoleData suggestion) {
-                      controller.dropdownSearchFieldController.text =
-                          suggestion.name;
-                      //controller.selectedCustomerId.value = suggestion.id;
-                    },
-                    suggestionsBoxController:
-                        controller.suggestionBoxController,
-                    validator: (value) =>
-                        value!.isEmpty ? 'Please select a customer' : null,
-                    onSaved: (value) {},
-                    displayAllSuggestionWhenTap: true,
-                  ),
-                ],
+              AppSizes.s20.height,
+              InputWidget(
+                label: AppConstants.LABEL_USERNAME,
+                hintText: AppConstants.HINT_EMAIL,
+                controller: usernameController,
+                textInputType: TextInputType.name,
+                validator: emptyValidation,
               ),
               AppSizes.s20.height,
               InputWidget(
@@ -160,14 +110,6 @@ class EditRegisterScreen extends StatelessWidget {
                 textInputType: TextInputType.name,
                 validator: emptyValidation,
               ),
-              AppSizes.s20.height,
-              // InputWidget(
-              //   label: AppConstants.LABEL_NOKTP,
-              //   hintText: AppConstants.HINT_NO_KTP,
-              //   controller: noKtpController,
-              //   textInputType: TextInputType.number,
-              //   validator: emptyValidation,
-              // ),
               AppSizes.s20.height,
               InputWidget(
                 label: AppConstants.LABEL_ADDRESS,

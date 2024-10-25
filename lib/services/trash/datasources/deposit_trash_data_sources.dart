@@ -42,11 +42,9 @@ class DepositTrashDataSources extends ApiService {
         "Authorization": "Bearer ${prefs}",
       });
 
-      print(response);
-
       return Right(DepositTrashResponse.fromJson(response));
     } catch (e) {
-      return left(Failure(400, 'datae Tidak masuk'));
+      return left(Failure(400, e.toString()));
     }
   }
 
@@ -63,7 +61,7 @@ class DepositTrashDataSources extends ApiService {
 
       return Right(CustomerDepositTrashResponse.fromJson(response));
     } catch (e) {
-      return left(Failure(400, 'dataz Tidak masuk'));
+      return left(Failure(400, e.toString()));
     }
   }
 
@@ -83,7 +81,7 @@ class DepositTrashDataSources extends ApiService {
 
       return Right(DeleteDepositTrashResponse.fromJson(response.data));
     } catch (e) {
-      return Left(Failure(400, 'Nor data Tidak masuk'));
+      return Left(Failure(400, e.toString()));
     }
   }
 
@@ -106,7 +104,7 @@ class DepositTrashDataSources extends ApiService {
       );
       return Right(PostDepositTrashResponse.fromJson(response.data));
     } catch (e) {
-      return Left(Failure(400, 'No data masuk'));
+      return Left(Failure(400, e.toString()));
     }
   }
 
@@ -131,7 +129,7 @@ class DepositTrashDataSources extends ApiService {
       print(response);
       return Right(PostDepositTrashResponse.fromJson(response.data));
     } catch (e) {
-      return Left(Failure(400, 'No data masuk'));
+      return Left(Failure(400, e.toString()));
     }
   }
 }

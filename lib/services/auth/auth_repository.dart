@@ -6,6 +6,7 @@ import 'package:rebuild_bank_sampah/services/auth/model/request/register_request
 import 'package:rebuild_bank_sampah/services/auth/model/response/delete_user_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_login_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_role_response.dart';
+import 'package:rebuild_bank_sampah/services/auth/model/response/get_update_register_customer.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_user_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/post_register_response.dart';
 
@@ -26,6 +27,11 @@ class AuthRepository {
   Future<Either<Failure, PostUserRegisterResponse>> postRegister(
       RegisterRequest data) async {
     return source.postRegister(data);
+  }
+
+  Future<Either<Failure, GetUpdateCustomerResponse>> updateRegister(
+      RegisterRequest data, String id) async {
+    return source.updateRegister(data, id);
   }
 
   Future<Either<Failure, GetRoleResponse>> getRoleRegister() async {

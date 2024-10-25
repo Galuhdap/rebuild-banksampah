@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
+import 'package:rebuild_bank_sampah/presentation/order/screen/loading_order_customer_screen.dart';
+import 'package:rebuild_bank_sampah/services/order/model/request/post_update_status_request.dart';
 import 'package:rebuild_bank_sampah/services/order/model/response/get_order_customer_response.dart';
 import 'package:rebuild_bank_sampah/services/order/repository/order_admin_data_repository.dart';
 
@@ -12,6 +14,7 @@ class OrderController extends GetxController {
   RxList<OrderCustomer> searchListOrderCustomer = <OrderCustomer>[].obs;
   RxBool isLoadingOrder = false.obs;
   RxBool isPostLoadingOrder = false.obs;
+  RxBool isStatusLoadingOrder = false.obs;
 
   final TextEditingController searchOrderSeeAdmin = TextEditingController();
   RxString searchQuery = "".obs;
@@ -36,21 +39,6 @@ class OrderController extends GetxController {
         },
         (response) async {
           listOrderCustomer.addAll(response.data);
-          // if (listOrder.isNotEmpty) {
-          //   switch (listOrder.first.status) {
-          //     case 'PENDING':
-          //       setActiveButton(0);
-          //       break;
-          //     case 'DONE':
-          //       setActiveButton(1);
-          //       break;
-          //     case 'CANCEL':
-          //       setActiveButton(2);
-          //       break;
-          //     default:
-          //       break;
-          //   }
-          // }
           update();
         },
       );
@@ -61,6 +49,48 @@ class OrderController extends GetxController {
     }
   }
 
+  Future<void> postUpdateStatusOrder(
+      BuildContext context, PostUpdateStatusRequest datas) async {
+    isPostLoadingOrder.value = true;
+    try {
+      final data = PostUpdateStatusRequest(
+        transactionId: datas.transactionId,
+        status: datas.status,
+      );
+
+      final response = await repository.postOrderStatusCustomer(data);
+
+      response.fold(
+        (failure) {
+          MessageComponent.snackbar(
+            title: '${failure.code}',
+            message: failure.message,
+            isError: true,
+          );
+          update();
+        },
+        (response) async {
+          MessageComponent.snackbarTop(
+            title: 'Success',
+            message: 'Pesanan successfully',
+            isError: false,
+          );
+          Get.to(LoadingOrderCustomerScreen(
+            label: 'Pesanan Telah DiBatalkan',
+          ));
+          listOrderCustomer.clear();
+          searchListOrderCustomer.clear();
+          await getOrderSeeAdmin();
+          update();
+        },
+      );
+
+      isPostLoadingOrder.value = false;
+    } catch (e) {
+      print('e:$e');
+      isPostLoadingOrder.value = false;
+    }
+  }
 
   void setActiveButton(int index) {
     activeButtonIndex.value = index;

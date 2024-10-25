@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/search_component.dart';
 import 'package:rebuild_bank_sampah/core/component/update_delete_component.dart';
@@ -80,17 +81,22 @@ class ProductScreen extends StatelessWidget {
                   Obx(
                     () {
                       return controller.isLoadingProduct.value
-                          ? Center(child: CircularProgressIndicator())
+                          ? Center(
+                              child: SizedBox(
+                                width: 100,
+                                height: 100,
+                                child: Lottie.asset(Assets.lottie.loadingLogin),
+                              ),
+                            )
                           : Expanded(
                               child: ListView.builder(
                                 itemCount: controller.searchQuery.isEmpty
                                     ? controller.listProduct.length
                                     : controller.searchListProduct.length,
                                 itemBuilder: (BuildContext context, index) {
-                                  var data =
-                                      controller.searchQuery.isEmpty
-                                          ? controller.listProduct[index]
-                                          : controller.searchListProduct[index];
+                                  var data = controller.searchQuery.isEmpty
+                                      ? controller.listProduct[index]
+                                      : controller.searchListProduct[index];
                                   return CardProduct(
                                     onTap: () {
                                       showModalBottom(
@@ -121,35 +127,35 @@ class ProductScreen extends StatelessWidget {
                                               icon: Icons.create_rounded,
                                             ),
                                             AppSizes.s30.height,
-                                            UDWidget(
-                                              onTap: () async {
-                                                showDepositTrashSucces(
-                                                    context: context,
-                                                    icon: Assets
-                                                        .icons.phQuestion.path,
-                                                    label: AppConstants
-                                                        .LABEL_DELETE_QUESTION,
-                                                    firstButton:
-                                                        AppConstants.LABEL_NO,
-                                                    fistOnPressed: () async {
-                                                      Get.back();
-                                                      Get.back();
-                                                      //Get.toNamed(AppRoutes.priceTrash);
-                                                    },
-                                                    secondButton:
-                                                        AppConstants.LABEL_YES,
-                                                    seccondOnPressed: () async {
-                                                      // listTrash.clear();
-                                                      // await getTrash();
+                                            // UDWidget(
+                                            //   onTap: () async {
+                                            //     showDepositTrashSucces(
+                                            //         context: context,
+                                            //         icon: Assets
+                                            //             .icons.phQuestion.path,
+                                            //         label: AppConstants
+                                            //             .LABEL_DELETE_QUESTION,
+                                            //         firstButton:
+                                            //             AppConstants.LABEL_NO,
+                                            //         fistOnPressed: () async {
+                                            //           Get.back();
+                                            //           Get.back();
+                                            //           //Get.toNamed(AppRoutes.priceTrash);
+                                            //         },
+                                            //         secondButton:
+                                            //             AppConstants.LABEL_YES,
+                                            //         seccondOnPressed: () async {
+                                            //           // listTrash.clear();
+                                            //           // await getTrash();
 
-                                                      // await controller
-                                                      //     .deteleUserRegister(id);
-                                                    },
-                                                    showButton: true);
-                                              },
-                                              name: AppConstants.LABEL_DELETE,
-                                              icon: Icons.delete,
-                                            ),
+                                            //           // await controller
+                                            //           //     .deteleUserRegister(id);
+                                            //         },
+                                            //         showButton: true);
+                                            //   },
+                                            //   name: AppConstants.LABEL_DELETE,
+                                            //   icon: Icons.delete,
+                                            // ),
                                           ],
                                         ),
                                       );

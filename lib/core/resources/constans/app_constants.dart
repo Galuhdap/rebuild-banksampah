@@ -80,6 +80,7 @@ class AppConstants {
   
   static const String ACTION_COOPERATIVE = "Koprasi";
   static const String ACTION_ORDER = "Pesanan";
+  static const String ACTION_DETAIL_TIMBANGAN_SAMPAH = "Detail Timbangan Sampah";
 
   static const String ACTION_WITHDRAW_FUNDS = "Pengajuan Penarikan Dana";
   static const String ACTION_DETAIL_WITHDRAW_FUNDS = "Detail Pengajuan Dana";

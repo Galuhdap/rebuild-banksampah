@@ -111,6 +111,7 @@ class Deposit {
   final String id;
   final String userId;
   final String trashId;
+  final String? trashName;
   final num weight;
   final int nominal;
   final String dataRaw;
@@ -121,6 +122,7 @@ class Deposit {
     required this.id,
     required this.userId,
     required this.trashId,
+     this.trashName,
     required this.weight,
     required this.nominal,
     required this.dataRaw,
@@ -132,6 +134,7 @@ class Deposit {
     String? id,
     String? userId,
     String? trashId,
+    String? trashName,
     int? weight,
     int? nominal,
     String? dataRaw,
@@ -142,6 +145,7 @@ class Deposit {
         id: id ?? this.id,
         userId: userId ?? this.userId,
         trashId: trashId ?? this.trashId,
+        trashName: trashName ?? this.trashName,
         weight: weight ?? this.weight,
         nominal: nominal ?? this.nominal,
         dataRaw: dataRaw ?? this.dataRaw,
@@ -153,6 +157,7 @@ class Deposit {
         id: json["id"],
         userId: json["userId"],
         trashId: json["trashId"],
+        trashName: json["trashName"],
         weight: json["weight"],
         nominal: json["nominal"],
         dataRaw: json["dataRaw"],
@@ -164,6 +169,7 @@ class Deposit {
         "id": id,
         "userId": userId,
         "trashId": trashId,
+        "trashName": trashName,
         "weight": weight,
         "nominal": nominal,
         "dataRaw": dataRaw,

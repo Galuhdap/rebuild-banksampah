@@ -50,67 +50,66 @@ class GetProductBuyCustomerResponse {
 }
 
 class Data {
-    final String id;
     final String userId;
     final String status;
     final String orderCode;
     final DateTime createdAt;
     final DateTime updatedAt;
     final List<TransactionProduct> transactionProduct;
+    final String transactionId;
 
     Data({
-        required this.id,
         required this.userId,
         required this.status,
         required this.orderCode,
         required this.createdAt,
         required this.updatedAt,
         required this.transactionProduct,
+        required this.transactionId,
     });
 
     Data copyWith({
-        String? id,
         String? userId,
         String? status,
         String? orderCode,
         DateTime? createdAt,
         DateTime? updatedAt,
         List<TransactionProduct>? transactionProduct,
+        String? transactionId,
     }) => 
         Data(
-            id: id ?? this.id,
             userId: userId ?? this.userId,
             status: status ?? this.status,
             orderCode: orderCode ?? this.orderCode,
             createdAt: createdAt ?? this.createdAt,
             updatedAt: updatedAt ?? this.updatedAt,
             transactionProduct: transactionProduct ?? this.transactionProduct,
+            transactionId: transactionId ?? this.transactionId,
         );
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
-        id: json["id"],
         userId: json["userId"],
         status: json["status"],
         orderCode: json["orderCode"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
         transactionProduct: List<TransactionProduct>.from(json["TransactionProduct"].map((x) => TransactionProduct.fromJson(x))),
+        transactionId: json["transactionId"],
     );
 
     Map<String, dynamic> toJson() => {
-        "id": id,
         "userId": userId,
         "status": status,
         "orderCode": orderCode,
         "createdAt": createdAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),
         "TransactionProduct": List<dynamic>.from(transactionProduct.map((x) => x.toJson())),
+        "transactionId": transactionId,
     };
 }
 
 class TransactionProduct {
     final String id;
-    final String transactionId;
     final String productId;
     final int quantity;
     final int price;
@@ -119,7 +118,6 @@ class TransactionProduct {
 
     TransactionProduct({
         required this.id,
-        required this.transactionId,
         required this.productId,
         required this.quantity,
         required this.price,
@@ -129,7 +127,6 @@ class TransactionProduct {
 
     TransactionProduct copyWith({
         String? id,
-        String? transactionId,
         String? productId,
         int? quantity,
         int? price,
@@ -138,7 +135,6 @@ class TransactionProduct {
     }) => 
         TransactionProduct(
             id: id ?? this.id,
-            transactionId: transactionId ?? this.transactionId,
             productId: productId ?? this.productId,
             quantity: quantity ?? this.quantity,
             price: price ?? this.price,
@@ -148,7 +144,6 @@ class TransactionProduct {
 
     factory TransactionProduct.fromJson(Map<String, dynamic> json) => TransactionProduct(
         id: json["id"],
-        transactionId: json["transactionId"],
         productId: json["productId"],
         quantity: json["quantity"],
         price: json["price"],
@@ -158,7 +153,6 @@ class TransactionProduct {
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "transactionId": transactionId,
         "productId": productId,
         "quantity": quantity,
         "price": price,

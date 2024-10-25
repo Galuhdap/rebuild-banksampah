@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
@@ -25,7 +26,7 @@ class DetailDepositTrashScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppConstants.ACTION_ORDER,
+          'Detail Sampah',
           style: Get.textTheme.titleLarge!.copyWith(fontSize: AppSizes.s18),
         ),
         leading: IconButton(
@@ -101,7 +102,7 @@ class DetailDepositTrashScreen extends StatelessWidget {
               itemBuilder: (BuildContext context, index) {
                 var datas = data.deposits[index];
                 return CardDepositTileWidget(
-                  title: 'INI NAMA SAMPAH',
+                  title: toBeginningOfSentenceCase(datas.trashName!),
                   quantity: datas.weight,
                   price: datas.nominal.currencyFormatRp,
                 );

@@ -17,7 +17,7 @@ class DetailWithdrawFundsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    WithdrawFundsController controller = Get.find();
+    WithdrawFundsController controller = Get.put(WithdrawFundsController());
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -37,7 +37,7 @@ class DetailWithdrawFundsScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppSizes.s20.height,
+       
           Text(
             'Diajukan pada ${data.createdAt.toFormattedDateDayTimeString()}',
             style: Get.textTheme.titleSmall!.copyWith(
@@ -121,7 +121,6 @@ class DetailWithdrawFundsScreen extends StatelessWidget {
               AppSizes.s20.height,
               Button.filled(
                 onPressed: () async {
-                
                   final datas = PostUpdateStatusWithdrawRequest(
                     id: data.id,
                     status: 'DONE',
@@ -129,6 +128,18 @@ class DetailWithdrawFundsScreen extends StatelessWidget {
                   await controller.postUpdateStatusWithdraw(context, datas);
                 },
                 label: 'Setujui Penarikan',
+                borderRadius: AppSizes.s4,
+              ),
+              AppSizes.s10.height,
+              Button.outlined(
+                onPressed: () async {
+                  final datas = PostUpdateStatusWithdrawRequest(
+                    id: data.id,
+                    status: 'CENCEL',
+                  );
+                  await controller.postUpdateStatusWithdraw(context, datas);
+                },
+                label: 'Batalkan Penarikan',
                 borderRadius: AppSizes.s4,
               )
             ]

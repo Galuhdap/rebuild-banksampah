@@ -6,7 +6,9 @@ import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
+import 'package:rebuild_bank_sampah/presentation/order/controllers/order_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/order/widgets/card_order_tile_widget.dart';
+import 'package:rebuild_bank_sampah/services/order/model/request/post_update_status_request.dart';
 import 'package:rebuild_bank_sampah/services/order/model/response/get_order_customer_response.dart';
 
 class DetailOrderScreen extends StatelessWidget {
@@ -15,6 +17,8 @@ class DetailOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    OrderController controller =
+        Get.put(OrderController());
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -120,7 +124,13 @@ class DetailOrderScreen extends StatelessWidget {
             if (data!.status == 'PENDING') ...[
               AppSizes.s20.height,
               Button.outlined(
-                onPressed: () {},
+                onPressed: ()async {
+                  final datum = PostUpdateStatusRequest(
+                    transactionId: data!.transactionId,
+                    status: "CANCEL",
+                  );
+                  await controller.postUpdateStatusOrder(context, datum);
+                },
                 label: 'Batalkan Pesanan',
                 borderRadius: AppSizes.s4,
               )

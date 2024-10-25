@@ -7,6 +7,7 @@ import 'package:rebuild_bank_sampah/services/auth/model/request/register_request
 import 'package:rebuild_bank_sampah/services/auth/model/response/delete_user_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_login_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_role_response.dart';
+import 'package:rebuild_bank_sampah/services/auth/model/response/get_update_register_customer.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_user_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/post_register_response.dart';
 import 'package:rebuild_bank_sampah/services/lib/api_services.dart';
@@ -81,6 +82,32 @@ class AuthDataSource extends ApiService {
       );
 
       return Right(PostUserRegisterResponse.fromJson(response.data));
+    } catch (e) {
+      return Left(Failure(400, e.toString()));
+    }
+  }
+
+  Future<Either<Failure, GetUpdateCustomerResponse>> updateRegister(
+      RegisterRequest data, String id) async {
+    final prefs = await SharedPreferencesUtils.getAuthToken();
+
+    try {
+      final response = await Dio().put(
+        NetworkConstants.UPDATE_REGISTER_URL(id),
+        data: {
+          "username": data.username,
+          "name": data.name,
+          "telp": data.telp,
+          "address": data.address,
+        },
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${prefs}",
+          },
+        ),
+      );
+
+      return Right(GetUpdateCustomerResponse.fromJson(response.data));
     } catch (e) {
       return Left(Failure(400, 'No data Tidak masuk'));
     }
