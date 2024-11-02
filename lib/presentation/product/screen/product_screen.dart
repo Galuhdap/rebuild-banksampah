@@ -231,11 +231,16 @@ class CardProduct extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    data.name,
-                    style: Get.textTheme.titleMedium!
-                        .copyWith(fontSize: AppSizes.s17),
-                  ),
+                   Container(
+                      width: AppSizes.setResponsiveWidth(context) * 0.4,
+                      child: Text(
+                        data.name,
+                        style: Get.textTheme.titleMedium!
+                            .copyWith(fontSize: AppSizes.s17),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
                   AppSizes.s8.height,
                   Text(
                     'Stock : ${data.stock}',

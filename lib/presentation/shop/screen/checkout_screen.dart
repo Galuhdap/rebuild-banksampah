@@ -10,7 +10,6 @@ import 'package:rebuild_bank_sampah/presentation/login/widgets/input_widget.dart
 import 'package:rebuild_bank_sampah/presentation/profile/controllers/profile_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/shop/controllers/checkout_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/shop/controllers/shopping_controller.dart';
-import 'package:rebuild_bank_sampah/presentation/shop/screen/loading_shop_screen.dart';
 
 class CheckoutScreen extends StatelessWidget {
   const CheckoutScreen({super.key});

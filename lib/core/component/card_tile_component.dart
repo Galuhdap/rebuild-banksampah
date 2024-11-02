@@ -82,25 +82,19 @@ class CardTile extends StatelessWidget {
                     errorWidget: (context, url, error) => Icon(Icons.error),
                   ),
                 ),
-                // Center(
-                //   child: Container(
-                //     padding: AppSizes.allPadding(
-                //         showCheckout ? AppSizes.s40 : AppSizes.s60),
-                //     decoration: BoxDecoration(
-                //       image: DecorationImage(
-                //         image: AssetImage(Assets.images.minyak.path),
-                //       ),
-                //     ),
-                //   ),
-                // ),
                 AppSizes.s20.width,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      title,
-                      style: Get.textTheme.titleMedium!
-                          .copyWith(fontSize: AppSizes.s17),
+                    Container(
+                      width: AppSizes.setResponsiveWidth(context) * 0.55,
+                      child: Text(
+                        title,
+                        style: Get.textTheme.titleMedium!
+                            .copyWith(fontSize: AppSizes.s17),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                     if (showOrder) ...[
                       AppSizes.s8.height,
@@ -136,54 +130,6 @@ class CardTile extends StatelessWidget {
                       ),
                     ),
                     AppSizes.s20.height,
-                    // showCheckout
-                    //     ? SizedBox()
-                    //     : Container(
-                    //         width: AppSizes.s100,
-                    //         child: Row(
-                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //           children: [
-                    //             ClipRRect(
-                    //               borderRadius:
-                    //                   const BorderRadius.all(Radius.circular(5.0)),
-                    //               child: InkWell(
-                    //                 onTap: isActive! ? onTapMin : () {},
-                    //                 child: const ColoredBox(
-                    //                   color: AppColors.colorBasePrimary,
-                    //                   child: Padding(
-                    //                     padding: EdgeInsets.all(4.0),
-                    //                     child: Icon(
-                    //                       Icons.remove,
-                    //                       color: AppColors.colorBaseWhite,
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //             Padding(
-                    //               padding: const EdgeInsets.all(5),
-                    //               child: isActive! ? Text('$quantity') : Text('0'),
-                    //             ),
-                    //             ClipRRect(
-                    //               borderRadius:
-                    //                   const BorderRadius.all(Radius.circular(5.0)),
-                    //               child: InkWell(
-                    //                 onTap: isActive! ? onTapPlus : () {},
-                    //                 child: const ColoredBox(
-                    //                   color: AppColors.colorBasePrimary,
-                    //                   child: Padding(
-                    //                     padding: EdgeInsets.all(4.0),
-                    //                     child: Icon(
-                    //                       Icons.add,
-                    //                       color: AppColors.colorBaseWhite,
-                    //                     ),
-                    //                   ),
-                    //                 ),
-                    //               ),
-                    //             ),
-                    //           ],
-                    //         ),
-                    //       ),
                   ],
                 )
               ],

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/presentation/history/screen/history_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/home/screen/bottom_navigation.dart';
 import 'package:rebuild_bank_sampah/presentation/home/screen/home_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/report/screen/report_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/login/screen/forgot_password_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/login/screen/login_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/order/screen/detail_order_screen.dart';
@@ -63,6 +64,7 @@ class AppRoutes {
   static const String forgotPassword = "/forgot-password";
 
   static const String depositTrashSuperAdmin = "/deposit-trash-super-admin";
+  static const String report = "/report";
 
   static final routes = [
     GetPage(name: login, page: () => LoginScreen()),
@@ -98,6 +100,7 @@ class AppRoutes {
     GetPage(
         name: depositTrashSuperAdmin,
         page: () => DepositTrashSuperAdminScreen()),
+    GetPage(name: report, page: () => ReportScreen()),
     //cara menggunakan Binding
     //GetPage(name: login, page : () => LoginScreen(), binding: LoginBinding()),
   ];

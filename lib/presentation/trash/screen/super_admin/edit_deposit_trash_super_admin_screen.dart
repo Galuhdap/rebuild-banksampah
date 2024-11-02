@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
@@ -21,13 +20,7 @@ class EditDepositTrashSuperAdminScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     DepositTrashSuperAdminController controller =
         Get.put(DepositTrashSuperAdminController());
-   // final List<TextEditingController> controllers = [];
     controller.initializeControllers(data.deposits);
-    // if (controllers.isEmpty) {
-    //   for (var trash in data.deposits) {
-    //     controllers.add(TextEditingController(text: trash.weight.toString()));
-    //   }
-    // }
 
     return Scaffold(
       appBar: AppBar(
@@ -134,7 +127,7 @@ class EditDepositTrashSuperAdminScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              toBeginningOfSentenceCase(trash.trashName!),
+                              toBeginningOfSentenceCase(trash.trashName),
                               style: Get.textTheme.labelLarge!.copyWith(
                                 fontSize: AppSizes.s14,
                               ),
@@ -155,7 +148,7 @@ class EditDepositTrashSuperAdminScreen extends StatelessWidget {
                               height: 50,
                               child: CustomTextField(
                                 hintText: AppConstants.LABEL_WEIGHT,
-                                controller:  controller.controllers[index],
+                                controller: controller.controllers[index],
                                 keyboardType: TextInputType.number,
                                 //textInputType: TextInputType.name,
                                 hintStyle: Get.textTheme.titleMedium!.copyWith(

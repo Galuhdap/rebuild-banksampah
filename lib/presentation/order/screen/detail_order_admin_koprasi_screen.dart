@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:iconsax/iconsax.dart';
+import 'package:print_bluetooth_thermal/print_bluetooth_thermal.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
+import 'package:rebuild_bank_sampah/core/config/printer/dataoutputs/cwb_print.dart';
+import 'package:rebuild_bank_sampah/core/config/printer/screen/manage_printer_page.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
@@ -35,6 +39,15 @@ class DetailOrderAdminKoprasiScreen extends StatelessWidget {
             color: AppColors.colorBaseBlack,
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.to(ManagePrinterPage());
+            },
+            icon: Icon(Iconsax.setting_2),
+            color: AppColors.colorBasePrimary,
+          ),
+        ],
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -174,6 +187,26 @@ class DetailOrderAdminKoprasiScreen extends StatelessWidget {
                 ),
               ],
             ),
+            AppSizes.s20.height,
+            if (data.status == 'DONE') ...[
+              Button.filled(
+                onPressed: () async {
+                  final printValue = await CwbPrint.instance.printOrder(
+                    data.transactionProduct,
+                    // 2,
+                    data.totalPrice,
+                    data.totalPrice,
+                    data.user.profile.name,
+                    data.user.profile.telp,
+                    data.user.profile.address
+                  );
+                  await PrintBluetoothThermal.writeBytes(printValue);
+                },
+                label: 'Print Struk',
+                borderRadius: AppSizes.s4,
+                icon: Icon(Iconsax.printer5),
+              ),
+            ],
             if (data.status == 'PENDING') ...[
               AppSizes.s20.height,
               Button.filled(

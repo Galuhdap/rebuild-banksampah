@@ -72,25 +72,19 @@ class CardOrderTileWidget extends StatelessWidget {
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
               ),
-              // Center(
-              //   child: Container(
-              //     padding: AppSizes.allPadding(
-              //         showCheckout ? AppSizes.s40 : AppSizes.s60),
-              //     decoration: BoxDecoration(
-              //       image: DecorationImage(
-              //         image: AssetImage(Assets.images.minyak.path),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               AppSizes.s20.width,
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    title,
-                    style: Get.textTheme.titleMedium!
-                        .copyWith(fontSize: AppSizes.s17),
+                  Container(
+                    width: AppSizes.setResponsiveWidth(context) * 0.55,
+                    child: Text(
+                      title,
+                      style: Get.textTheme.titleMedium!
+                          .copyWith(fontSize: AppSizes.s17),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                   if (showOrder) ...[
                     AppSizes.s8.height,

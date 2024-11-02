@@ -9,11 +9,13 @@ class MenuKategoriComponent extends StatelessWidget {
   final String image;
   final String label;
   final bool disabel;
+  final double scale;
   const MenuKategoriComponent(
       {super.key,
       required this.onTap,
       required this.image,
       required this.label,
+      this.scale = 3,
       this.disabel = false});
 
   @override
@@ -44,7 +46,7 @@ class MenuKategoriComponent extends StatelessWidget {
               children: [
                 Image.asset(
                   image,
-                  scale: 3,
+                  scale: scale,
                 ),
                 AppSizes.s21.height,
                 Text(

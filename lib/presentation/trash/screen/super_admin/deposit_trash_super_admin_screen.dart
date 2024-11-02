@@ -170,10 +170,7 @@ class DepositTrashSuperAdminScreen extends StatelessWidget {
                                                 ? controller
                                                     .searchDepositTrashs[index]
                                                 : filteredTrash[index];
-                                        String totalWeight = data.deposits
-                                            .map((deposit) => deposit.weight)
-                                            .reduce((a, b) => a + b)
-                                            .toString();
+
                                         return TransactionCardComponent(
                                             kode: data.user.profile.kdUser,
                                             label: data.user.profile.name,

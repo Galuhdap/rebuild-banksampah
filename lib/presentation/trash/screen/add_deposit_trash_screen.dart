@@ -147,7 +147,7 @@ class AddDepositTrashScreen extends StatelessWidget {
                   itemBuilder: (context, Customer suggestion) {
                     return ListTile(
                       title: Text(
-                        suggestion.username,
+                        suggestion.profile.name,
                         style: TextStyle(
                           fontSize: AppSizes.s16,
                           color: Colors.black,
@@ -163,7 +163,7 @@ class AddDepositTrashScreen extends StatelessWidget {
                   },
                   onSuggestionSelected: (Customer suggestion) {
                     controller.dropdownSearchFieldController.text =
-                        suggestion.username;
+                        suggestion.profile.name;
                     controller.selectedCustomerId.value = suggestion.id;
                   },
                   suggestionsBoxController: controller.suggestionBoxController,

@@ -367,9 +367,16 @@ class HomeScreen extends StatelessWidget {
                                             ),
                                             AppSizes.s20.width,
                                             Flexible(
-                                              child: Container(
-                                                width: double.infinity,
-                                                height: 20,
+                                              child: MenuKategoriComponent(
+                                                onTap: () {
+                                                  Get.toNamed(AppRoutes
+                                                      .report);
+                                                },
+                                                scale: 5.5,
+                                                image:
+                                                    Assets.images.graph.path,
+                                                label: AppConstants
+                                                    .LABEL_GRAFIK_TRASH,
                                               ),
                                             ),
                                           ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:rebuild_bank_sampah/core/component/button_component.dart';
@@ -128,7 +127,7 @@ class EditDepositTrashScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                toBeginningOfSentenceCase(trash.trashName!),
+                                toBeginningOfSentenceCase(trash.trashName),
                                 style: Get.textTheme.labelLarge!.copyWith(
                                   fontSize: AppSizes.s14,
                                 ),

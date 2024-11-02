@@ -79,6 +79,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/succes.svg
   SvgGenImage get succes => const SvgGenImage('assets/icons/succes.svg');
 
+  /// File path: assets/icons/testing_icon.png
+  AssetGenImage get testingIcon =>
+      const AssetGenImage('assets/icons/testing_icon.png');
+
   /// List of all assets
   List<dynamic> get values => [
         checklist,
@@ -92,7 +96,8 @@ class $AssetsIconsGen {
         profile,
         question,
         shop,
-        succes
+        succes,
+        testingIcon
       ];
 }
 
@@ -110,6 +115,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/empty-data.png
   AssetGenImage get emptyData =>
       const AssetGenImage('assets/images/empty-data.png');
+
+  /// File path: assets/images/graph.png
+  AssetGenImage get graph => const AssetGenImage('assets/images/graph.png');
 
   /// File path: assets/images/image-product-add.png
   AssetGenImage get imageProductAdd =>
@@ -169,6 +177,7 @@ class $AssetsImagesGen {
         avatarSuperAdmin,
         boxKosong,
         emptyData,
+        graph,
         imageProductAdd,
         logoBlitar,
         logoBs,

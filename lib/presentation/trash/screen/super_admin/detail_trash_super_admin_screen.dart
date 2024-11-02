@@ -8,7 +8,6 @@ import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/date_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
-import 'package:rebuild_bank_sampah/presentation/trash/controllers/deposit_trash_super_admin_controller.dart';
 
 import 'package:rebuild_bank_sampah/presentation/trash/screen/super_admin/edit_deposit_trash_super_admin_screen.dart';
 import 'package:rebuild_bank_sampah/services/trash/model/response/get_deposit_trash_response.dart';
@@ -19,13 +18,6 @@ class DetailTrashSuperAdminScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DepositTrashSuperAdminController controller =
-        Get.put(DepositTrashSuperAdminController());
-
-    // String totalWeight = data.deposits
-    //     .map((deposit) => deposit.weight)
-    //     .reduce((a, b) => a + b)
-    //     .toString();
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -158,11 +150,6 @@ class DetailTrashSuperAdminScreen extends StatelessWidget {
                 Get.to(EditDepositTrashSuperAdminScreen(
                   data: data,
                 ));
-                // final datum = PostUpdateStatusRequest(
-                //   transactionId: data.summaryId,
-                //   status: 'DONE',
-                // );
-                // await controller.postUpdateStatusDeposit(context, datum);
               },
               label: 'Ubah Penimbangan',
               borderRadius: AppSizes.s4,

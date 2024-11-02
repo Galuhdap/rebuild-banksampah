@@ -93,7 +93,6 @@ class BasketScreen extends StatelessWidget {
                       ],
                     ),
                     AppSizes.s15.width,
-                  
                     Flexible(
                       child: Obx(
                         () {
@@ -375,10 +374,15 @@ class BasketCardWidget extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                label,
-                style:
-                    Get.textTheme.titleMedium!.copyWith(fontSize: AppSizes.s16),
+              Container(
+                width: 150,
+                child: Text(
+                  label,
+                  style: Get.textTheme.titleMedium!
+                      .copyWith(fontSize: AppSizes.s16),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                ),
               ),
               AppSizes.s5.height,
               Text(

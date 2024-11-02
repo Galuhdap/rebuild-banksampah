@@ -9,7 +9,6 @@ import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/int_ext.dart';
-import 'package:rebuild_bank_sampah/presentation/home/controllers/home_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/shop/controllers/basket_controller.dart';
 import 'package:rebuild_bank_sampah/presentation/shop/controllers/shopping_controller.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
@@ -19,7 +18,6 @@ class ShoppingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final contollerHome = Get.put(HomeController());
     return GetBuilder<ShoppingController>(
       init: ShoppingController(),
       builder: (controller) {
@@ -53,7 +51,6 @@ class ShoppingScreen extends StatelessWidget {
                 actions: [
                   IconButton(
                     onPressed: () {
-                      //controller.userBalance.value = contollerHome.balanceCustomer.value!.balance ?? 0;
                       Get.put(BasketController());
                       Get.toNamed(AppRoutes.basket);
                     },
@@ -61,10 +58,6 @@ class ShoppingScreen extends StatelessWidget {
                       label:
                           Text(controller.listProductBasket.length.toString()),
                       textStyle: TextStyle(fontSize: AppSizes.s15),
-
-                      //padding: AppSizes.allPadding(AppSizes.s10),
-                      // padding: AppSizes.symmetricPadding(
-                      //     vertical: AppSizes.s15, horizontal: AppSizes.s10),
                       backgroundColor: AppColors.colorBasePrimary,
                       child: SvgPicture.asset(
                         Assets.icons.shop.path,

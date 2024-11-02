@@ -26,6 +26,7 @@ class AppConstants {
   static const String LABEL_USERNAME = "Username";
   
   static const String LABEL_DEPOSIT_TRASH = "Setor Sampah";
+  static const String LABEL_GRAFIK_TRASH = "Grafik Sampah";
   static const String LABEL_EDIT_DEPOSIT_TRASH = "Edit Setor Sampah";
   static const String LABEL_NAME_TRASH = "Nama Sampah";
   static const String LABEL_WEIGHT_TRASH = "Berat Sampah";
@@ -80,6 +81,7 @@ class AppConstants {
   
   static const String ACTION_COOPERATIVE = "Koprasi";
   static const String ACTION_ORDER = "Pesanan";
+  static const String ACTION_REPORT = "Laporan";
   static const String ACTION_DETAIL_TIMBANGAN_SAMPAH = "Detail Timbangan Sampah";
 
   static const String ACTION_WITHDRAW_FUNDS = "Pengajuan Penarikan Dana";
