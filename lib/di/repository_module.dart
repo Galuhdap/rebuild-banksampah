@@ -5,6 +5,7 @@ import 'package:rebuild_bank_sampah/services/order/repository/order_admin_data_r
 import 'package:rebuild_bank_sampah/services/product/repository/product_customer_data_repository.dart';
 import 'package:rebuild_bank_sampah/services/product/repository/product_data_repository.dart';
 import 'package:rebuild_bank_sampah/services/profile/repository/profile%20_data_repository.dart';
+import 'package:rebuild_bank_sampah/services/report/report_repository.dart';
 import 'package:rebuild_bank_sampah/services/trash/repository/customer_trash_repository.dart';
 import 'package:rebuild_bank_sampah/services/trash/repository/deposit_trash_respository.dart';
 import 'package:rebuild_bank_sampah/services/trash/repository/trash_respository.dart';
@@ -34,4 +35,6 @@ void initRepositoriesModule(GetIt locator) {
       () => WithdrawAdminKoprasiRespository(locator()));
   locator.registerLazySingleton<WithdrawaSuperAdminRepository>(
       () => WithdrawaSuperAdminRepository(locator()));
+  locator.registerLazySingleton<ReportRepository>(
+      () => ReportRepository(locator()));
 }

@@ -280,6 +280,23 @@ class HomeScreen extends StatelessWidget {
                                         ),
                                       ],
                                     ),
+                                    AppSizes.s17.height,
+                                    Row(
+                                      children: [
+                                        Flexible(
+                                          child: MenuKategoriComponent(
+                                            onTap: () {
+                                              Get.toNamed(
+                                                  AppRoutes.trashPriceCustomer);
+                                            },
+                                            image: Assets.images.trash.path,
+                                            label:
+                                                AppConstants.LABEL_PRICE_TRASH,
+                                          ),
+                                        ),
+                                        Flexible(child: Container()),
+                                      ],
+                                    )
                                   ],
                                 )
                               : controller.role.value == 'SUPER_ADMIN'
@@ -369,12 +386,10 @@ class HomeScreen extends StatelessWidget {
                                             Flexible(
                                               child: MenuKategoriComponent(
                                                 onTap: () {
-                                                  Get.toNamed(AppRoutes
-                                                      .report);
+                                                  Get.toNamed(AppRoutes.report);
                                                 },
                                                 scale: 5.5,
-                                                image:
-                                                    Assets.images.graph.path,
+                                                image: Assets.images.graph.path,
                                                 label: AppConstants
                                                     .LABEL_GRAFIK_TRASH,
                                               ),

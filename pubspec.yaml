@@ -61,6 +61,8 @@ dependencies:
   print_bluetooth_thermal: ^1.1.1
   dropdown_search: ^6.0.1
   barcode: ^2.2.8
+  calendar_date_picker2: ^1.1.7
+  mat_month_picker_dialog: ^1.1.2
 
 
 dev_dependencies:

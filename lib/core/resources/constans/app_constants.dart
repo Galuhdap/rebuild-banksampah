@@ -77,6 +77,7 @@ class AppConstants {
   static const String ACTION_PENDING = "Pending";
   static const String ACTION_SUKSES = "Sukses";
   static const String ACTION_FINISH = "Selesai";  
+  static const String ACTION_ACTIVE = "ACTIVE";  
   static const String ACTION_CENCEL = "Batal";  
   
   static const String ACTION_COOPERATIVE = "Koprasi";

@@ -6,10 +6,11 @@ import 'package:rebuild_bank_sampah/core/component/message_component.dart';
 import 'package:rebuild_bank_sampah/core/utils/preferences/shared_preferences_utils.dart';
 import 'package:rebuild_bank_sampah/di/application_module.dart';
 import 'package:rebuild_bank_sampah/presentation/login/screen/loading_forgot_password_screen.dart';
-import 'package:rebuild_bank_sampah/presentation/profile/controllers/profile_controller.dart';
+import 'package:rebuild_bank_sampah/presentation/login/screen/loading_register_customer_screen.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
 import 'package:rebuild_bank_sampah/services/auth/auth_repository.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/request/login_request.dart';
+import 'package:rebuild_bank_sampah/services/auth/model/request/register_request.dart';
 
 class LoginController extends GetxController {
   var isBusy = false.obs;
@@ -22,8 +23,17 @@ class LoginController extends GetxController {
 
   final userController = TextEditingController();
   final newPasswordController = TextEditingController();
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController noKtpController = TextEditingController();
+  final TextEditingController alamatController = TextEditingController();
+  final TextEditingController usernamesController = TextEditingController();
+  final TextEditingController passwordsController = TextEditingController();
+  final TextEditingController telpController = TextEditingController();
+
   RxBool isloadingLogin = false.obs;
   RxBool isloadingForgotPassword = false.obs;
+  RxBool isLoadingAddUser = false.obs;
 
   Future<void> userLogin() async {
     isloadingLogin.value = true;
@@ -100,6 +110,57 @@ class LoginController extends GetxController {
     } catch (e) {
       print('e:$e');
       isloadingForgotPassword.value = false;
+    }
+  }
+
+  Future<void> postRegister(BuildContext context) async {
+    isLoadingAddUser.value = true;
+    try {
+      final data = RegisterRequest(
+          username: usernamesController.text,
+          password: passwordsController.text,
+          name: nameController.text,
+          identityType: 'KTP',
+          identityNumber: noKtpController.text,
+          address: alamatController.text,
+          telp: telpController.text);
+
+      final response = await authRepository.registerUser(data);
+
+      response.fold(
+        (response) {
+          MessageComponent.snackbar(
+            title: '${response.code}',
+            message: response.message,
+            isError: true,
+          );
+          update();
+        },
+        (response) async {
+          MessageComponent.snackbarTop(
+            title: 'Success',
+            message: 'User added successfully',
+            isError: false,
+          );
+          Get.to(LoadingRegisterCustomerScreen(
+            label:
+                'Success Untuk Register',
+          ));
+          nameController.text = '';
+          alamatController.text = '';
+          noKtpController.text = '';
+          telpController.text = '';
+          usernamesController.text = '';
+          passwordsController.text = '';
+          formKey.currentState?.reset();
+          update();
+        },
+      );
+
+      isLoadingAddUser.value = false;
+    } catch (e) {
+      print('e:$e');
+      isLoadingAddUser.value = false;
     }
   }
 }

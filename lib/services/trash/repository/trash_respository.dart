@@ -14,6 +14,10 @@ class TrashRepository {
   Future<Either<Failure, GetTrashResponse>> getTrash() async {
     return sources.getTrash();
   }
+
+  Future<Either<Failure, GetTrashResponse>> getTrashCustomer() async {
+    return sources.getTrashCustomer();
+  }
   Future<Either<Failure, GetTrashResponse>> getTrashSuper() async {
     return sources.getTrashSuper();
   }

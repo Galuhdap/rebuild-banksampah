@@ -1,69 +1,127 @@
+import 'package:drop_down_search_field/drop_down_search_field.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rebuild_bank_sampah/core/component/message_component.dart';
+import 'package:rebuild_bank_sampah/di/application_module.dart';
 import 'package:rebuild_bank_sampah/presentation/report/controller/get_commodity_daily_response.dart';
+import 'package:rebuild_bank_sampah/services/report/model/request/get_data_report_trash_request.dart';
+import 'package:rebuild_bank_sampah/services/report/model/response/get_data_report_trash_response.dart';
+import 'package:rebuild_bank_sampah/services/report/report_repository.dart';
+import 'package:rebuild_bank_sampah/services/trash/model/response/get_trash_response.dart';
+import 'package:rebuild_bank_sampah/services/trash/repository/trash_respository.dart';
 
 class ReportController extends GetxController {
+  final TrashRepository trashRepository = locator();
+  final ReportRepository reportRepository = locator();
+
   RxInt selectedX = 0.obs;
   RxDouble selectedY = 0.0.obs;
   Rx<DateTime> selectedTime = DateTime.now().obs;
-  // List<ChartDataModel>? chartDatas = [
-  //   ChartDataModel(x: 0, y: 1),
-  //   ChartDataModel(x: 1, y: 2),
-  //   ChartDataModel(x: 2, y: 3),
-  //   ChartDataModel(x: 3, y: 4),
-  //   ChartDataModel(x: 4, y: 5)
-  // ];
-  RxList<ChartDataModel> chartDatas = <ChartDataModel>[].obs;
+  RxList<GroupTrash> listTrash = <GroupTrash>[].obs;
+  RxList<DataReportTrash> listReportTrash = <DataReportTrash>[].obs;
+  RxBool isloadingTrash = false.obs;
+  RxBool isloadingReportTrash = false.obs;
+  RxString selectedTrashId = ''.obs;
+  RxString yearMonth = ''.obs;
+  Rx<DateTime?> selectedDate = DateTime.now().obs;
+
+  RxList<ChartData> chartDatas = <ChartData>[].obs;
+
+  final TextEditingController dropdownTrashController = TextEditingController();
+  final TextEditingController textController = TextEditingController();
+
+  SuggestionsBoxController suggestionBoxController = SuggestionsBoxController();
+
+  //RxList<ChartDataModel> chartDatas = <ChartDataModel>[].obs;
   RxList<DataDaily> listCommodityGrafilDaily = <DataDaily>[].obs;
 
-  // List<ChartDataModel> chartData(List<DataDaily> listCommodityGrafilDaily) {
-  //   return List<ChartDataModel>.generate(listCommodityGrafilDaily.length,
-  //       (index) {
-  //     bool isDailyDataAvailable = listCommodityGrafilDaily.isNotEmpty &&
-  //         index < listCommodityGrafilDaily.length;
-  //     return ChartDataModel(
-  //       x: index,
-  //       y: isDailyDataAvailable
-  //           ? listCommodityGrafilDaily[index].value.toDouble()
-  //           : 0.0,
-  //       // time: isDailyDataAvailable
-  //       //     ? listCommodityGrafilDaily[index].time
-  //       //     : DateTime.now().subtract(Duration(days: 7)),
-  //     );
-  //   });
-  // }
+  List<GroupTrash> getTrashSuggestions(String query) {
+    return listTrash
+        .where(
+            (trash) => trash.nama.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+  }
 
-  Future<void> updateSelected() async {
-    if (listCommodityGrafilDaily.isNotEmpty) {
-      selectedX.value = listCommodityGrafilDaily[0].time.day;
-      selectedY.value = listCommodityGrafilDaily[0].value.toDouble();
-      selectedTime.value = listCommodityGrafilDaily[0].time;
-    } else {
-      selectedTime.value = listCommodityGrafilDaily[0].time;
+  @override
+  void onInit() {
+    super.onInit();
+    getTrash();
+    getReportDeposit();
+  }
+
+  // final List<ChartData> chartData = [
+  //   ChartData('David', 25),
+  //   ChartData('Steve', 38),
+  //   ChartData('Jack', 34),
+  //   ChartData('Others', 52)
+  // ];
+
+  Future<void> getTrash() async {
+    isloadingTrash.value = true;
+    try {
+      final response = await trashRepository.getTrashSuper();
+
+      response.fold(
+        (failure) {
+          MessageComponent.snackbar(
+              title: '${failure.code}',
+              message: failure.message,
+              isError: true);
+        },
+        (response) async {
+          listTrash.addAll(response.data);
+        },
+      );
+      isloadingTrash.value = false;
+    } catch (e) {
+      print('e:$e');
+      isloadingTrash.value = false;
     }
   }
 
-  void generateDummyData() {
-    final now = DateTime.now();
-    chartDatas.value = List.generate(10, (index) {
-      return ChartDataModel(
-        time: now.subtract(Duration(days: index)),
-        y: (index + 1) * 10.0, // nilai y meningkat setiap data
+  Future<void> getReportDeposit() async {
+    isloadingReportTrash.value = true;
+    listReportTrash.clear();
+    chartDatas.clear();
+    try {
+      final data = GetChartRequest(
+        yearMonth: yearMonth.value,
+        trashId: selectedTrashId.value,
       );
-    });
+
+      final response = await reportRepository.getDataReportTrash(data);
+
+      response.fold(
+        (failure) {
+          MessageComponent.snackbar(
+              title: '${failure.code}',
+              message: failure.message,
+              isError: true);
+        },
+        (response) async {
+          listReportTrash.addAll(response.data);
+          chartDatas.value = getChartDataFromReport(listReportTrash);
+          update();
+        },
+      );
+      isloadingReportTrash.value = false;
+    } catch (e) {
+      print('e:$e');
+      isloadingReportTrash.value = false;
+    }
   }
 
-  // void updateAnnotation(int index) {
-  //   selectedX.value = chartDatas[index].time.day;
-  //   selectedY.value = chartDatas[index].y!;
-  //   selectedTime.value = chartDatas[index].time;
-  //   update();
-  // }
+  List<ChartData> getChartDataFromReport(
+      List<DataReportTrash> listReportTrash) {
+    return listReportTrash
+        .map((report) => ChartData(report.trashName, report.totalWeight))
+        .toList();
+  }
 }
 
-class ChartDataModel {
-  //required this.time
-  ChartDataModel({this.x, this.y, required this.time});
-  final int? x;
-  final double? y;
-  final DateTime time;
+class ChartData {
+  ChartData(this.x, this.y, [this.color]);
+  final String x;
+  final num y;
+  final Color? color;
 }

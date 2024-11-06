@@ -24,8 +24,6 @@ class DepositTrashDataSources extends ApiService {
         "Authorization": "Bearer ${prefs}",
       });
 
-      print(response.data);
-
       return Right(GetCustomerDepositTrashResponse.fromJson(response));
     } catch (e) {
       return left(Failure(400, 'datarr Tidak masuk'));

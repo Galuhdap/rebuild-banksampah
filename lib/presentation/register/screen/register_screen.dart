@@ -3,16 +3,15 @@ import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:rebuild_bank_sampah/core/assets/assets.gen.dart';
 import 'package:rebuild_bank_sampah/core/component/search_component.dart';
-import 'package:rebuild_bank_sampah/core/component/update_delete_component.dart';
 import 'package:rebuild_bank_sampah/core/resources/constans/app_constants.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_colors.dart';
 import 'package:rebuild_bank_sampah/core/styles/app_sizes.dart';
-import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_dialog.dart';
-import 'package:rebuild_bank_sampah/core/utils/dialog/show_deposit_trash_message_dialog.dart';
 import 'package:rebuild_bank_sampah/core/utils/extensions/sized_box_ext.dart';
 import 'package:rebuild_bank_sampah/presentation/register/controllers/register_controller.dart';
-import 'package:rebuild_bank_sampah/presentation/register/screen/edit_register_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/register/screen/detail_register_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/withdraw/widget/menu_button_widget.dart';
 import 'package:rebuild_bank_sampah/routes/app_routes.dart';
+import 'package:rebuild_bank_sampah/services/auth/model/response/get_user_response.dart';
 
 class RegisterScreen extends StatelessWidget {
   const RegisterScreen({super.key});
@@ -76,11 +75,63 @@ class RegisterScreen extends StatelessWidget {
                         onTap: () {},
                         onChanged: (value) {
                           controller.searchQuery.value = value;
+                          // controller.filterSearchTrash();
                           controller.filterSearchTrash();
                         },
                       ),
+                      Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          Divider(
+                            color: AppColors.colorNeutrals100,
+                            thickness: 1,
+                          ),
+                          Obx(() {
+                            return Row(
+                              children: [
+                                Flexible(
+                                  child: MenuButtonWidget(
+                                    label: AppConstants.ACTION_PENDING,
+                                    onTap: () {
+                                      // controller.searchOrderSeeAdmin.clear();
+                                      controller.searchQuery.value = '';
+                                      controller.setActiveButton(0);
+                                    },
+                                    isActive:
+                                        controller.activeButtonIndex.value == 0,
+                                  ),
+                                ),
+                                AppSizes.s30.width,
+                                Flexible(
+                                  child: MenuButtonWidget(
+                                    label: AppConstants.ACTION_ACTIVE,
+                                    onTap: () {
+                                      // controller.searchOrderSeeAdmin.clear();
+                                      controller.searchQuery.value = '';
+                                      controller.setActiveButton(1);
+                                    },
+                                    isActive:
+                                        controller.activeButtonIndex.value == 1,
+                                  ),
+                                ),
+                              ],
+                            ).paddingSymmetric(horizontal: AppSizes.s44);
+                          })
+                        ],
+                      ),
                       Obx(
                         () {
+                          List<UserData> filteredTrash =
+                              controller.listUserRegister.where((order) {
+                            if (controller.activeButtonIndex.value == 0) {
+                              return order.status == 'INACTIVE';
+                            } else if (controller.activeButtonIndex.value ==
+                                1) {
+                              return order.status == 'ACTIVE';
+                            } else {
+                              return order.status == 'CANCEL';
+                            }
+                          }).toList();
                           return controller.isLoadingUser.value
                               ? Center(
                                   child: SizedBox(
@@ -90,7 +141,7 @@ class RegisterScreen extends StatelessWidget {
                                         Assets.lottie.loadingLogin),
                                   ),
                                 )
-                              : controller.listUserRegister.isEmpty
+                              : filteredTrash.isEmpty
                                   ? Container(
                                       padding: AppSizes.symmetricPadding(
                                           vertical: AppSizes.s150),
@@ -125,16 +176,14 @@ class RegisterScreen extends StatelessWidget {
                                             controller.searchQuery.isNotEmpty
                                                 ? controller
                                                     .searchUserRegister.length
-                                                : controller
-                                                    .listUserRegister.length,
+                                                : filteredTrash.length,
                                         itemBuilder:
                                             (BuildContext context, index) {
                                           var data =
                                               controller.searchQuery.isNotEmpty
                                                   ? controller
                                                       .searchUserRegister[index]
-                                                  : controller
-                                                      .listUserRegister[index];
+                                                  : filteredTrash[index];
                                           return CardUserRegisterWidget(
                                             name: data.username,
                                             username: data.profile.telp,
@@ -142,8 +191,9 @@ class RegisterScreen extends StatelessWidget {
                                             id: data.id,
                                             controller: controller,
                                             onTapEdit: () {
-                                              Get.to(EditRegisterScreen(
-                                                datas: data,
+                                              
+                                              Get.to(DetailRegisterScreen(
+                                                data: data,
                                               ));
                                             },
                                           );
@@ -183,56 +233,57 @@ class CardUserRegisterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        showModalBottom(
-          context,
-          Column(
-            children: [
-              AppSizes.s8.height,
-              Center(
-                child: Container(
-                  width: AppSizes.s56,
-                  height: AppSizes.s4,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(AppSizes.s8),
-                      color: AppColors.colorNeutrals800),
-                ),
-              ),
-              AppSizes.s30.height,
-              UDWidget(
-                onTap: onTapEdit,
-                name: AppConstants.LABEL_EDIT_PROFILE,
-                icon: Icons.create_rounded,
-              ),
-              AppSizes.s30.height,
-              UDWidget(
-                onTap: () async {
-                  showDepositTrashSucces(
-                      context: context,
-                      icon: Assets.icons.phQuestion.path,
-                      label: AppConstants.LABEL_DELETE_QUESTION,
-                      firstButton: AppConstants.LABEL_NO,
-                      fistOnPressed: () async {
-                        Get.back();
-                        Get.back();
-                        //Get.toNamed(AppRoutes.priceTrash);
-                      },
-                      secondButton: AppConstants.LABEL_YES,
-                      seccondOnPressed: () async {
-                        // listTrash.clear();
-                        // await getTrash();
+      onTap: onTapEdit,
+      // () {
+      //   showModalBottom(
+      //     context,
+      //     Column(
+      //       children: [
+      //         AppSizes.s8.height,
+      //         Center(
+      //           child: Container(
+      //             width: AppSizes.s56,
+      //             height: AppSizes.s4,
+      //             decoration: BoxDecoration(
+      //                 borderRadius: BorderRadius.circular(AppSizes.s8),
+      //                 color: AppColors.colorNeutrals800),
+      //           ),
+      //         ),
+      //         AppSizes.s30.height,
+      //         UDWidget(
+      //           onTap: onTapEdit,
+      //           name: AppConstants.LABEL_EDIT_PROFILE,
+      //           icon: Icons.create_rounded,
+      //         ),
+      //         AppSizes.s30.height,
+      //         UDWidget(
+      //           onTap: () async {
+                  // showDepositTrashSucces(
+                  //     context: context,
+                  //     icon: Assets.icons.phQuestion.path,
+                  //     label: AppConstants.LABEL_DELETE_QUESTION,
+                  //     firstButton: AppConstants.LABEL_NO,
+                  //     fistOnPressed: () async {
+                  //       Get.back();
+                  //       Get.back();
+                  //       //Get.toNamed(AppRoutes.priceTrash);
+                  //     },
+                  //     secondButton: AppConstants.LABEL_YES,
+                  //     seccondOnPressed: () async {
+                  //       // listTrash.clear();
+                  //       // await getTrash();
 
-                        await controller.deteleUserRegister(id);
-                      },
-                      showButton: true);
-                },
-                name: AppConstants.LABEL_DELETE,
-                icon: Icons.delete,
-              ),
-            ],
-          ),
-        );
-      },
+                  //       await controller.deteleUserRegister(id);
+                  //     },
+                  //     showButton: true);
+      //           },
+      //           name: AppConstants.LABEL_DELETE,
+      //           icon: Icons.delete,
+      //         ),
+      //       ],
+      //     ),
+      //   );
+      // },
       child: Container(
         padding: AppSizes.allPadding(AppSizes.s16),
         margin: AppSizes.onlyPadding(

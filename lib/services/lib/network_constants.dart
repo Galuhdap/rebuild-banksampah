@@ -1,3 +1,5 @@
+import 'package:rebuild_bank_sampah/services/report/model/request/get_data_report_trash_request.dart';
+
 class NetworkConstants {
   //static const String BASE_URL = "https://dev.api.banksampah.techlinesolution.site/";
   static const String BASE_URL = "http://77.37.44.223:3000/";
@@ -6,6 +8,8 @@ class NetworkConstants {
 
   //login
   static const String POST_LOGIN_URL = BASE_URL + "api/login";
+  static const String POST_REGISTER_CUSTOMER_URL =
+      BASE_URL + "api/register-inactive";
   static const String GET_REGISTER_URL = BASE_URL + "api/super/users";
   static const String GET_ROLE_URL = BASE_URL + "api/super/role";
   static const String POST_REGISTER_URL = BASE_URL + "api/super/register";
@@ -21,6 +25,7 @@ class NetworkConstants {
 
   //trash
   static const String GET_TRASH_URL = BASE_URL + "api/weigher/trash";
+  static const String GET_TRASH_CUSTOMER_URL = BASE_URL + "api/customer/trash";
   static const String GET_TRASH_SUPER_URL = BASE_URL + "api/super/trash";
   static const String GET_DEPOSIT_TRASH_URL =
       BASE_URL + "api/weigher/trash/deposit";
@@ -57,6 +62,9 @@ class NetworkConstants {
 
   static const String PUT_STATUS_DEPOSIT_URL =
       BASE_URL + "api/customer/deposit/update-status";
+
+  static const String PUT_STATUS_REGISTER_SUPER_URL =
+      BASE_URL + "api/super/user-status";
 
   //super
   static const String POST_SUPER_TRASH_URL = BASE_URL + "api/super/trash";
@@ -115,4 +123,9 @@ class NetworkConstants {
 
   static const String POST_STATUS_CUSTOMER_ORDER_URL =
       BASE_URL + "api/customer/transaction/update-status";
+
+  static String GET_REPORT_TRASH_URL(GetChartRequest data) {
+    return BASE_URL +
+        "api/super/summary-trash-transaction?yearMonth=${data.yearMonth}&trashId=${data.trashId}";
+  }
 }

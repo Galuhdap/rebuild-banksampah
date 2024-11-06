@@ -9,6 +9,7 @@ import 'package:rebuild_bank_sampah/services/auth/model/response/get_role_respon
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_update_register_customer.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_user_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/post_register_response.dart';
+import 'package:rebuild_bank_sampah/services/lib/get_message_error_response.dart';
 
 class AuthRepository {
   final AuthDataSource source;
@@ -20,6 +21,11 @@ class AuthRepository {
     return source.loginUser(loginRequest);
   }
 
+  Future<Either<Failure, PostUserRegisterResponse>> registerUser(
+      RegisterRequest data) async {
+    return source.registerCustomer(data);
+  }
+
   Future<Either<Failure, GetUserResponse>> getUserRegister() async {
     return source.getUserRegister();
   }
@@ -27,6 +33,11 @@ class AuthRepository {
   Future<Either<Failure, PostUserRegisterResponse>> postRegister(
       RegisterRequest data) async {
     return source.postRegister(data);
+  }
+
+  Future<Either<Failure, GetErrorMessageResponse>> updateStatusRegister(
+      {required String id}) async {
+    return source.updateStatusRegister(id: id);
   }
 
   Future<Either<Failure, GetUpdateCustomerResponse>> updateRegister(
@@ -38,11 +49,13 @@ class AuthRepository {
     return source.getRoleRegister();
   }
 
-  Future<Either<Failure, DeleteUserResponse>> deleteUserRegister(String id) async {
+  Future<Either<Failure, DeleteUserResponse>> deleteUserRegister(
+      String id) async {
     return source.deletUserRegister(id);
   }
 
-  Future<Either<Failure, DeleteUserResponse>> forgotPassword(String userName, String newPassword) async {
+  Future<Either<Failure, DeleteUserResponse>> forgotPassword(
+      String userName, String newPassword) async {
     return source.forgotPassword(userName, newPassword);
   }
 

@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:rebuild_bank_sampah/presentation/history/screen/history_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/home/screen/bottom_navigation.dart';
 import 'package:rebuild_bank_sampah/presentation/home/screen/home_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/login/screen/register_customer_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/report/screen/report_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/login/screen/forgot_password_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/login/screen/login_screen.dart';
@@ -18,6 +19,7 @@ import 'package:rebuild_bank_sampah/presentation/product/screen/product_screen.d
 import 'package:rebuild_bank_sampah/presentation/shop/screen/shopping_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/screen/add_deposit_trash_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/screen/customer/deposit_trash_customer_screen.dart';
+import 'package:rebuild_bank_sampah/presentation/trash/screen/customer/trash_price_customer_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/screen/deposit_trash_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/splash/screen/splash_screen.dart';
 import 'package:rebuild_bank_sampah/presentation/trash/screen/price_trash/add_price_trash_screen.dart';
@@ -65,6 +67,8 @@ class AppRoutes {
 
   static const String depositTrashSuperAdmin = "/deposit-trash-super-admin";
   static const String report = "/report";
+  static const String registerCustomer = "/register-customer";
+  static const String trashPriceCustomer = "/trash-price-customer";
 
   static final routes = [
     GetPage(name: login, page: () => LoginScreen()),
@@ -101,6 +105,8 @@ class AppRoutes {
         name: depositTrashSuperAdmin,
         page: () => DepositTrashSuperAdminScreen()),
     GetPage(name: report, page: () => ReportScreen()),
+    GetPage(name: registerCustomer, page: () => RegisterCustomerScreen()),
+    GetPage(name: trashPriceCustomer, page: () => TrashPriceCustomerScreen()),
     //cara menggunakan Binding
     //GetPage(name: login, page : () => LoginScreen(), binding: LoginBinding()),
   ];

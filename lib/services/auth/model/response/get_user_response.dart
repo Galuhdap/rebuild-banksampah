@@ -52,12 +52,14 @@ class GetUserResponse {
 class UserData {
     final String id;
     final String username;
+    final String status;
     final Profile profile;
     final Role role;
 
     UserData({
         required this.id,
         required this.username,
+        required this.status,
         required this.profile,
         required this.role,
     });
@@ -65,12 +67,14 @@ class UserData {
     UserData copyWith({
         String? id,
         String? username,
+        String? status,
         Profile? profile,
         Role? role,
     }) => 
         UserData(
             id: id ?? this.id,
             username: username ?? this.username,
+            status: status ?? this.status,
             profile: profile ?? this.profile,
             role: role ?? this.role,
         );
@@ -78,6 +82,7 @@ class UserData {
     factory UserData.fromJson(Map<String, dynamic> json) => UserData(
         id: json["id"],
         username: json["username"],
+        status: json["status"],
         profile: Profile.fromJson(json["Profile"]),
         role: Role.fromJson(json["role"]),
     );
@@ -85,6 +90,7 @@ class UserData {
     Map<String, dynamic> toJson() => {
         "id": id,
         "username": username,
+        "status": status,
         "Profile": profile.toJson(),
         "role": role.toJson(),
     };
@@ -94,12 +100,14 @@ class Profile {
     final String kdUser;
     final String name;
     final String telp;
+    final String identityNumber;
     final String address;
 
     Profile({
         required this.kdUser,
         required this.name,
         required this.telp,
+        required this.identityNumber,
         required this.address,
     });
 
@@ -107,12 +115,14 @@ class Profile {
         String? kdUser,
         String? name,
         String? telp,
+        String? identityNumber,
         String? address,
     }) => 
         Profile(
             kdUser: kdUser ?? this.kdUser,
             name: name ?? this.name,
             telp: telp ?? this.telp,
+            identityNumber: identityNumber ?? this.identityNumber,
             address: address ?? this.address,
         );
 
@@ -120,6 +130,7 @@ class Profile {
         kdUser: json["kd_User"],
         name: json["name"],
         telp: json["telp"],
+        identityNumber: json["identityNumber"],
         address: json["address"],
     );
 
@@ -127,6 +138,7 @@ class Profile {
         "kd_User": kdUser,
         "name": name,
         "telp": telp,
+        "identityNumber": identityNumber,
         "address": address,
     };
 }

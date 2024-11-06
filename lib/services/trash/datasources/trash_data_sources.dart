@@ -27,6 +27,21 @@ class TrashDataSources extends ApiService {
     }
   }
 
+  Future<Either<Failure, GetTrashResponse>> getTrashCustomer() async {
+    final prefs = await SharedPreferencesUtils.getAuthToken();
+
+    try {
+      final response = await get(NetworkConstants.GET_TRASH_CUSTOMER_URL, header: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer ${prefs}",
+      });
+
+      return Right(GetTrashResponse.fromJson(response));
+    } catch (e) {
+      return left(Failure(400, 'datas Tidak masuk'));
+    }
+  }
+
   Future<Either<Failure, GetTrashResponse>> getTrashSuper() async {
     final prefs = await SharedPreferencesUtils.getAuthToken();
 

@@ -14,10 +14,12 @@ class TrashController extends GetxController {
   final TrashRepository trashRepository = locator();
 
   RxList<GroupTrash> listTrash = <GroupTrash>[].obs;
+  RxList<GroupTrash> listTrashCustomer = <GroupTrash>[].obs;
   RxList<GroupTrash> searchListTrash = <GroupTrash>[].obs;
 
   RxString searchQuery = "".obs;
   RxBool isloadingTrash = false.obs;
+  RxBool isloadingTrashCustomer = false.obs;
   RxBool isloadingAddTrash = false.obs;
   RxBool isloadingDeletePriceTrash = false.obs;
 
@@ -30,6 +32,7 @@ class TrashController extends GetxController {
   void onInit() {
     super.onInit();
     getTrash();
+    getTrashCustomer();
   }
 
   Future<void> getTrash() async {
@@ -39,16 +42,41 @@ class TrashController extends GetxController {
 
       response.fold(
         (failure) {
-          MessageComponent.snackbar(
-              title: '${failure.code}',
-              message: failure.message,
-              isError: true);
+          inspect(failure.code);
+          // MessageComponent.snackbar(
+          //     title: '${failure.code}',
+          //     message: failure.message,
+          //     isError: true);
         },
         (response) async {
           listTrash.addAll(response.data);
         },
       );
       isloadingTrash.value = false;
+    } catch (e) {
+      print('e:$e');
+      isloadingTrash.value = false;
+    }
+  }
+
+  Future<void> getTrashCustomer() async {
+    isloadingTrashCustomer.value = true;
+    try {
+      final response = await trashRepository.getTrashCustomer();
+
+      response.fold(
+        (failure) {
+          inspect(failure.code);
+          // MessageComponent.snackbar(
+          //     title: '${failure.code}',
+          //     message: failure.message,
+          //     isError: true);
+        },
+        (response) async {
+          listTrashCustomer.addAll(response.data);
+        },
+      );
+      isloadingTrashCustomer.value = false;
     } catch (e) {
       print('e:$e');
       isloadingTrash.value = false;

@@ -47,6 +47,7 @@ class GroupTrash {
   final int harga;
   final DateTime? createdAt;
   final DateTime? updatedAt;
+  final String? depositSummaryId;
 
   GroupTrash({
     required this.id,
@@ -55,6 +56,7 @@ class GroupTrash {
     required this.harga,
     this.createdAt,
     this.updatedAt,
+    this.depositSummaryId
   });
 
   factory GroupTrash.fromJson(Map<String, dynamic> json) => GroupTrash(
@@ -64,6 +66,7 @@ class GroupTrash {
         harga: json["harga"],
         createdAt: DateTime.parse(json["createdAt"]),
         updatedAt: DateTime.parse(json["updatedAt"]),
+        depositSummaryId: json["depositSummaryId"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -73,5 +76,7 @@ class GroupTrash {
         "harga": harga,
         "createdAt": createdAt!.toIso8601String(),
         "updatedAt": updatedAt!.toIso8601String(),
+        "depositSummaryId": depositSummaryId,
+        
       };
 }

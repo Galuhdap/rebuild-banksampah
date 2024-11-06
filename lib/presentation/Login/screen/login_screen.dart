@@ -88,6 +88,15 @@ class LoginScreen extends StatelessWidget {
                           },
                           label: AppConstants.ACTION_LOGIN);
                 }),
+                AppSizes.s10.height,
+                Button.outlined(
+                    onPressed: () {
+                      // if (controller.formKey.currentState!.validate()) {
+                      //   controller.userLogin();
+                      // }
+                      Get.toNamed(AppRoutes.registerCustomer);
+                    },
+                    label: AppConstants.ACTION_REGISTER),
                 AppSizes.s20.height,
               ],
             ),

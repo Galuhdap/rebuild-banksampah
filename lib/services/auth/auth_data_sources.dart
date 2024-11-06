@@ -11,6 +11,7 @@ import 'package:rebuild_bank_sampah/services/auth/model/response/get_update_regi
 import 'package:rebuild_bank_sampah/services/auth/model/response/get_user_response.dart';
 import 'package:rebuild_bank_sampah/services/auth/model/response/post_register_response.dart';
 import 'package:rebuild_bank_sampah/services/lib/api_services.dart';
+import 'package:rebuild_bank_sampah/services/lib/get_message_error_response.dart';
 import 'package:rebuild_bank_sampah/services/lib/network_constants.dart';
 
 class AuthDataSource extends ApiService {
@@ -54,6 +55,31 @@ class AuthDataSource extends ApiService {
       return Right(GetRoleResponse.fromJson(response));
     } catch (e) {
       return left(Failure(400, 'Data tidak masuk'));
+    }
+  }
+
+  Future<Either<Failure, PostUserRegisterResponse>> registerCustomer(
+      RegisterRequest data) async {
+    try {
+      final response = await Dio().post(
+        NetworkConstants.POST_REGISTER_CUSTOMER_URL,
+        data: {
+          "username": data.username,
+          "password": data.password,
+          "identityType": "KTP",
+          "role": "CUSTOMER",
+          "identityNumber": data.identityNumber,
+          "name": data.name,
+          "address": data.address,
+          "telp": data.telp,
+        },
+      );
+
+      print(response);
+
+      return Right(PostUserRegisterResponse.fromJson(response.data));
+    } catch (e) {
+      return Left(Failure(400, e.toString()));
     }
   }
 
@@ -147,33 +173,23 @@ class AuthDataSource extends ApiService {
     }
   }
 
-  // Future<List<SettingEnumeratorResponse?>?> getSettingEnumerator() async {
-  //   token = (await PreferencesUtils.getAuthToken())!;
+  Future<Either<Failure, GetErrorMessageResponse>> updateStatusRegister(
+      {required String id}) async {
+    final prefs = await SharedPreferencesUtils.getAuthToken();
 
-  //   final response = await get(NetworkConstants.SETTING_ENUMERATOR_URL,
-  //       header: {'Authorization': token});
-
-  //   if (response is List) {
-  //     return response
-  //         .map((json) => SettingEnumeratorResponse.fromJson(json as Map<String, dynamic>))
-  //         .toList();
-  //   } else {
-  //     throw Exception("Unexpected response format");
-  //   }
-  // }
-
-  // Future<Either<Failure, dynamic>> changePassword(
-  //   ChangePasswordRequest changePasswordRequest,
-  //   String token,
-  // ) async {
-  //   final response = await post(NetworkConstants.CHANGE_PASSWORD_URL,
-  //       header: {'Authorization': token}, body: changePasswordRequest.toJson());
-
-  //   return response.fold(
-  //     (failure) => Left(failure),
-  //     (response) => Right(response),
-  //   );
-  // }
+    try {
+      final response = await Dio().put(
+        NetworkConstants.PUT_STATUS_REGISTER_SUPER_URL,
+        data: {"id": id, "status": "ACTIVE"},
+        options: Options(
+          headers: {
+            "Authorization": "Bearer ${prefs}",
+          },
+        ),
+      );
+      return Right(GetErrorMessageResponse.fromJson(response.data));
+    } catch (e) {
+      return Left(Failure(400, e.toString()));
+    }
+  }
 }
-
-

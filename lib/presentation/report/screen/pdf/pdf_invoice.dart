@@ -1,91 +1,138 @@
-// import 'package:flutter/services.dart';
-// import 'package:pdf/pdf.dart';
-// import 'package:pdf/widgets.dart';
-// import 'package:pdf/widgets.dart' as pw;
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart';
+import 'package:rebuild_bank_sampah/services/report/model/response/get_data_report_trash_response.dart';
 
-// class PdfInvoiceApi {
-//   Future<Uint8List> generate() async {
-//     final pdf = Document();
-//     final ByteData bytes = await rootBundle.load('assets/images/logo_adb.png');
-//     final Uint8List imageData = bytes.buffer.asUint8List();
+class PdfInvoiceApi {
+  Future<Uint8List> generate(
+      List<DataReportTrash> invoiceTrash, String date) async {
+    final pdf = Document();
 
-//     // Create image object
-//     final image = pw.MemoryImage(imageData);
+    pdf.addPage(
+      MultiPage(
+        pageFormat: PdfPageFormat.legal,
+        build: (context) => [
+          //buildHeader(image),
+          // buildTitle(),
+          buildJudul(),
+          SizedBox(height: 1 * PdfPageFormat.cm),
+          buildTabelSampah(invoiceTrash, date),
+          //buildTable(),
+          SizedBox(height: 2 * PdfPageFormat.cm),
+          buildTabelTotalSampah(invoiceTrash, date),
+          // daclaresTable(),
+          // SizedBox(height: 10),
+          // boadTable(),
+          // SizedBox(height: 40),
+          // signature()
+        ],
+        //footer: (context) => buildFooter(),
+      ),
+    );
 
-//     pdf.addPage(
-//       MultiPage(
-//         pageFormat: PdfPageFormat.legal,
-//         build: (context) => [
-//           //buildHeader(image),
-//           // buildTitle(),
-//           SizedBox(height: 5),
-//           buildTabelPenggunaAdmin(),
-//           //buildTable(),
-//           SizedBox(height: 10),
-//           // daclaresTable(),
-//           // SizedBox(height: 10),
-//           // boadTable(),
-//           // SizedBox(height: 40),
-//           // signature()
-//         ],
-//         //footer: (context) => buildFooter(),
-//       ),
-//     );
+    return pdf.save();
+  }
 
-//     return pdf.save();
-//   }
+  static Widget buildJudul() => Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Laporan Sampah Desa Minggirsari Kab. Blitar',
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+            Text(
+                DateFormat(' dd MMMM yyyy', 'id_ID')
+                    .format(DateTime.now())
+                    .toString(),
+                style: TextStyle(fontSize: 15)),
+          ],
+        ),
+      );
 
-//   static Widget buildTabelPenggunaAdmin(
-//       //LaporanAdmin invoice
-//       ) {
-//     final headers = [
-//       'Tanggal',
-//       'Kode BS',
-//       'Nama BS',
-//       'No Telp',
-//       'Berat',
-//       'Saldo',
-//     ];
-//     // final data = invoice.itemsAdmin.map((item) {
-//     //   return [
-//     //     DateFormat(' dd MMMM yyyy', 'id_ID')
-//     //         .format(DateTime.parse(item.createdAt.toString())),
-//     //     item.kodeAdmin,
-//     //     item.namaBs,
-//     //     '${item.noTelp}',
-//     //     item.berat,
-//     //     CurrencyFormat.convertToIdr(item.saldo, 0),
-//     //     //   item.detailSampahBs![0].saldo,
-//     //   ];
-//     // }).toList();
+  static Widget buildTabelSampah(
+      List<DataReportTrash> invoiceTrash, String date) {
+    final headers = [
+      'Tanggal',
+      'Nama Warga',
+      'Sampah',
+      'Berat',
+    ];
+    // final data = invoiceTrash.map((item) {
+    //   return [
+    //     //'2023-10',
+    //     DateFormat('yyyy-MM', 'id_ID').format(DateTime.parse(date)),
+    //     item.deposits[0].customer,
+    //     item.trashName,
+    //     item.deposits[0].weight
+    //     // item.deposits[0].customer,
+    //     // item.deposits[0].weight,
+    //   ];
+    // }).toList();
+    final data = invoiceTrash.expand((item) {
+      // Setiap `item.deposits` akan di-looping
+      return item.deposits.map((deposit) {
+        return [
+          DateFormat('yyyy-MM', 'id_ID').format(DateTime.parse(deposit.createdAt)),
+          deposit.customer,
+          item.trashName,
+          '${deposit.weight} Kg'
+        ];
+      });
+    }).toList();
 
-//     return Table.fromTextArray(
-//       headers: headers,
-//       data: [
-//         // DateFormat(' dd MMMM yyyy', 'id_ID')
-//         //     .format(DateTime.parse(item.createdAt.toString())),
-//         // 'asdds',
-//         // item.namaBs,
-//         // '${item.noTelp}',
-//         // item.berat,
-//         // CurrencyFormat.convertToIdr(item.saldo, 0),
-//         //   item.detailSampahBs![0].saldo,
-//       ],
-//       border: null,
-//       headerStyle: TextStyle(fontWeight: FontWeight.bold),
-//       headerDecoration: BoxDecoration(color: PdfColors.grey300),
-//       cellHeight: 30,
-//       cellAlignments: {
-//         0: Alignment.centerLeft,
-//         1: Alignment.centerRight,
-//         2: Alignment.centerRight,
-//         3: Alignment.centerRight,
-//         4: Alignment.centerRight,
-//         5: Alignment.centerRight,
-//         6: Alignment.centerRight,
-//         7: Alignment.centerRight,
-//         8: Alignment.centerRight,
-//       },
-//     );
-//   }
-// }
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerLeft,
+        2: Alignment.centerLeft,
+        3: Alignment.centerRight,
+      },
+    );
+  }
+
+  static Widget buildTabelTotalSampah(
+      List<DataReportTrash> invoiceTrash, String date) {
+    final headers = [
+      'Sampah',
+      'Berat',
+    ];
+    final data = invoiceTrash.map((item) {
+      return [
+        //'2023-10',
+
+        item.trashName,
+        '${item.totalWeight} Kg'
+        // item.deposits[0].customer,
+        // item.deposits[0].weight,
+      ];
+    }).toList();
+
+    final totalWeight =
+        invoiceTrash.fold<double>(0, (sum, item) => sum + item.totalWeight);
+
+    // Menambahkan baris total ke dalam tabel
+    data.add([
+      'Total Berat',
+      '${totalWeight.toStringAsFixed(1)} Kg',
+    ]);
+
+    return Table.fromTextArray(
+      headers: headers,
+      data: data,
+      border: null,
+      headerStyle: TextStyle(fontWeight: FontWeight.bold),
+      headerDecoration: BoxDecoration(color: PdfColors.grey300),
+      cellHeight: 30,
+      cellAlignments: {
+        0: Alignment.centerLeft,
+        1: Alignment.centerLeft,
+      },
+    );
+  }
+}
