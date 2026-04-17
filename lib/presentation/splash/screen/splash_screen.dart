@@ -34,11 +34,13 @@ class SplashScreen extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Assets.images.logoBlitar.image(scale: 4),
+                Assets.images.logoDesa.image(scale: 50),
                 Assets.images.logoUntag.image(scale: 4),
                 Assets.images.logoTuturi.image(scale: 4),
               ],
             ).paddingSymmetric(horizontal: AppSizes.s100),
+            //AppSizes.s10.height,
+            Assets.images.logoIndustriKreatifDesaMinggirsari.image(scale: 5),
           ],
         ),
         Column(

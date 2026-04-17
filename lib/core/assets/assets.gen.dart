@@ -104,6 +104,10 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/LOGO INDUSTRI KREATIF DESA MINGGIRSARI.png
+  AssetGenImage get logoIndustriKreatifDesaMinggirsari => const AssetGenImage(
+      'assets/images/LOGO INDUSTRI KREATIF DESA MINGGIRSARI.png');
+
   /// File path: assets/images/avatar_super_admin.jpg
   AssetGenImage get avatarSuperAdmin =>
       const AssetGenImage('assets/images/avatar_super_admin.jpg');
@@ -130,6 +134,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/logo_bs.png
   AssetGenImage get logoBs => const AssetGenImage('assets/images/logo_bs.png');
 
+  /// File path: assets/images/logo_desa.png
+  AssetGenImage get logoDesa =>
+      const AssetGenImage('assets/images/logo_desa.png');
+
   /// File path: assets/images/logo_tuturi.png
   AssetGenImage get logoTuturi =>
       const AssetGenImage('assets/images/logo_tuturi.png');
@@ -145,11 +153,19 @@ class $AssetsImagesGen {
   AssetGenImage get manageUser =>
       const AssetGenImage('assets/images/manage_user.png');
 
+  /// File path: assets/images/minggirsari.jpeg
+  AssetGenImage get minggirsari =>
+      const AssetGenImage('assets/images/minggirsari.jpeg');
+
   /// File path: assets/images/minyak.png
   AssetGenImage get minyak => const AssetGenImage('assets/images/minyak.png');
 
   /// File path: assets/images/oval.png
   AssetGenImage get oval => const AssetGenImage('assets/images/oval.png');
+
+  /// File path: assets/images/rb-minggirsari.png
+  AssetGenImage get rbMinggirsari =>
+      const AssetGenImage('assets/images/rb-minggirsari.png');
 
   /// File path: assets/images/received.png
   AssetGenImage get received =>
@@ -174,6 +190,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        logoIndustriKreatifDesaMinggirsari,
         avatarSuperAdmin,
         boxKosong,
         emptyData,
@@ -181,12 +198,15 @@ class $AssetsImagesGen {
         imageProductAdd,
         logoBlitar,
         logoBs,
+        logoDesa,
         logoTuturi,
         logoUntag,
         logobs,
         manageUser,
+        minggirsari,
         minyak,
         oval,
+        rbMinggirsari,
         received,
         recycle,
         shopping,

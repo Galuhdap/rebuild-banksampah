@@ -62,17 +62,7 @@ class AuthDataSource extends ApiService {
       RegisterRequest data) async {
     try {
       final response = await Dio().post(
-        NetworkConstants.POST_REGISTER_CUSTOMER_URL,
-        data: {
-          "username": data.username,
-          "password": data.password,
-          "identityType": "KTP",
-          "role": "CUSTOMER",
-          "identityNumber": data.identityNumber,
-          "name": data.name,
-          "address": data.address,
-          "telp": data.telp,
-        },
+        'http://localhost:3000/api/v1/queue/start',
       );
 
       print(response);

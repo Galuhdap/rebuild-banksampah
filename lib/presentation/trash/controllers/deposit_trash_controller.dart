@@ -204,7 +204,6 @@ class DepositTrashController extends GetxController {
     try {
       List<ItemTrsah> datas = [];
 
-      print(datas);
 
       for (int i = 0; i < weightControllers.length; i++) {
         String weightText = weightControllers[i].value.text;
